@@ -6,8 +6,24 @@
 
 }
 
-body {
+.outline-text {
+    /* fill color */
+    -webkit-text-stroke: 0.3px black;
+
+    text-shadow:
+        -1px -1px 0 black,
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black;
+}
+
+html {
+    background-image: url("assets/bg.jpg");
     background-color: rgb(0, 0, 0);
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: 1250px;
+
     color: #DDDDDD;
     font-family: "Inter";
 }
