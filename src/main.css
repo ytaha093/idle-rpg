@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@theme {
+    --font-pixel: "Pixelify Sans";
+    --font-inter: "Inter";
+
+}
+
 body {
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(0, 0, 0);
+    color: #DDDDDD;
+    font-family: "Inter";
 }
