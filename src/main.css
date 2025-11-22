@@ -4,6 +4,32 @@
     --font-pixel: "Pixelify Sans";
     --font-inter: "Inter";
 
+    --animate-fadeIn: fadeIn 0.2s ease-out forwards;
+    --animate-scaleIn: scaleIn 0.2s ease-out forwards;
+
+
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: .5;
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .outline-text {
