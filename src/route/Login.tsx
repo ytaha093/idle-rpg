@@ -21,7 +21,7 @@ function Login() {
 
   return (
     <>
-      <AuthPopup form={activeForm} onClose={() => setActiveForm("")} />
+      <AuthPopup form={activeForm} formSelector={(form: string) => setActiveForm(form)} />
 
       < div className=" px-8 w-[1250px] min-h-lvh m-auto pt-2" >
 

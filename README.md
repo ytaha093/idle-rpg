@@ -6,6 +6,6 @@ little idle browser game
 - main page
 - login page and register popups
 - timer funtionality
-- user auth
+- user auth (google, fb, x) + forgot password later
 - market (rs grand exchange stype ui)
 - chat

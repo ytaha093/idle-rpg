@@ -4,8 +4,10 @@
     --font-pixel: "Pixelify Sans";
     --font-inter: "Inter";
 
-    --animate-fadeIn: fadeIn 0.2s ease-out forwards;
-    --animate-scaleIn: scaleIn 0.2s ease-out forwards;
+    --animate-fadeIn: fadeIn 0.3s ease-out forwards;
+    --animate-scaleIn: scaleIn 0.3s ease-out forwards;
+    --animate-fadeOut: fadeOut 0.3s ease-out forwards;
+    --animate-scaleOut: scaleOut 0.3s ease-out forwards;
 
 
 }
@@ -20,14 +22,40 @@
     }
 }
 
-@keyframes scaleIn {
+@keyframes fadeOut {
     0% {
-        opacity: 0;
-        transform: scale(.9);
+        opacity: .5;
     }
 
     100% {
+        opacity: 0;
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        margin-bottom: 300px;
+        opacity: 0;
+        transform: scale(1);
+    }
+
+    100% {
+        margin-bottom: 0px;
         opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes scaleOut {
+    0% {
+        margin-bottom: 0px;
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        margin-bottom: 300px;
+        opacity: 0;
         transform: scale(1);
     }
 }
@@ -50,6 +78,6 @@ html {
     background-repeat: repeat-y;
     background-size: 1250px;
 
-    color: #DDDDDD;
+    color: #E2E2E2;
     font-family: "Inter";
 }
