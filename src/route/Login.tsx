@@ -12,7 +12,7 @@ import marketIcon from "../assets/market_icon.png"
 import clansIcon from "../assets/clans_icon.png"
 import chatIcon from "../assets/chat_icon.png"
 import { useState } from "react"
-import AuthPopup from "../components/AuthPopup"
+import AuthPopup from "../components/auth/AuthForm"
 
 function Login() {
   const [activeForm, setActiveForm] = useState("")
@@ -49,29 +49,29 @@ function Login() {
             Battle through various areas and dungeons, level up skills, and obtaining valuable items as you progress...
           </div>
           <ul className="text-[1.1rem]/5.5 my-1 mx-0.5">
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={battleIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Battling</span>: Fight monsters, collecting dungeon keys and components to increase your power...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={dungioneeringIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Dungeoneering</span>: Make your way through dungeons to obtain loot from the chest at the end...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={miningIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Mining</span>: Gather metal for your clan, and collect gems to craft rings...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={woodcuttingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Woodcutting</span>: Gather wooad for your clan, collecting sap to craft potions...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={quarryingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Quarrying</span>: Gather stone for your clan, collecting valuable stones to craft runes...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={battleIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Battling</span>: Fight monsters, collecting dungeon keys and components to increase your power...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={dungioneeringIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Dungeoneering</span>: Make your way through dungeons to obtain loot from the chest at the end...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={miningIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Mining</span>: Gather metal for your clan, and collect gems to craft rings...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={woodcuttingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Woodcutting</span>: Gather wooad for your clan, collecting sap to craft potions...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={quarryingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Quarrying</span>: Gather stone for your clan, collecting valuable stones to craft runes...</span></li>
           </ul>
           <div className=" underline underline-offset-4 text-[1.45rem] leading-6">Crafting&nbsp;&nbsp;&nbsp;</div>
           <div className="text-[1.1rem]/5 my-px">
             All items are crafted by players. Only the highest level crafters can make the highest level items. Choose your crafting skills, power up, and supply the items on the market.
           </div>
           <ul className="text-[1.1rem]/5.5 my-1 mx-0.5">
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={runecraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Runecrafting</span>: Craft runes to provide benefits in battlings...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={jewelcraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Jewelcrafting</span>: Craft rings to increase your power...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={herbloreIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Herblore</span>: Craft potions that boost resources, experience and more...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={runecraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Runecrafting</span>: Craft runes to provide benefits in battlings...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={jewelcraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Jewelcrafting</span>: Craft rings to increase your power...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={herbloreIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Herblore</span>: Craft potions that boost resources, experience and more...</span></li>
           </ul>
           <div className=" underline underline-offset-4 text-[1.45rem] leading-6">Multiplayer&nbsp;&nbsp;&nbsp;</div>
           <div className="text-[1.1rem]/5 my-px">
             Talk with other players, team up in clans, and trade on the player market
           </div>
           <ul className="text-[1.1rem]/5.5 my-1 mx-0.5">
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={marketIcon} alt="" className="inline-block h-5 m-auto" /><span><span className="text-[#90C040]">Market</span>: Buy and Sell items on the player market... </span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={clansIcon} alt="" className="inline-block h-5 m-auto" /><span><span className="text-[#90C040]">Clans</span>: Team up with players, level up your clan, and more...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={chatIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-[#90C040]">Chat</span>: Talk with other players...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={marketIcon} alt="" className="inline-block h-5 m-auto" /><span><span className="text-rsgreen">Market</span>: Buy and Sell items on the player market... </span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={clansIcon} alt="" className="inline-block h-5 m-auto" /><span><span className="text-rsgreen">Clans</span>: Team up with players, level up your clan, and more...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={chatIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Chat</span>: Talk with other players...</span></li>
           </ul>
         </div>
       </div >
