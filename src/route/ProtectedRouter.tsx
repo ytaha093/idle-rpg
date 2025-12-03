@@ -12,9 +12,9 @@ function ProtectedRoute({ element }: { element: JSX.Element }) {
   // if logged in redirect login to game
   // if not logged in, redirect to login
   if (element.type.name === "Login") {
-    return auth ? <Navigate to="/game" replace /> : <Login />
+    return auth.loggedIn ? <Navigate to="/game" replace /> : <Login />
   } else {
-    return auth ? element : <Navigate to="/" replace />
+    return auth.loggedIn ? element : <Navigate to="/" replace />
   }
 }
 

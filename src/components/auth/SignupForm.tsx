@@ -15,7 +15,7 @@ function SignupForm({ onClose }: { onClose: () => void }) {
                 <span className="px-4 pb-4 pt-3">Create an account</span>
                 <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer" onClick={onClose}>x</button>
             </header>
-            <div className="px-5 py-3 bg-[#181818] grid grid-cols-[3fr_6fr] gap-x-4 text-lg font-medium">
+            <div className="px-5 py-3 bg-grey2 grid grid-cols-[3fr_6fr] gap-x-4 text-lg font-medium">
                 <label htmlFor="username" className="my-auto py-2 text-end">Username<span className="text-red-400">*</span></label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="username" required />
                 <label htmlFor="password" className="my-auto py-2 text-end">Password<span className="text-red-400">*</span></label>

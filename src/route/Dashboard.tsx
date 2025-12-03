@@ -1,14 +1,30 @@
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import settingsIcon from "../assets/settings_icon.png"
 import { logoutAction } from "../slices/AuthSlice"
-import { useRef, useState } from "react"
-
+import { useEffect, useRef, useState } from "react"
+import type { RootState } from "../store"
+import { addGold, consumeEnergy, refillEnergy } from "../slices/PlayerDataSlice"
 
 function Dashboard() {
 
-  const [settings, setSettings] = useState(false)
+  const playerData = useSelector((state: RootState) => state.playerData)
   const dispatch = useDispatch()
-  const closeTimer = useRef<number>(null);
+
+  const [settings, setSettings] = useState(false)
+  const [progress, setProgress] = useState<number>(100)
+  const [activeAction, setActive] = useState(true)
+
+  const currentEnergyRef = useRef<number>(playerData.currentEnergy);
+  const settingTimer = useRef<number>(null);
+  const actionTimer = useRef<number>(null);
+
+
+
+  useEffect(() => {
+    if (activeAction) {
+      progressAction();
+    }
+  }, [activeAction]);
 
 
   function logout() {
@@ -17,8 +33,63 @@ function Dashboard() {
 
   async function openSettings() {
     settings ? setSettings(false) : setSettings(true)
-    if (closeTimer.current) clearTimeout(closeTimer.current)
-    closeTimer.current = setTimeout(() => { setSettings(false) }, 5000)
+    if (settingTimer.current) clearTimeout(settingTimer.current)
+    settingTimer.current = setTimeout(() => { setSettings(false) }, 5000)
+  }
+
+
+  async function resetActionCount() {
+    if (progress == 0) actionTimer.current = null
+    dispatch(refillEnergy())
+    currentEnergyRef.current = playerData.maxEnergy
+    setActive(true)
+    // TODO: send request to server for serverside energy update
+  }
+
+  async function progressAction() {
+    const durration = 6000
+    let currentProgress = 100
+    let lastUpdate = 0
+
+    const process = (time: number) => {
+      if (currentEnergyRef.current > 0) {
+
+        // set start time if unset, get current time, set last update time
+        const currentTime = time;
+        if (!actionTimer.current) actionTimer.current = currentTime
+
+        // prevent state from updating more then 40 times a second to prevent exesive re-renders
+        if ((time - lastUpdate) > 25 || currentProgress == 0) {
+          // move progress bar based on time
+          currentProgress = Math.max(100 - (((currentTime - actionTimer.current) / durration) * 100), 0)
+          setProgress(currentProgress)
+          lastUpdate = time
+
+        }
+
+
+        // when progress bar hits 0 if actions remain, reset timer
+        if (currentProgress === 0 && currentEnergyRef.current > 1) {
+          // trigger on complete action
+          dispatch(addGold(24))
+          // reset timer
+          actionTimer.current = null
+          dispatch(consumeEnergy())
+          currentEnergyRef.current--
+          // when the last action is completed dont reset timer
+        } else if (currentProgress === 0 && currentEnergyRef.current <= 1) {
+          // trigger on complete action
+          dispatch(addGold(24))
+
+          // reduce the display number but dont reset and stop animation
+          dispatch(consumeEnergy())
+          currentEnergyRef.current--
+          setActive(false)
+        }
+        requestAnimationFrame(process)
+      }
+    }
+    requestAnimationFrame(process)
   }
 
   return (
@@ -27,19 +98,19 @@ function Dashboard() {
         <div data-section="currency" className="flex items-center">
           <div className="mr-5">
             <span className=" text-currency mr-2">[Gold]</span>
-            <span>24,100</span>
+            <span>{playerData.gold}</span>
           </div>
           <div>
             <span className=" text-currency mr-2">[Credits]</span>
-            <span>72</span>
+            <span>{playerData.credits}</span>
           </div>
         </div>
 
 
-        <div data-section="progress bar" className="flex items-center w-3/5 p-[0.2rem]">
-          <div className="w-full h-full bg-g bg-linear-0 to-stone-900 from-grey4 border border-grey3 relative">
-            <div className="w-full h-full bg-g bg-linear-0 to-[#3d3225] from-[#574735]"></div>
-            <div className=" absolute inset-0 flex justify-center items-center font-pixel ">Energy Remaining: 300</div>
+        <div data-section="progress bar" className="flex items-center w-1/2 p-[0.2rem]">
+          <div className={`w-full h-full bg-g bg-linear-0  ${playerData.currentEnergy != 0 ? "to-stone-900 from-grey4" : "to-red-950 from-red-900"} from-grey4 border border-grey3 relative cursor-pointer`} onClick={resetActionCount}>
+            <div id="meter" className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all ${progress > 99 ? "duration-0" : "duration-25"} ease-linear`} style={{ width: `${progress}%` }}></div>
+            <div className=" absolute inset-0 flex justify-center items-center font-pixel ">Energy Remaining: {playerData.currentEnergy}</div>
           </div>
         </div>
 

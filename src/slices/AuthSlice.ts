@@ -1,13 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+type authObj = { loggedIn: boolean, token?: string }
 
+const initialState: authObj = JSON.parse(localStorage.getItem("auth") || `{"loggedIn": false}`)
 
 const authSlice = createSlice({
     name: "auth status",
-    initialState: false,
+    initialState: initialState,
     reducers: {
-        loginAction: () => true,
-        logoutAction: () => false,
+        loginAction: (state) => {
+            let newstate = state
+            newstate.loggedIn = true
+            localStorage.setItem("auth", JSON.stringify(newstate))
+            state.loggedIn = true
+        },
+        logoutAction: (state) => {
+            localStorage.clear()
+            state.loggedIn = false
+        },
     }
 })
 

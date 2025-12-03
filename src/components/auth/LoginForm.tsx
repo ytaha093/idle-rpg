@@ -27,7 +27,7 @@ function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => 
                 <span className="px-4 pb-4 pt-3">Authentication</span>
                 <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer" onClick={onClose}>x</button>
             </header>
-            <div className="px-7 py-3 bg-[#181818] flex flex-wrap justify-center text-lg font-medium">
+            <div className="px-7 py-3 bg-grey2 flex flex-wrap justify-center text-lg font-medium">
                 <label htmlFor="username" className="w-25 my-auto py-2 text-center">Username</label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="username" placeholder="" required />
                 <label htmlFor="password" className="w-25 my-auto py-2 text-center">Password</label>
