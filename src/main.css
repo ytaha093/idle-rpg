@@ -6,11 +6,15 @@
 
     --color-rsyellow: #e4d553;
     --color-rsgreen: #90C040;
+    --color-rsgreenlight: #afec4c;
+
     --color-currency: gold;
     --color-grey1: #101010;
     --color-grey2: #181818;
     --color-grey3: #202020;
     --color-grey4: #282828;
+    --color-grey5: #303030;
+
 
 
     --animate-fadeIn: fadeIn 0.3s ease-out forwards;

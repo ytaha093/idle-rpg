@@ -13,7 +13,7 @@ function ForgotPasswordForm({ onClose }: { onClose: () => void }) {
                 <span className="px-4 pb-4 pt-3">Reset your password</span>
                 <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer" onClick={onClose}>x</button>
             </header>
-            <div className="px-4 py-3 bg-[#181818] flex flex-wrap justify-center text-lg font-medium">
+            <div className="px-4 py-3 bg-grey2 flex flex-wrap justify-center text-lg font-medium">
                 <span className=" basis-full text-center">Enter your email to get a password reset link.</span>
                 <span className="basis-full text-center text-sm text-rsyellow">Accounts without an associated email cannot be recovered.</span>
                 <label htmlFor="username" className="w-25 my-auto py-2 text-center">Email</label>

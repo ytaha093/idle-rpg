@@ -5,6 +5,7 @@ const initialState = {
     credits: 10,
     maxEnergy: 10,
     currentEnergy: 10,
+    activeSkill: "Battling"
 };
 
 const playerDataSlice = createSlice({
@@ -19,6 +20,9 @@ const playerDataSlice = createSlice({
         },
         setCredits: (state, action) => {
             state.credits = action.payload;
+        },
+        setActiveSkill: (state, action) => {
+            state.activeSkill += action.payload;
         },
         setMaxEnergy: (state, action) => {
             state.maxEnergy = action.payload;
@@ -46,7 +50,6 @@ export const {
     setCurrentEnergy,
     consumeEnergy,
     refillEnergy,
-    resetPlayer
-} = playerDataSlice.actions;
+    resetPlayer } = playerDataSlice.actions;
 
 export default playerDataSlice.reducer;
