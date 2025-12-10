@@ -22,7 +22,6 @@ function Header() {
     const trainingAttrRef = useRef(playerData.trainingAttribute);
 
 
-
     useEffect(() => {
         if (activeAction) {
             progressAction();

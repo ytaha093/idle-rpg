@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import type { SkillDataState } from "./SkillsDataSlice";
 
 const initialState = {
     gold: 0,
@@ -6,7 +7,7 @@ const initialState = {
     maxEnergy: 10,
     currentEnergy: 10,
     activeSkill: "Battling",
-    trainingAttribute: "Health",
+    trainingAttribute: "Health" as keyof SkillDataState["Attributes"],
 };
 
 const playerDataSlice = createSlice({
