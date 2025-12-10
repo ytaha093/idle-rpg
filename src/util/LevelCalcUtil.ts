@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux"
+import type { RootState } from "../store"
 
 export function getLevel(xp: number) {
     let currentLevel = 1
@@ -28,8 +30,20 @@ export function getLevelProgress(xp: number) {
     return ((relitiveXP / relitiveNextlXP) * 100).toFixed(2)
 }
 
+export function getTotalLevel(...xp: number[]) {
+    const skillData = useSelector((state: RootState) => state.skillData.Skills)
+    type SkillName = keyof typeof skillData
+
+
+    let total = 0
+    for (const value of Object.keys(skillData) as SkillName[]) {
+        total += getLevel(skillData[value])
+    }
+    return total
+}
+
 // used to create the xp table, IMPORTANT!!
-function generateXPTable() {
+export function generateXPTable() {
     for (let i = 1; i <= 200; i++) {
         console.log(`{level:${i}, xp:${Math.floor((100 * (i - 1)) * 1.09 ** (i - 2))}},`)
     }

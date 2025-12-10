@@ -3,6 +3,8 @@ import logo from "../assets/banner.png"
 import { useState } from "react"
 import ExperenceBar from "../components/game/ExperenceBar"
 import CollapsibleBox from "../components/game/CollapsibleBox"
+import { getTotalLevel } from "../util/LevelCalcUtil"
+import AttributesBox from "../components/game/AttributesBox"
 
 
 function Dashboard() {
@@ -25,9 +27,35 @@ function Dashboard() {
             })}
           </div>
 
-          <ExperenceBar activeSkill={true} skill="" />
+          <ExperenceBar data-section="active xp bar" activeSkill={true} skill="" />
 
-          <CollapsibleBox boxName="test"></CollapsibleBox>
+          <div className="flex bg-grey1">
+            <div data-section="left sidebar" className="w-1/6">
+              <CollapsibleBox boxName="Attributes">
+                <AttributesBox />
+              </CollapsibleBox>
+
+              <CollapsibleBox boxName="Skills">
+                <ExperenceBar skill="Battling" />
+                <ExperenceBar skill="Dungeoneering" />
+                <ExperenceBar skill="Mining" />
+                <ExperenceBar skill="Woodcutting" />
+                <ExperenceBar skill="Quarrying" />
+                <ExperenceBar skill="Runecrafting" />
+                <ExperenceBar skill="Jewelcrafting" />
+                <ExperenceBar skill="Herblore" />
+                <div className="font-pixel text-base text-neutral-400">Total Level: <span className="text-rsgreen">{getTotalLevel()}</span></div>
+              </CollapsibleBox>
+            </div>
+
+            <div data-section="main content" className=" w-4/6">
+
+            </div>
+
+            <div data-section="right sidebar" className="w-1/6">
+
+            </div>
+          </div>
 
         </div>
       </div>

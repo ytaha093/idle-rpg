@@ -4,7 +4,7 @@ import { logoutAction } from "../../slices/AuthSlice"
 import type { RootState } from "../../store"
 import { refillEnergy, addGold, consumeEnergy } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
-import { addBattling, setBattling } from "../../slices/SkillsDataSlice"
+import { addAttribute, addBattling, setBattling } from "../../slices/SkillsDataSlice"
 
 
 function Header() {
@@ -19,6 +19,7 @@ function Header() {
     const currentEnergyRef = useRef<number>(playerData.currentEnergy);
     const settingTimer = useRef<number>(null);
     const actionTimer = useRef<number>(null);
+    const trainingAttrRef = useRef(playerData.trainingAttribute);
 
 
 
@@ -26,7 +27,8 @@ function Header() {
         if (activeAction) {
             progressAction();
         }
-    }, [activeAction]);
+        trainingAttrRef.current = playerData.trainingAttribute
+    }, [activeAction, playerData.trainingAttribute])
 
 
     function logout() {
@@ -75,6 +77,9 @@ function Header() {
                     // trigger on complete action
                     dispatch(addGold(24))
                     dispatch(addBattling(23))
+                    if (Math.random() < 0.5) dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+
+
                     // reset timer
                     actionTimer.current = null
                     dispatch(consumeEnergy())
@@ -84,6 +89,9 @@ function Header() {
                     // trigger on complete action
                     dispatch(addGold(24))
                     dispatch(addBattling(23))
+                    if (Math.random() < 0.5) dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+
+
                     // reduce the display number but dont reset and stop animation
                     dispatch(consumeEnergy())
                     currentEnergyRef.current--

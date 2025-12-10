@@ -5,7 +5,8 @@ const initialState = {
     credits: 10,
     maxEnergy: 10,
     currentEnergy: 10,
-    activeSkill: "Battling"
+    activeSkill: "Battling",
+    trainingAttribute: "Health",
 };
 
 const playerDataSlice = createSlice({
@@ -23,6 +24,9 @@ const playerDataSlice = createSlice({
         },
         setActiveSkill: (state, action) => {
             state.activeSkill += action.payload;
+        },
+        setTraining: (state, action) => {
+            state.trainingAttribute = action.payload;
         },
         setMaxEnergy: (state, action) => {
             state.maxEnergy = action.payload;
@@ -46,6 +50,8 @@ export const {
     setGold,
     addGold,
     setCredits,
+    setActiveSkill,
+    setTraining,
     setMaxEnergy,
     setCurrentEnergy,
     consumeEnergy,
