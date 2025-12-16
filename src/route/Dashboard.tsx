@@ -5,6 +5,9 @@ import ExperenceBar from "../components/game/ExperenceBar"
 import CollapsibleBox from "../components/game/CollapsibleBox"
 import { getTotalLevel } from "../util/LevelCalcUtil"
 import AttributesBox from "../components/game/AttributesBox"
+import BonusBox from "../components/game/BonusBox"
+import Log from "../components/game/Log"
+import EquipmentBox from "../components/game/EquipmentBox"
 
 
 function Dashboard() {
@@ -14,7 +17,7 @@ function Dashboard() {
   return (
     <>
       <Header></Header>
-      < div className="w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 m-auto" >
+      < div className="max-w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 p- m-auto max-[1250px]:px-1 max-[1250px]:max-w-[1126px]" >
         <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]">
 
           <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0">
@@ -27,10 +30,10 @@ function Dashboard() {
             })}
           </div>
 
-          <ExperenceBar data-section="active xp bar" activeSkill={true} skill="" />
+          <ExperenceBar data-section="active xp bar" activeSkill={true} />
 
           <div className="flex bg-grey1">
-            <div data-section="left sidebar" className="w-1/6">
+            <div data-section="left sidebar" className="w-2/10">
               <CollapsibleBox boxName="Attributes">
                 <AttributesBox />
               </CollapsibleBox>
@@ -48,12 +51,20 @@ function Dashboard() {
               </CollapsibleBox>
             </div>
 
-            <div data-section="main content" className=" w-4/6">
+            <div data-section="main content" className=" w-6/10">
 
             </div>
 
-            <div data-section="right sidebar" className="w-1/6">
-
+            <div data-section="right sidebar" className="w-2/10">
+              <CollapsibleBox boxName="Equipment">
+                <EquipmentBox />
+              </CollapsibleBox>
+              <CollapsibleBox boxName="Action Bonus">
+                <BonusBox />
+              </CollapsibleBox>
+              <CollapsibleBox boxName="Log">
+                <Log />
+              </CollapsibleBox>
             </div>
           </div>
 

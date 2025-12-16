@@ -11,6 +11,7 @@ A osrs themed idle browser game
 - market (rs grand exchange stype ui)
 - chat
 - custom scrollbar
+- add commas to all numbers
 
 ## Strech goals
 - add item imgs

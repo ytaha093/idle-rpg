@@ -14,6 +14,9 @@ function CollapsibleBox({ boxName, children }: { boxName: string, children: Reac
         } else {
             content.style.height = "0px"
             requestAnimationFrame(() => { content.style.height = `${height}px` })
+            content.addEventListener("transitionend", () => {
+                content.style.height = "auto"
+            }, { once: true })
         }
         setOpen(!open)
     }

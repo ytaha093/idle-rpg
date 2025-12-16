@@ -25,6 +25,10 @@ const initialState = {
     }
 }
 
+export type AttributeName = keyof typeof initialState.Attributes
+export type SkillName = keyof typeof initialState.Skills
+export type SkillDataState = typeof initialState;
+
 const SkillDataSlice = createSlice({
     name: "skills data",
     initialState: initialState,

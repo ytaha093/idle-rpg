@@ -30,10 +30,9 @@ export function getLevelProgress(xp: number) {
     return ((relitiveXP / relitiveNextlXP) * 100).toFixed(2)
 }
 
-export function getTotalLevel(...xp: number[]) {
+export function getTotalLevel() {
     const skillData = useSelector((state: RootState) => state.skillData.Skills)
     type SkillName = keyof typeof skillData
-
 
     let total = 0
     for (const value of Object.keys(skillData) as SkillName[]) {

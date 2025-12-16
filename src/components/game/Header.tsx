@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { logoutAction } from "../../slices/AuthSlice"
 import type { RootState } from "../../store"
-import { refillEnergy, addGold, consumeEnergy } from "../../slices/PlayerDataSlice"
+import { refillEnergy, addGold, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
-import { addAttribute, addBattling, setBattling } from "../../slices/SkillsDataSlice"
+import { addAttribute, addBattling } from "../../slices/SkillsDataSlice"
 
 
 function Header() {
@@ -20,6 +20,9 @@ function Header() {
     const settingTimer = useRef<number>(null);
     const actionTimer = useRef<number>(null);
     const trainingAttrRef = useRef(playerData.trainingAttribute);
+    const bonusProgressRef = useRef<number>(playerData.bonusProgress);
+    const bonusCapRef = useRef<number>(playerData.bonusCap);
+
 
 
     useEffect(() => {
@@ -27,7 +30,10 @@ function Header() {
             progressAction();
         }
         trainingAttrRef.current = playerData.trainingAttribute
-    }, [activeAction, playerData.trainingAttribute])
+        bonusProgressRef.current = playerData.bonusProgress
+        bonusCapRef.current = playerData.bonusCap
+
+    }, [activeAction, playerData.trainingAttribute, playerData.bonusProgress, playerData.bonusCap])
 
 
     function logout() {
@@ -50,7 +56,7 @@ function Header() {
     }
 
     async function progressAction() {
-        const durration = 6000
+        const durration = 1000
         let currentProgress = 100
         let lastUpdate = 0
 
@@ -76,7 +82,20 @@ function Header() {
                     // trigger on complete action
                     dispatch(addGold(24))
                     dispatch(addBattling(23))
-                    if (Math.random() < 0.5) dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+                    if (Math.random() < 0.5) {
+                        dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+                        dispatch(log(<span className="text-rsyellow">+1 {trainingAttrRef.current}</span>))
+
+                    }
+
+                    dispatch(increaseBonus())
+                    bonusProgressRef.current++
+                    if (bonusProgressRef.current == bonusCapRef.current) {
+                        const bonus = bonusCapRef.current * 15
+                        dispatch(addGold(bonus))
+                        dispatch(log(<span>Action Bonus: +${bonus} <span className="text-currency">[Gold]</span></span>))
+
+                    }
 
 
                     // reset timer
@@ -88,7 +107,20 @@ function Header() {
                     // trigger on complete action
                     dispatch(addGold(24))
                     dispatch(addBattling(23))
-                    if (Math.random() < 0.5) dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+                    if (Math.random() < 0.5) {
+                        dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
+                        dispatch(log(<span className="text-rsyellow">+1 {trainingAttrRef.current}</span>))
+
+                    }
+
+                    dispatch(increaseBonus())
+                    bonusProgressRef.current++
+                    if (bonusProgressRef.current == bonusCapRef.current) {
+                        const bonus = bonusCapRef.current * 15
+                        dispatch(addGold(bonus))
+                        dispatch(log(<span>Action Bonus: +${bonus} <span className="text-currency">[Gold]</span></span>))
+
+                    }
 
 
                     // reduce the display number but dont reset and stop animation
