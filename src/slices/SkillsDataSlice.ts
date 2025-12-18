@@ -14,7 +14,7 @@ const initialState = {
     Attributes: {
         Health: 0,
         Attack: 0,
-        Defence: 0,
+        Defense: 0,
         Accuracy: 0,
         Dodge: 0,
         "Gold Rush": 0,

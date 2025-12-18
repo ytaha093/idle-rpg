@@ -5,13 +5,13 @@ A osrs themed idle browser game
 ## Todo
 - main page
 - inv slice
-- overlay for all items, xp bars, main xp bar
+- overlay and or tooltip for all items, xp bars, main xp bar
 - create item component that takes id or name, and handles tag color and overlay
 - user auth (google, fb, x) + forgot password later
-- market (rs grand exchange stype ui)
+- market (rs grand exchange style ui)
 - chat
-- custom scrollbar
-- add commas to all numbers
+- add commas to all numbers (util function can handle this)
+- ask someone if they prefer no delay or a small 30-120 ms delay on tooltips appearing
 
-## Strech goals
+## Stretch goals
 - add item imgs

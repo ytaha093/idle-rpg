@@ -14,7 +14,14 @@
     --color-grey3: #202020;
     --color-grey4: #282828;
     --color-grey5: #303030;
-    --color-greywhite: #E2E2E2;
+    --color-greywhite: #e2e2e2;
+    --color-greywhitedim: #7d7d7d;
+
+    --color-rarity-1: #e2e2e2;
+    --color-rarity-2: #2f2;
+    --color-rarity-3: #55f;
+    --color-rarity-4: #ff0;
+    --color-rarity-5: #f70;
 
 
     --animate-fadeIn: fadeIn 0.3s ease-out forwards;

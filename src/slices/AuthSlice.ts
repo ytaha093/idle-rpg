@@ -9,9 +9,9 @@ const authSlice = createSlice({
     initialState: initialState,
     reducers: {
         loginAction: (state) => {
-            let newstate = state
-            newstate.loggedIn = true
-            localStorage.setItem("auth", JSON.stringify(newstate))
+            let newState = state
+            newState.loggedIn = true
+            localStorage.setItem("auth", JSON.stringify(newState))
             state.loggedIn = true
         },
         logoutAction: (state) => {

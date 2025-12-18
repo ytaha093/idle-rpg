@@ -1,13 +1,14 @@
 import Header from "../components/game/Header"
 import logo from "../assets/banner.png"
 import { useState } from "react"
-import ExperenceBar from "../components/game/ExperenceBar"
-import CollapsibleBox from "../components/game/CollapsibleBox"
+import ExperienceBar from "../components/game/ExperienceBar"
+import CollapsibleBox from "../components/game/CollapsibleBoxes/CollapsibleBox"
 import { getTotalLevel } from "../util/LevelCalcUtil"
-import AttributesBox from "../components/game/AttributesBox"
-import BonusBox from "../components/game/BonusBox"
-import Log from "../components/game/Log"
-import EquipmentBox from "../components/game/EquipmentBox"
+import AttributesBox from "../components/game/CollapsibleBoxes/AttributesBox"
+import BonusBox from "../components/game/CollapsibleBoxes/BonusBox"
+import LogBox from "../components/game/CollapsibleBoxes/LogBox"
+import EquipmentCombatBox from "../components/game/CollapsibleBoxes/EquipmentCombatBox"
+import EquipmentGatheringBox from "../components/game/CollapsibleBoxes/EquipmentGatheringBox"
 
 
 function Dashboard() {
@@ -25,12 +26,12 @@ function Dashboard() {
           </div>
 
           <div data-section="main buttons" className="w-full flex gap-[-10px] text-center">
-            {["Home", "Invintory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans"].map((name) => {
+            {["Home", "Inventory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans"].map((name) => {
               return <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view === name ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => setView(name)}>{name}</div>
             })}
           </div>
 
-          <ExperenceBar data-section="active xp bar" activeSkill={true} />
+          <ExperienceBar data-section="active xp bar" activeSkill={true} />
 
           <div className="flex bg-grey1">
             <div data-section="left sidebar" className="w-2/10">
@@ -39,14 +40,14 @@ function Dashboard() {
               </CollapsibleBox>
 
               <CollapsibleBox boxName="Skills">
-                <ExperenceBar skill="Battling" />
-                <ExperenceBar skill="Dungeoneering" />
-                <ExperenceBar skill="Mining" />
-                <ExperenceBar skill="Woodcutting" />
-                <ExperenceBar skill="Quarrying" />
-                <ExperenceBar skill="Runecrafting" />
-                <ExperenceBar skill="Jewelcrafting" />
-                <ExperenceBar skill="Herblore" />
+                <ExperienceBar skill="Battling" />
+                <ExperienceBar skill="Dungeoneering" />
+                <ExperienceBar skill="Mining" />
+                <ExperienceBar skill="Woodcutting" />
+                <ExperienceBar skill="Quarrying" />
+                <ExperienceBar skill="Runecrafting" />
+                <ExperienceBar skill="Jewelcrafting" />
+                <ExperienceBar skill="Herblore" />
                 <div className="font-pixel text-base text-neutral-400">Total Level: <span className="text-rsgreen">{getTotalLevel()}</span></div>
               </CollapsibleBox>
             </div>
@@ -56,14 +57,17 @@ function Dashboard() {
             </div>
 
             <div data-section="right sidebar" className="w-2/10">
-              <CollapsibleBox boxName="Equipment">
-                <EquipmentBox />
+              <CollapsibleBox boxName="Combat Equipment">
+                <EquipmentCombatBox />
+              </CollapsibleBox>
+              <CollapsibleBox boxName="Gathering Equipment">
+                <EquipmentGatheringBox />
               </CollapsibleBox>
               <CollapsibleBox boxName="Action Bonus">
                 <BonusBox />
               </CollapsibleBox>
               <CollapsibleBox boxName="Log">
-                <Log />
+                <LogBox />
               </CollapsibleBox>
             </div>
           </div>

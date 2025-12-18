@@ -5,6 +5,8 @@ import type { RootState } from "../../store"
 import { refillEnergy, addGold, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice"
+import ItemTooltip from "./tooltips/ItemTooltip"
+import ItemTag from "./ItemTag"
 
 
 function Header() {
@@ -52,11 +54,11 @@ function Header() {
         dispatch(refillEnergy())
         currentEnergyRef.current = playerData.maxEnergy
         setActive(true)
-        // TODO: send request to server for serverside energy update
+        // TODO: send request to server for server side energy update
     }
 
     async function progressAction() {
-        const durration = 1000
+        const duration = 1000
         let currentProgress = 100
         let lastUpdate = 0
 
@@ -67,10 +69,10 @@ function Header() {
                 const currentTime = time;
                 if (!actionTimer.current) actionTimer.current = currentTime
 
-                // prevent state from updating more then 40 times a second to prevent exesive re-renders
+                // prevent state from updating more then 40 times a second to prevent excessive re-renders
                 if ((time - lastUpdate) > 25 || currentProgress == 0) {
                     // move progress bar based on time
-                    currentProgress = Math.max(100 - (((currentTime - actionTimer.current) / durration) * 100), 0)
+                    currentProgress = Math.max(100 - (((currentTime - actionTimer.current) / duration) * 100), 0)
                     setProgress(currentProgress)
                     lastUpdate = time
 
@@ -93,7 +95,7 @@ function Header() {
                     if (bonusProgressRef.current == bonusCapRef.current) {
                         const bonus = bonusCapRef.current * 15
                         dispatch(addGold(bonus))
-                        dispatch(log(<span>Action Bonus: +${bonus} <span className="text-currency">[Gold]</span></span>))
+                        dispatch(log(<span>Action Bonus: +${bonus} <ItemTag item={"Gold"} /></span>))
 
                     }
 
@@ -118,7 +120,7 @@ function Header() {
                     if (bonusProgressRef.current == bonusCapRef.current) {
                         const bonus = bonusCapRef.current * 15
                         dispatch(addGold(bonus))
-                        dispatch(log(<span>Action Bonus: +${bonus} <span className="text-currency">[Gold]</span></span>))
+                        dispatch(log(<span>Action Bonus: +${bonus} <ItemTag item={"Gold"} /></span>))
 
                     }
 
@@ -138,14 +140,14 @@ function Header() {
 
     return (
         <>
-            <div className="sticky top-0 w-full h-7 bg-grey1 border-b border-stone-700 px-3 flex justify-between text-sm ">
+            <div className="sticky z-10 top-0 w-full h-7 bg-grey1 border-b border-stone-700 px-3 flex justify-between text-sm ">
                 <div data-section="currency" className="flex items-center">
                     <div className="mr-5 ">
-                        <span className=" text-currency mr-2 hover:cursor-default">[Gold]</span>
+                        <span className="mr-2"><ItemTag item={"Gold"} /></span>
                         <span>{playerData.gold}</span>
                     </div>
                     <div>
-                        <span className=" text-currency mr-2 hover:cursor-default">[Credits]</span>
+                        <span className="mr-2"><ItemTag item={"Credits"} /></span>
                         <span>{playerData.credits}</span>
                     </div>
                 </div>

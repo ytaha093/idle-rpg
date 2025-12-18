@@ -1,4 +1,4 @@
-function EquipmentBox() {
+function EquipmentCombatBox() {
 
     return (
         <>
@@ -34,4 +34,4 @@ function EquipmentBox() {
     )
 }
 
-export default EquipmentBox
+export default EquipmentCombatBox

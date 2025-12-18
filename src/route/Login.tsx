@@ -52,7 +52,7 @@ function Login() {
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={battleIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Battling</span>: Fight monsters, collecting dungeon keys and components to increase your power...</span></li>
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={dungioneeringIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Dungeoneering</span>: Make your way through dungeons to obtain loot from the chest at the end...</span></li>
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={miningIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Mining</span>: Gather metal for your clan, and collect gems to craft rings...</span></li>
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={woodcuttingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Woodcutting</span>: Gather wooad for your clan, collecting sap to craft potions...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={woodcuttingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Woodcutting</span>: Gather wood for your clan, collecting sap to craft potions...</span></li>
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={quarryingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Quarrying</span>: Gather stone for your clan, collecting valuable stones to craft runes...</span></li>
           </ul>
           <div className=" underline underline-offset-4 text-[1.45rem] leading-6">Crafting&nbsp;&nbsp;&nbsp;</div>
@@ -60,7 +60,7 @@ function Login() {
             All items are crafted by players. Only the highest level crafters can make the highest level items. Choose your crafting skills, power up, and supply the items on the market.
           </div>
           <ul className="text-[1.1rem]/5.5 my-1 mx-0.5">
-            <li className="grid grid-cols-[0.34fr_10fr]"><img src={runecraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Runecrafting</span>: Craft runes to provide benefits in battlings...</span></li>
+            <li className="grid grid-cols-[0.34fr_10fr]"><img src={runecraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Runecrafting</span>: Craft runes to provide benefits in battling...</span></li>
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={jewelcraftingIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Jewelcrafting</span>: Craft rings to increase your power...</span></li>
             <li className="grid grid-cols-[0.34fr_10fr]"><img src={herbloreIcon} alt="" className="inline-block max-h-5 max-w-6 m-auto" /><span><span className="text-rsgreen">Herblore</span>: Craft potions that boost resources, experience and more...</span></li>
           </ul>

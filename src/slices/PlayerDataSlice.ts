@@ -57,7 +57,7 @@ const playerDataSlice = createSlice({
             }
         },
         log: (state, action) => {
-            state.log.push({ time: new Date().toLocaleTimeString('en-GB'), content: action.payload })
+            state.log.unshift({ time: new Date().toLocaleTimeString('en-GB'), content: action.payload })
         },
         clearLog: (state) => {
             state.log = []

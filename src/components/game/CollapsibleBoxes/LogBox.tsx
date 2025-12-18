@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "../../store"
-import { clearLog } from "../../slices/PlayerDataSlice"
+import type { RootState } from "../../../store"
+import { clearLog } from "../../../slices/PlayerDataSlice"
 
-function Log() {
+function LogBox() {
 
-    const log = useSelector((state: RootState) => state.playerData.log)
+    let log = useSelector((state: RootState) => state.playerData.log)
     const dispatch = useDispatch()
 
     return (
@@ -16,7 +16,7 @@ function Log() {
             )}
             {log.length != 0 && (
                 <div className="flex flex-col">
-                    <div className=" max-h-60 overflow-y-scroll">
+                    <div className=" max-h-55 overflow-y-scroll">
                         {log.map((item) => {
                             return (
                                 <>
@@ -38,4 +38,4 @@ function Log() {
     )
 }
 
-export default Log
+export default LogBox

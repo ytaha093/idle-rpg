@@ -17,7 +17,7 @@ function SkillTooltip({ children, skill }: { children: ReactNode, skill: SkillNa
 
     const content = (
         <div className=" text-left">
-            <div className=" font-bold">{skill}</div>
+            <div className=" font-bold text-sm">{skill}</div>
             <div className="flex gap-2.5">
                 <div className="flex flex-col">
                     <span>Level:</span>
@@ -33,7 +33,7 @@ function SkillTooltip({ children, skill }: { children: ReactNode, skill: SkillNa
                 </div>
             </div>
 
-            <div className="min-w-36 h-6 bg-linear-0 to-stone-900 from-grey4 border border-stone-800 relative my-0.5">
+            <div data-section="tooltip" className="min-w-36 h-6 bg-linear-0 to-stone-900 from-grey4 border border-stone-800 relative my-0.5">
                 <div id="meter" className="w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38]" style={{ width: `${progress}%` }}></div>
                 <div className=" absolute inset-0 flex justify-center items-center font-pixel text-sm hover:cursor-default">{`${progress}%`}</div>
             </div>
