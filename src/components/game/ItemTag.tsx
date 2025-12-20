@@ -42,10 +42,6 @@ function ItemTag({ item }: { item: ItemId }) {
                     </div>
                 )}
 
-                <div className="hidden absolute -top-3.5 -right-3.5 bg-stone-950 border-stone-400 border-2 rounded-[50%] w-8 h-8 pb-0.5 flex justify-center items-center font-pixel text-xl hover:cursor-pointer hover:bg-red-700 transition-colors duration-50"
-                    onClick={fadeOutAndClose}>
-                    x
-                </div>
             </div>
         </div>
     )
