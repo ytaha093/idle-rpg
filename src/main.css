@@ -29,7 +29,33 @@
     --animate-fadeOut: fadeOut 0.3s ease-out forwards;
     --animate-scaleOut: scaleOut 0.3s ease-out forwards;
 
+    --animate-fadeInFast: fadeIn 0.15s ease-out forwards;
+    --animate-scaleInFast: scaleIn 0.15s ease-out forwards;
+    --animate-fadeOutFast: fadeOut 0.15s ease-in forwards;
+    --animate-scaleOutFast: scaleOut 0.15s ease-in forwards;
 
+
+}
+
+:root {
+    --color-rsyellow: #e4d553;
+    --color-rsgreen: #90C040;
+    --color-rsgreenlight: #afec4c;
+    --color-currency: gold;
+
+    --color-grey1: #101010;
+    --color-grey2: #181818;
+    --color-grey3: #202020;
+    --color-grey4: #282828;
+    --color-grey5: #303030;
+    --color-greywhite: #e2e2e2;
+    --color-greywhitedim: #7d7d7d;
+
+    --color-rarity-1: #e2e2e2;
+    --color-rarity-2: #2f2;
+    --color-rarity-3: #55f;
+    --color-rarity-4: #ff0;
+    --color-rarity-5: #f70;
 }
 
 @keyframes fadeIn {
@@ -38,13 +64,13 @@
     }
 
     100% {
-        opacity: .5;
+        opacity: .6;
     }
 }
 
 @keyframes fadeOut {
     0% {
-        opacity: .5;
+        opacity: .6;
     }
 
     100% {

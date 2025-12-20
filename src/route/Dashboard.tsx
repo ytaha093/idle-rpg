@@ -18,7 +18,7 @@ function Dashboard() {
   return (
     <>
       <Header></Header>
-      < div className="max-w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 p- m-auto max-[1250px]:px-1 max-[1250px]:max-w-[1126px]" >
+      < div className="max-w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 m-auto max-[1250px]:px-1 max-[1250px]:max-w-[1126px]" >
         <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]">
 
           <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0">

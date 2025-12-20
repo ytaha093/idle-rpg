@@ -2,13 +2,15 @@ import { configureStore } from '@reduxjs/toolkit'
 import authSlice from './slices/AuthSlice'
 import playerDataSlice from './slices/PlayerDataSlice'
 import SkillDataSlice from './slices/SkillsDataSlice'
+import inventorySlice from './slices/inventorySlice'
 
 
 export const store = configureStore({
     reducer: {
         auth: authSlice,
         playerData: playerDataSlice,
-        skillData: SkillDataSlice
+        skillData: SkillDataSlice,
+        invData: inventorySlice
     },
 })
 

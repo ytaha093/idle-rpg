@@ -2,16 +2,18 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { logoutAction } from "../../slices/AuthSlice"
 import type { RootState } from "../../store"
-import { refillEnergy, addGold, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice"
+import { refillEnergy, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice"
-import ItemTooltip from "./tooltips/ItemTooltip"
 import ItemTag from "./ItemTag"
+import { addItem } from "../../slices/inventorySlice"
 
 
 function Header() {
 
     const playerData = useSelector((state: RootState) => state.playerData)
+    const invData = useSelector((state: RootState) => state.invData)
+
     const dispatch = useDispatch()
 
     const [settings, setSettings] = useState(false)
@@ -82,11 +84,11 @@ function Header() {
                 // when progress bar hits 0 if actions remain, reset timer
                 if (currentProgress === 0 && currentEnergyRef.current > 1) {
                     // trigger on complete action
-                    dispatch(addGold(24))
+                    dispatch(addItem({ id: "Gold", amount: 24 }))
                     dispatch(addBattling(23))
                     if (Math.random() < 0.5) {
                         dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
-                        dispatch(log(<span className="text-rsyellow">+1 {trainingAttrRef.current}</span>))
+                        dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
 
                     }
 
@@ -94,8 +96,8 @@ function Header() {
                     bonusProgressRef.current++
                     if (bonusProgressRef.current == bonusCapRef.current) {
                         const bonus = bonusCapRef.current * 15
-                        dispatch(addGold(bonus))
-                        dispatch(log(<span>Action Bonus: +${bonus} <ItemTag item={"Gold"} /></span>))
+                        dispatch(addItem({ id: "Gold", amount: bonus }))
+                        dispatch(log({ type: "item", text: `Action Bonus: +${bonus}`, item: "Gold" }))
 
                     }
 
@@ -107,11 +109,11 @@ function Header() {
                     // when the last action is completed dont reset timer
                 } else if (currentProgress === 0 && currentEnergyRef.current <= 1) {
                     // trigger on complete action
-                    dispatch(addGold(24))
+                    dispatch(addItem({ id: "Gold", amount: 24 }))
                     dispatch(addBattling(23))
                     if (Math.random() < 0.5) {
                         dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }))
-                        dispatch(log(<span className="text-rsyellow">+1 {trainingAttrRef.current}</span>))
+                        dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
 
                     }
 
@@ -119,8 +121,8 @@ function Header() {
                     bonusProgressRef.current++
                     if (bonusProgressRef.current == bonusCapRef.current) {
                         const bonus = bonusCapRef.current * 15
-                        dispatch(addGold(bonus))
-                        dispatch(log(<span>Action Bonus: +${bonus} <ItemTag item={"Gold"} /></span>))
+                        dispatch(addItem({ id: "Gold", amount: bonus }))
+                        dispatch(log({ type: "item", text: `Action Bonus: +${bonus}`, item: "Gold" }))
 
                     }
 
@@ -144,11 +146,11 @@ function Header() {
                 <div data-section="currency" className="flex items-center">
                     <div className="mr-5 ">
                         <span className="mr-2"><ItemTag item={"Gold"} /></span>
-                        <span>{playerData.gold}</span>
+                        <span>{invData.Gold}</span>
                     </div>
                     <div>
                         <span className="mr-2"><ItemTag item={"Credits"} /></span>
-                        <span>{playerData.credits}</span>
+                        <span>{invData.Credits}</span>
                     </div>
                 </div>
 

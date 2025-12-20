@@ -20,7 +20,7 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
         }, delay)
     }
 
-    function handleMouseLeave(e: React.MouseEvent) {
+    function handleMouseLeave(_e: React.MouseEvent) {
         setRender(false)
         setDisplay(false)
         if (timerRef.current) {
@@ -45,8 +45,8 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             const width = window.innerWidth
             const height = window.innerHeight
 
-            if ((x + dimensionRef.current.w) > (width - 4)) x = x - (offset * 2) - dimensionRef.current.w
-            if ((y + dimensionRef.current.h) > (height - 4)) y = y - (offset * 2) - dimensionRef.current.h
+            if ((x + dimensionRef.current.w) > (width - 4)) x = x - (offset * 1.5) - dimensionRef.current.w
+            if ((y + dimensionRef.current.h) > (height - 4)) y = y - (offset * 1) - dimensionRef.current.h
 
             setPos({ x: x, y: y })
         }
@@ -57,7 +57,7 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             {children}
 
             {render && (
-                <div data-section="tooltip" className={`fixed z-50 pointer-events-none bg-stone-950 text-xs border-2 border-stone-600 rounded-lg px-2 py-1.5 shadow-lg`}
+                <div data-section="tooltip" className={`font-pixel fixed z-50 pointer-events-none bg-stone-950 text-xs border-2 border-stone-600 rounded px-2 py-1.5 shadow-lg`}
                     style={{ top: pos.y, left: pos.x, borderColor: `var(--color-${boxColor ?? "stone-600"})`, visibility: display ? "visible" : "hidden" }} ref={tooltipRef}>
                     {content}
                 </div>

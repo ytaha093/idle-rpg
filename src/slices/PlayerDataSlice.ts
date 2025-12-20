@@ -1,34 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { SkillDataState } from "./SkillsDataSlice";
-import type { ReactNode } from "react";
+import type { AttributeName } from "./SkillsDataSlice";
+import type { ItemId } from "../util/Descriptions/Items";
+
+type logType = "item" | "attribute"
 
 const initialState = {
-    gold: 0,
-    credits: 10,
     maxEnergy: 10,
     currentEnergy: 10,
     bonusCap: 5,
     bonusProgress: 0,
     activeSkill: "Battling",
-    trainingAttribute: "Health" as keyof SkillDataState["Attributes"],
-    log: [] as { time: string, content: ReactNode }[]
+    trainingAttribute: "Health" as AttributeName,
+    log: [] as { time: string, type: logType, text: string, item?: ItemId }[]
 };
 
 const playerDataSlice = createSlice({
     name: "player data",
     initialState,
     reducers: {
-        setGold: (state, action) => {
-            state.gold = action.payload
-        },
-        addGold: (state, action) => {
-            state.gold += action.payload
-        },
-        setCredits: (state, action) => {
-            state.credits = action.payload
-        },
         setActiveSkill: (state, action) => {
-            state.activeSkill += action.payload
+            state.activeSkill = action.payload
         },
         setTraining: (state, action) => {
             state.trainingAttribute = action.payload
@@ -56,8 +47,8 @@ const playerDataSlice = createSlice({
                 state.bonusProgress = 1
             }
         },
-        log: (state, action) => {
-            state.log.unshift({ time: new Date().toLocaleTimeString('en-GB'), content: action.payload })
+        log: (state, action: { type: string, payload: { type: logType, text: string, item?: ItemId } }) => {
+            state.log.unshift({ time: new Date().toLocaleTimeString('en-GB'), type: action.payload.type, text: action.payload.text, item: action.payload.item })
         },
         clearLog: (state) => {
             state.log = []
@@ -68,9 +59,6 @@ const playerDataSlice = createSlice({
 });
 
 export const {
-    setGold,
-    addGold,
-    setCredits,
     setActiveSkill,
     setTraining,
     setMaxEnergy,

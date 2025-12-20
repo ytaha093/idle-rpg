@@ -23,7 +23,7 @@ function AuthPopup({ form, formSelector }: { form: string, formSelector: (form: 
 
             {/* BG Overlay */}
             <div
-                className="absolute inset-0 bg-black animate-fadeIn opacity-50"
+                className="absolute inset-0 bg-black animate-fadeIn opacity-60"
                 onClick={fadeOutAndClose}
             />
 
