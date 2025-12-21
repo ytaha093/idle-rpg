@@ -9,11 +9,19 @@ import BonusBox from "../components/game/CollapsibleBoxes/BonusBox"
 import LogBox from "../components/game/CollapsibleBoxes/LogBox"
 import EquipmentCombatBox from "../components/game/CollapsibleBoxes/EquipmentCombatBox"
 import EquipmentGatheringBox from "../components/game/CollapsibleBoxes/EquipmentGatheringBox"
+import GameContent from "../components/game/GameContent"
+import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "../store"
+import { setCurrentView } from "../slices/UIDataSlice"
+import ItemDialog from "../components/game/ItemDialog "
 
 
 function Dashboard() {
 
-  const [view, setView] = useState("Home")
+  const itemDialog = useSelector((state: RootState) => state.uiData.itemPopup)
+  const view = useSelector((state: RootState) => state.uiData.currentView)
+  const dispatch = useDispatch()
+
 
   return (
     <>
@@ -27,7 +35,7 @@ function Dashboard() {
 
           <div data-section="main buttons" className="w-full flex gap-[-10px] text-center">
             {["Home", "Inventory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans"].map((name) => {
-              return <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view === name ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => setView(name)}>{name}</div>
+              return <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view.includes(name) ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => dispatch(setCurrentView(name))}>{name}</div>
             })}
           </div>
 
@@ -53,7 +61,7 @@ function Dashboard() {
             </div>
 
             <div data-section="main content" className=" w-6/10">
-
+              <GameContent view={view} />
             </div>
 
             <div data-section="right sidebar" className="w-2/10">
@@ -74,6 +82,7 @@ function Dashboard() {
 
         </div>
       </div>
+      <ItemDialog item={itemDialog} />
     </>
   )
 }

@@ -8,10 +8,10 @@ import type { SkillName } from "../../slices/SkillsDataSlice"
 function ExperienceBar({ activeSkill, skill }: { activeSkill?: boolean, skill?: SkillName }) {
 
     const skillData = useSelector((state: RootState) => state.skillData.Skills)
-    const playerData = useSelector((state: RootState) => state.playerData)
+    const activeSkillName = useSelector((state: RootState) => state.playerData.activeSkill)
 
     if (activeSkill) {
-        const activeName = playerData.activeSkill as SkillName
+        const activeName = activeSkillName as SkillName
         const activeXP = skillData[activeName]
         const activeLevel = getLevel(activeXP)
         const activeProgress = getLevelProgress(activeXP)

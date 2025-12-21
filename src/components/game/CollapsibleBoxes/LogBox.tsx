@@ -21,7 +21,7 @@ function LogBox() {
                         {log.map((log, index) => {
                             return (
                                 <div className="text-xs text-left" key={`${log.time}-${index}`}>
-                                    <span className=" text-neutral-500 text-[0.6rem] inline-block w-12 mr-1">[{log.time}]</span>
+                                    <span className=" text-center text-neutral-500 text-[0.6rem] inline-block w-12 mr-px">[{log.time}]</span>
                                     {log.type == "attribute" && <span className="text-rsyellow">{log.text}</span>}
                                     {(log.type == "item" && log.item) && <span>{log.text} <ItemTag item={log.item} /></span>}
 

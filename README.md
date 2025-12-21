@@ -3,6 +3,12 @@
 A osrs themed idle browser game
 
 ## Todo
+
+fix bug where overlay closes on log change
+make ui slice to hold global view data and what tooltip we are displaying
+
+
+
 - main page
 - inv slice
 - overlay and or tooltip for all items, xp bars, main xp bar

@@ -3,6 +3,7 @@ import authSlice from './slices/AuthSlice'
 import playerDataSlice from './slices/PlayerDataSlice'
 import SkillDataSlice from './slices/SkillsDataSlice'
 import inventorySlice from './slices/inventorySlice'
+import UIDataSlice from './slices/UIDataSlice'
 
 
 export const store = configureStore({
@@ -10,7 +11,8 @@ export const store = configureStore({
         auth: authSlice,
         playerData: playerDataSlice,
         skillData: SkillDataSlice,
-        invData: inventorySlice
+        invData: inventorySlice,
+        uiData: UIDataSlice,
     },
 })
 
