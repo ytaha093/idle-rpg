@@ -1,12 +1,12 @@
-import Home from './Home'
-import Inventory from './Inventory'
-import Market from './Market'
-import Battling from './Battling'
-import Dungeons from './Dungeons'
-import Gathering from './Gathering'
-import Crafting from './Crafting'
-import Land from './Land'
-import Clans from './Clans'
+import Home from './views/Home'
+import Inventory from './views/Inventory'
+import Market from './views/Market'
+import Battling from './views/Battling'
+import Dungeons from './views/Dungeons'
+import Gathering from './views/Gathering'
+import Crafting from './views/Crafting'
+import Land from './views/Land'
+import Clans from './views/Clans'
 
 function GameContent({ view }: { view: string }) {
 
