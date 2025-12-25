@@ -415,7 +415,7 @@ export const ITEMS: Record<ItemId, {
     // Runes
     RuneOfLesserFocus: {
         name: "Rune of Lesser Focus",
-        description: "+10 or +0.5% Health \n +10 or +0.5% Attack \n +10 or +0.5% Defence",
+        description: "+10 or +0.5% Health \n+10 or +0.5% Attack \n+10 or +0.5% Defence",
         icon: '🔰',
         textColor: "rarity-2",
         boxColor: "rarity-2",
@@ -424,7 +424,7 @@ export const ITEMS: Record<ItemId, {
     },
     RuneOfAdeptFocus: {
         name: "Rune of Adept Focus",
-        description: "+20 or +1% Health \n +20 or +1% Attack \n +20 or +1% Defence",
+        description: "+20 or +1% Health \n+20 or +1% Attack \n+20 or +1% Defence",
         icon: '🔰',
         textColor: "rarity-2",
         boxColor: "rarity-2",
@@ -433,7 +433,7 @@ export const ITEMS: Record<ItemId, {
     },
     RuneOfGreaterFocus: {
         name: "Rune of Greater Focus",
-        description: "+40 or +2% Health \n +40 or +2% Attack \n +40 or +2% Defence",
+        description: "+40 or +2% Health \n+40 or +2% Attack \n+40 or +2% Defence",
         icon: '🔰',
         textColor: "rarity-2",
         boxColor: "rarity-2",
@@ -441,8 +441,8 @@ export const ITEMS: Record<ItemId, {
         category: "Runes",
     },
     RuneOfTheWarrior: {
-        name: "Rune Of The Warrior",
-        description: "+70 or +3.5% Health \n +70 or +3.5% Attack \n +70 or +3.5% Defence \n +0.5% Resources",
+        name: "Rune of the Warrior",
+        description: "+70 or +3.5% Health \n+70 or +3.5% Attack \n+70 or +3.5% Defence \n+0.5% Resources",
         icon: '🔹',
         textColor: "rarity-3",
         boxColor: "rarity-3",
@@ -451,8 +451,8 @@ export const ITEMS: Record<ItemId, {
     },
 
     RuneOfTheGladiator: {
-        name: "Rune Of The Gladiator",
-        description: "+150 or +7.5% Health \n +150 or +7.5% Attack \n +150 or +7.5% Defence \n +1.5% Resources",
+        name: "Rune of the Gladiator",
+        description: "+150 or +7.5% Health \n+150 or +7.5% Attack \n+150 or +7.5% Defence \n+1.5% Resources",
         icon: '🔷',
         textColor: "rarity-3",
         boxColor: "rarity-3",
@@ -460,8 +460,8 @@ export const ITEMS: Record<ItemId, {
         category: "Runes",
     },
     RuneOfTheLegend: {
-        name: "Rune Of The Legend",
-        description: "+250 or +12.5% Health \n +250 or +12.5% Attack \n +250 or +12.5% Defence \n +3% Resources",
+        name: "Rune of the Legend",
+        description: "+250 or +12.5% Health \n+250 or +12.5% Attack \n+250 or +12.5% Defence \n+3% Resources",
         icon: '🔸',
         textColor: "rarity-4",
         boxColor: "rarity-4",
@@ -469,17 +469,17 @@ export const ITEMS: Record<ItemId, {
         category: "Runes",
     },
     RuneOfTheWarlord: {
-        name: "Rune Of The Warlord",
-        description: "+400 or +12.5% Health \n +400 or +12.5% Attack \n +400 or +12.5% Defence \n +4.5% Resources",
-        icon: '🔶 ',
+        name: "Rune of the Warlord",
+        description: "+400 or +12.5% Health \n+400 or +12.5% Attack \n+400 or +12.5% Defence \n+4.5% Resources",
+        icon: '🔶',
         textColor: "rarity-4",
         boxColor: "rarity-4",
         tradeable: true,
         category: "Runes",
     },
     GreaterRuneOfTheWarlord: {
-        name: "Greater Rune Of The Warlord",
-        description: "+600 or +30% Health \n +600 or +30% Attack \n +600 or +30% Defence \n +7% Resources",
+        name: "Greater Rune of the Warlord",
+        description: "+600 or +30% Health \n+600 or +30% Attack \n+600 or +30% Defence \n+7% Resources",
         icon: '🔥',
         textColor: "rarity-5",
         boxColor: "rarity-5",

@@ -13,8 +13,7 @@ function ItemTag({ item, showIcon = true }: { item: ItemId; showIcon?: boolean }
     return (
         <ItemTooltip item={item}>
             <span onClick={() => dispatch(setItemPopup(item))} className="hover:cursor-pointer" style={{ color: `var(--color-${itemData.textColor})` }}>
-                {showIcon && icon && <span aria-hidden className="mr-px align-text-bottom">{icon}</span>}
-                [{itemData.name}]
+                {showIcon && icon && <span aria-hidden className="mr-px">{icon}</span>}[{itemData.name}]
             </span>
         </ItemTooltip>
     )

@@ -17,34 +17,37 @@ function Inventory() {
     }) as ItemId[]
 
     return (
-        <div>
-            <div className="font-pixel text-base m-1.5 text-center">Select a category to filter items</div>
+        <>
+            <div className='flex gap-3 px-2'>
 
-            <div className="flex gap-2 mb-3 flex-wrap justify-center">
-                {categories.map((c) => (
-                    <button key={c} onClick={() => setCategory(c)} className={`px-2 py-1 rounded font-pixel text-sm border border-stone-800 transition-all duration-100 hover:cursor-pointer hover:bg-grey2 ${category === c ? 'bg-grey2 text-rsgreen' : 'bg-black'}`}>
-                        {c}
-                    </button>
-                ))}
-            </div>
+                <div className="flex flex-col gap-1">
+                    <div className='font-pixel text-base ml-1 border-b h-5 pr-3 mb-0.5'>Categories</div>
+                    {categories.map((c) => (
+                        <button key={c} onClick={() => setCategory(c)} className={`px-2 py-1 rounded font-pixel text-sm border border-stone-800 transition-all duration-100 hover:cursor-pointer hover:bg-grey2 ${category === c ? 'bg-grey2 text-rsgreen' : 'bg-grey1'}`}>
+                            {c}
+                        </button>
+                    ))}
+                </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {visibleItems.map((key) => {
-                    return (
-                        <div key={key} className={`flex justify-between items-center gap-3 p-2 rounded border border-stone-800 bg-black/40`}>
+                <div className="flex flex-col items-start gap-1">
+                    <div className='font-pixel text-base ml-1 border-b h-5 pr-3 mb-0.5'>Items</div>
+                    {visibleItems.map((key) => {
+                        return (
+                            <div key={key} className={`flex justify-between items-center min-w-42 gap-4 px-1 py-1 rounded border border-stone-800 w-full`}>
 
-                            <div className="flex items-center gap-2 text-xs">
-                                <ItemTag item={key} />
+                                <div className="flex items-center gap-2 text-xs">
+                                    <ItemTag item={key} />
+                                </div>
+
+                                <div className="font-pixel text-sm font-bold">
+                                    {inv[key]}
+                                </div>
                             </div>
-
-                            <div className="font-pixel text-sm font-bold">
-                                {inv[key]}
-                            </div>
-                        </div>
-                    )
-                })}
+                        )
+                    })}
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

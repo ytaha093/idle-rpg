@@ -7,13 +7,13 @@ import { useSelector } from "react-redux"
 function ItemTooltip({ children, item }: { children: ReactNode, item: ItemId }) {
 
     const itemData = ITEMS[item]
-    const itemQuantity = useSelector((state: RootState) => state.invData[itemData.name as ItemId])
+    const itemQuantity = useSelector((state: RootState) => state.invData[item])
 
 
     const content = (
         <div className=" text-left max-w-70 overflow">
             <div className="font-semibold text-sm" style={{ color: `var(--color-${itemData.textColor})` }}>
-                {itemData.name}
+                <span aria-hidden className="mr-px ">{itemData.icon}</span>{itemData.name}
             </div>
 
             <div className="text-greywhite my-0.5 whitespace-pre-wrap">{itemData.description}</div>
