@@ -1,6 +1,5 @@
 import Header from "../components/game/Header"
 import logo from "../assets/banner.png"
-import { useState } from "react"
 import ExperienceBar from "../components/game/ExperienceBar"
 import CollapsibleBox from "../components/game/CollapsibleBoxes/CollapsibleBox"
 import { getTotalLevel } from "../util/LevelCalcUtil"
@@ -24,9 +23,9 @@ function Dashboard() {
 
 
   return (
-    <>
+    <div className="bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-center bg-size-[1350px]">
       <Header></Header>
-      < div className="max-w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 m-auto max-[1250px]:px-1 max-[1250px]:max-w-[1126px]" >
+      < div className="max-w-[1350px] min-h-[calc(100dvh-28px)] px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-[1218px]" >
         <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]">
 
           <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0">
@@ -56,7 +55,7 @@ function Dashboard() {
                 <ExperienceBar skill="Runecrafting" />
                 <ExperienceBar skill="Jewelcrafting" />
                 <ExperienceBar skill="Herblore" />
-                <div className="font-pixel text-base text-neutral-400">Total Level: <span className="text-rsgreen">{getTotalLevel()}</span></div>
+                <div className="font-pixel text-sm text-neutral-400">Total Level: <span className="text-rsgreen">{getTotalLevel()}</span></div>
               </CollapsibleBox>
             </div>
 
@@ -83,7 +82,7 @@ function Dashboard() {
         </div>
       </div>
       <ItemDialog item={itemDialog} />
-    </>
+    </div>
   )
 }
 

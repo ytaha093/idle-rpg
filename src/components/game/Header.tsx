@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { logoutAction } from "../../slices/AuthSlice"
 import type { RootState } from "../../store"
-import { refillEnergy, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice"
+import { refillEnergy, consumeEnergy, increaseBonus, log, resetPlayer } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice"
 import ItemTag from "./ItemTag"
@@ -41,6 +41,7 @@ function Header() {
 
 
     function logout() {
+        dispatch(resetPlayer())
         dispatch(logoutAction())
     }
 
@@ -121,8 +122,8 @@ function Header() {
                     bonusProgressRef.current++
                     if (bonusProgressRef.current == bonusCapRef.current) {
                         const bonus = bonusCapRef.current * 15
-                        dispatch(addItem({ id: "Gold", amount: bonus }))
-                        dispatch(log({ type: "item", text: `Action Bonus: +${bonus}`, item: "Gold" }))
+                        dispatch(addItem({ id: "GreaterRuneOfTheWarlord", amount: bonus }))
+                        dispatch(log({ type: "item", text: `Action Bonus: +${bonus}`, item: "GreaterRuneOfTheWarlord" }))
 
                     }
 
@@ -158,7 +159,7 @@ function Header() {
                 <div data-section="progress bar" className="flex items-center w-1/2 p-[0.2rem]">
                     <div className={`w-full h-full bg-linear-0  ${playerData.currentEnergy != 0 ? "to-stone-900 from-grey4" : "to-red-950 from-red-900"} from-grey4 border border-grey3 relative cursor-pointer`} onClick={resetActionCount}>
                         <div id="meter" className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all ${progress > 99 ? "duration-0" : "duration-25"} ease-linear`} style={{ width: `${progress}%` }}></div>
-                        <div className=" absolute inset-0 flex justify-center items-center font-pixel ">Energy Remaining: {playerData.currentEnergy}</div>
+                        <div className=" absolute inset-0 flex justify-center items-center font-pixel text-[0.8rem] ">Energy Remaining: {playerData.currentEnergy}</div>
                     </div>
                 </div>
 

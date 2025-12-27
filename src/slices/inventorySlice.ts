@@ -11,6 +11,7 @@ const initialState: InventoryState = {
     DungeoneeringTokens: 0,
     GatheringSkillShard: 0,
     ArtisanShard: 0,
+    ResourceCache: 0,
 
     // Materials
     Metal: 0,

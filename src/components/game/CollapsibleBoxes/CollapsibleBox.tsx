@@ -24,8 +24,8 @@ function CollapsibleBox({ boxName, children }: { boxName: string, children: Reac
 
     return (
         <div className="">
-            <div className=" relative text-center font-pixel bg-linear-0 from-grey2 to-grey1 border-stone-800 border hover:cursor-pointer" onClick={toggle}>{boxName}
-                <span className="absolute right-1.5 font-bold text-lg top-1/2 -translate-y-1/2">
+            <div className=" relative text-center font-pixel text-sm bg-linear-0 from-grey2 to-grey1 border-stone-800 border hover:cursor-pointer py-px" onClick={toggle}>{boxName}
+                <span className="absolute right-1.5 font-medium text-lg top-1/2 -translate-y-1/2">
                     {open ? "−" : "+"}
                 </span>
             </div>

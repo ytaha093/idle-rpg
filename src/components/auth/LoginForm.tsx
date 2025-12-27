@@ -1,6 +1,7 @@
 import type { FormEvent } from "react";
 import { useDispatch } from "react-redux";
 import { loginAction } from "../../slices/AuthSlice"
+import { resetPlayer } from "../../slices/PlayerDataSlice"
 
 function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => void, onClose: () => void }) {
 
@@ -19,22 +20,23 @@ function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => 
     async function login(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
         dispatch(loginAction())
+        dispatch(resetPlayer())
     }
 
     return (
         <form onSubmit={login}>
-            <header className="border-[#373737] border-b  flex justify-between text-2xl font-bold">
+            <header className="border-[#373737] border-b flex justify-between text-xl font-semibold">
                 <span className="px-4 pb-4 pt-3">Authentication</span>
-                <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer" onClick={onClose}>x</button>
+                <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer font-pixelold text-2xl" onClick={onClose}>x</button>
             </header>
-            <div className="px-7 py-3 bg-grey2 flex flex-wrap justify-center text-lg font-medium">
+            <div className="px-7 py-3 bg-grey2 flex flex-wrap justify-center ">
                 <label htmlFor="username" className="w-25 my-auto py-2 text-center">Username</label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="username" placeholder="" required />
                 <label htmlFor="password" className="w-25 my-auto py-2 text-center">Password</label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="password" type="password" placeholder="" required />
                 <div className="w-25"></div><div className="p-1 pt-0 mr- w-80 text-blue-400"><span className="hover:cursor-pointer hover:underline" onClick={forgotPassword}>Forgot password?</span></div>
             </div>
-            <footer className="flex justify-end gap-4 p-4 border-[#373737] border-t text-lg">
+            <footer className="flex justify-end gap-4 p-4 border-[#373737] border-t">
                 <button className="bg-[#382418] border-[#251911] border-2 hover:bg-[#492f1f] hover:cursor-pointer px-4 py-2" onClick={onClose}>Close</button>
                 <button className="bg-[#5a7e26] border-[#3a5218] border-2 hover:bg-[#72A22F] hover:cursor-pointer px-4 py-2" type="submit">Login</button>
             </footer>

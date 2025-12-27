@@ -9,14 +9,14 @@ function ForgotPasswordForm({ onClose }: { onClose: () => void }) {
 
     return (
         <form onSubmit={forgotPassword}>
-            <header className="border-[#373737] border-b flex justify-between text-2xl font-bold">
+            <header className="border-[#373737] border-b flex justify-between text-xl font-semibold">
                 <span className="px-4 pb-4 pt-3">Reset your password</span>
-                <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer" onClick={onClose}>x</button>
+                <button className="pb-1 mb-5 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer font-pixelold text-2xl" onClick={onClose}>x</button>
             </header>
-            <div className="px-4 py-3 bg-grey2 flex flex-wrap justify-center text-lg font-medium">
+            <div className="px-4 py-3 bg-grey2 flex flex-wrap justify-center text- font-medium">
                 <span className=" basis-full text-center">Enter your email to get a password reset link.</span>
-                <span className="basis-full text-center text-sm text-rsyellow">Accounts without an associated email cannot be recovered.</span>
-                <label htmlFor="username" className="w-25 my-auto py-2 text-center">Email</label>
+                <span className="basis-full text-center text-xs text-rsyellow p-0.5">Accounts without an associated email cannot be recovered.</span>
+                <label htmlFor="email" className="w-21 my-auto py-2 text-center">Email</label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="email" type="text" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email (ex: name@example.com)" required />
             </div>
             <footer className="flex justify-end gap-4 p-4 border-[#373737] border-t text-lg">
