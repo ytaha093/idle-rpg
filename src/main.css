@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
 @theme {
-    --font-pixel: "Pixelify Sans";
-    --font-inter: "Inter";
+    --font-pixel: "PixelCode", "Pixelify Sans", "Verdana";
+    --font-pixelold: "Pixelify Sans";
+    --font-inter: "interr", "Verdana";
 
     --color-rsyellow: #e4d553;
     --color-rsgreen: #90C040;
     --color-rsgreenlight: #afec4c;
+    --color-rsgreendim: #81AC39;
     --color-currency: gold;
 
     --color-grey1: #101010;
@@ -16,6 +18,8 @@
     --color-grey5: #303030;
     --color-greywhite: #e2e2e2;
     --color-greywhitedim: #7d7d7d;
+    --color-greywhitedim2: #bbbbbb;
+
 
     --color-rarity-1: #e2e2e2;
     --color-rarity-2: #2f2;
@@ -37,6 +41,13 @@
 
 }
 
+@utility font-pixel {
+    font-family: var(--font-pixel);
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    word-spacing: -1px;
+}
+
 :root {
     --color-rsyellow: #e4d553;
     --color-rsgreen: #90C040;
@@ -50,6 +61,8 @@
     --color-grey5: #303030;
     --color-greywhite: #e2e2e2;
     --color-greywhitedim: #7d7d7d;
+    --color-greywhitedim2: #bbbbbb;
+
 
     --color-rarity-1: #e2e2e2;
     --color-rarity-2: #2f2;
@@ -108,7 +121,7 @@
 
 .outline-text {
     /* fill color */
-    -webkit-text-stroke: 0.3px black;
+    -webkit-text-stroke: .2px black;
 
     text-shadow:
         -1px -1px 0 black,
@@ -124,8 +137,8 @@ html {
     background-repeat: repeat-y;
     background-size: 1250px;
 
-    color: #E2E2E2;
-    font-family: "Inter";
+    color: var(--color-greywhite);
+    font-family: var(--font-inter);
 }
 
 ::-webkit-scrollbar {
@@ -141,4 +154,111 @@ html {
 ::-webkit-scrollbar-thumb {
     background-color: #323232;
     border-radius: 4px;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Light.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Light-Italic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Italic.woff2") format("woff2");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Medium.woff2") format("woff2");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Medium-Italic.woff2") format("woff2");
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-DemiBold.woff2") format("woff2");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-DemiBold-Italic.woff2") format("woff2");
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Bold.woff2") format("woff2");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: "PixelCode";
+    src: url("./assets/fonts/PixelCode-Bold-Italic.woff2") format("woff2");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+    font-family: "Verdana";
+    src: url("./assets/fonts/VerdanaPro-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Verdana";
+    src: url("./assets/fonts/VerdanaPro-SemiBold.woff") format("woff");
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Verdana";
+    src: url("./assets/fonts/VerdanaPro-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
 }

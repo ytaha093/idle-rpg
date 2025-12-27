@@ -12,14 +12,13 @@ function GameContent({ view }: { view: string }) {
 
     return (
         <div className="mx-1 h-full flex flex-col">
-            <div className="text-center font-p bg-linear-0 from-grey2 to-grey1 border-stone-800 border font-pixel text-sm">
+            <div className="text-center bg-linear-0 from-grey2 to-grey1 border-stone-800 border font-pixel text-xs leading-5 p-px [word-spacing:-2px]">
                 Quick Links:
-                <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Battle Hill Giant</span> -
+                <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Battling</span> -
                 <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Mining</span> -
                 <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Woodcutting</span> -
                 <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Quarrying</span> -
                 <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]"> Stop Action</span>
-                <span className="text-base" />
             </div>
 
 

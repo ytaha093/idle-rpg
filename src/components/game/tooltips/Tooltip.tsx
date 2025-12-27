@@ -45,7 +45,7 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             const width = window.innerWidth
             const height = window.innerHeight
 
-            if ((x + dimensionRef.current.w) > (width - 4)) x = x - (offset * 1.5) - dimensionRef.current.w
+            if ((x + dimensionRef.current.w) > (width - 4)) x = x - (offset * 1.2) - dimensionRef.current.w
             if ((y + dimensionRef.current.h) > (height - 4)) y = y - (offset * 1) - dimensionRef.current.h
 
             setPos({ x: x, y: y })

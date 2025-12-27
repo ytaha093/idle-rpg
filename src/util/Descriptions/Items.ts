@@ -2,13 +2,14 @@ export type ItemId =
     | "Gold"
     | "Credits"
     | "DungeoneeringTokens"
+    | "GatheringSkillShard"
     | "ArtisanShard"
+    | "ResourceCache"
 
     | "Metal"
     | "Wood"
     | "Stone"
 
-    | "GatheringSkillShard"
     | "WeaponComponent"
     | "ArmorComponent"
     | "ToolComponent"
@@ -79,7 +80,7 @@ export const ITEMS: Record<ItemId, {
         icon: '💎',
         textColor: "currency",
         boxColor: "currency",
-        tradeable: true,
+        tradeable: false,
         category: "Currency",
     },
     DungeoneeringTokens: {
@@ -88,7 +89,7 @@ export const ITEMS: Record<ItemId, {
         icon: '🎟️',
         textColor: "rarity-1",
         boxColor: "rarity-1",
-        tradeable: true,
+        tradeable: false,
         category: "Currency",
     },
 
@@ -105,6 +106,15 @@ export const ITEMS: Record<ItemId, {
         name: "Artisan Shard",
         description: "Shards of the Labyrinth, used to upgrade shrine bonuses.",
         icon: '🔧',
+        textColor: "rarity-2",
+        boxColor: "rarity-2",
+        tradeable: false,
+        category: "Currency",
+    },
+    ResourceCache: {
+        name: "Resource Cache",
+        description: "Can be traded on the Black Market for 10,000 of any resource.",
+        icon: '💼',
         textColor: "rarity-2",
         boxColor: "rarity-2",
         tradeable: false,
@@ -200,7 +210,7 @@ export const ITEMS: Record<ItemId, {
     Diamond: {
         name: "Diamond",
         description: "A clear gem used in Jewelcrafting.",
-        icon: '💎',
+        icon: '⚪',
         textColor: "rarity-3",
         boxColor: "rarity-3",
         tradeable: true,
@@ -238,7 +248,7 @@ export const ITEMS: Record<ItemId, {
     Marble: {
         name: "Marble",
         description: "A polished stone used to craft advanced runes.",
-        icon: '⚪',
+        icon: '⬜',
         textColor: "rarity-3",
         boxColor: "rarity-3",
         tradeable: true,
