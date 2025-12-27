@@ -13,7 +13,7 @@ function ItemTooltip({ children, item }: { children: ReactNode, item: ItemId }) 
     const content = (
         <div className=" text-left max-w-90 overflow font-inter">
             <div className="font-semibold text-sm font-pixel" style={{ color: `var(--color-${itemData.textColor})` }}>
-                <span aria-hidden className="mr-px ">{itemData.icon}</span>{itemData.name}
+                <span aria-hidden className="mr-px font-inter">{itemData.icon}</span>{itemData.name}
             </div>
 
             <div className="text-greywhite text-xs my-0.5 whitespace-pre-wrap">{itemData.description}</div>
