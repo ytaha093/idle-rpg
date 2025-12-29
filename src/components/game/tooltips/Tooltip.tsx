@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 
 function Tooltip({ children, content, boxColor }: { children: ReactNode, content: ReactNode, boxColor?: string }) {
     const [pos, setPos] = useState({ x: 0, y: 0 })
@@ -23,6 +24,7 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
     function handleMouseLeave(_e: React.MouseEvent) {
         setRender(false)
         setDisplay(false)
+        dimensionRef.current = null
         if (timerRef.current) {
             clearTimeout(timerRef.current)
             timerRef.current = null
@@ -42,6 +44,8 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             let x = e.clientX + offset
             let y = e.clientY + offset
 
+            console.log(x, y)
+
             const width = window.innerWidth
             const height = window.innerHeight
 
@@ -57,10 +61,13 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             {children}
 
             {render && (
-                <div data-section="tooltip" className={`font-pixel fixed z-50 pointer-events-none bg-stone-950 text-xs border-2 border-stone-600 rounded px-2 py-1.5 shadow-lg`}
-                    style={{ top: pos.y, left: pos.x, borderColor: `var(--color-${boxColor ?? "stone-600"})`, visibility: display ? "visible" : "hidden" }} ref={tooltipRef}>
-                    {content}
-                </div>
+                <>
+                    {createPortal(<div data-section="tooltip" className={`font-pixel fixed root z-50 pointer-events-none bg-stone-950 text-xs border-2 border-stone-600 rounded px-2 py-1.5 shadow-lg`}
+                        style={{ top: pos.y, left: pos.x, borderColor: `var(--color-${boxColor ?? "stone-600"})`, visibility: display ? "visible" : "hidden" }} ref={tooltipRef}>
+                        {content}
+                    </div>, document.body)}
+
+                </>
             )}
         </div>
     );

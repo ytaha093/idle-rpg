@@ -1,21 +1,28 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-export type EquipmentSlot =
-    | "MainWeapon"
-    | "OffWeapon"
+export type ArmorSlot =
     | "Helm"
     | "Armor"
     | "Gauntlets"
+    | "Legs"
     | "Boots"
-    | "Axe"
+
+export type WeaponSlot =
+    | "MainWeapon"
+    | "OffWeapon"
+
+export type ToolSlot =
     | "Pickaxe"
-    | "Hatchet";
+    | "Hatchet"
+    | "Hammer"
+
+export type EquipmentSlot = ToolSlot | WeaponSlot | ArmorSlot
 
 export type EquipData = { level: number; quality: number };
 
 export type EquipmentState = Record<EquipmentSlot, EquipData>;
 
-const defaultEquip: EquipData = { level: 1, quality: 0 };
+const defaultEquip: EquipData = { level: 1, quality: 1 };
 
 const initialState: EquipmentState = {
     MainWeapon: { ...defaultEquip },
@@ -23,10 +30,11 @@ const initialState: EquipmentState = {
     Helm: { ...defaultEquip },
     Armor: { ...defaultEquip },
     Gauntlets: { ...defaultEquip },
+    Legs: { ...defaultEquip },
     Boots: { ...defaultEquip },
-    Axe: { ...defaultEquip },
     Pickaxe: { ...defaultEquip },
     Hatchet: { ...defaultEquip },
+    Hammer: { ...defaultEquip },
 };
 
 const equipmentSlice = createSlice({

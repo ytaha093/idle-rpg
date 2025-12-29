@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-    --font-pixel: "PixelCode", "Pixelify Sans", "Verdana";
+    --font-pixel: "PixelCode", "Pixelify Sans";
     --font-pixelold: "Pixelify Sans";
-    --font-inter: "interr", "Verdana";
+    --font-inter: "Verdana";
 
     --color-rsyellow: #e4d553;
     --color-rsgreen: #90C040;
     --color-rsgreenlight: #afec4c;
     --color-rsgreendim: #81AC39;
     --color-currency: gold;
+    --color-red: rgb(255, 60, 60);
+
 
     --color-grey1: #101010;
     --color-grey2: #181818;
@@ -53,6 +55,7 @@
     --color-rsgreen: #90C040;
     --color-rsgreenlight: #afec4c;
     --color-currency: gold;
+    --color-red: rgb(255, 60, 60);
 
     --color-grey1: #101010;
     --color-grey2: #181818;

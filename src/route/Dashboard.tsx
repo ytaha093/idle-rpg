@@ -9,16 +9,15 @@ import LogBox from "../components/game/CollapsibleBoxes/LogBox"
 import EquipmentCombatBox from "../components/game/CollapsibleBoxes/EquipmentCombatBox"
 import EquipmentGatheringBox from "../components/game/CollapsibleBoxes/EquipmentGatheringBox"
 import GameContent from "../components/game/GameContent"
-import { useDispatch, useSelector } from "react-redux"
+import { shallowEqual, useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../store"
 import { setCurrentView } from "../slices/UIDataSlice"
 import ItemDialog from "../components/game/ItemDialog "
-
+import EquipmentDialog from "../components/game/EquipmentDialog"
 
 function Dashboard() {
 
-  const itemDialog = useSelector((state: RootState) => state.uiData.itemPopup)
-  const view = useSelector((state: RootState) => state.uiData.currentView)
+  const { equipmentDialog, itemDialog, view } = useSelector((state: RootState) => ({ equipmentDialog: state.uiData.equitmentPopup, itemDialog: state.uiData.itemPopup, view: state.uiData.currentView }), shallowEqual)
   const dispatch = useDispatch()
 
 
@@ -82,6 +81,7 @@ function Dashboard() {
         </div>
       </div>
       <ItemDialog item={itemDialog} />
+      <EquipmentDialog item={equipmentDialog} />
     </div>
   )
 }

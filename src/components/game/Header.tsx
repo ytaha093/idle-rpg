@@ -5,7 +5,7 @@ import type { RootState } from "../../store"
 import { refillEnergy, consumeEnergy, increaseBonus, log, resetPlayer } from "../../slices/PlayerDataSlice"
 import settingsIcon from "../../assets/settings_icon.png"
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice"
-import ItemTag from "./ItemTag"
+import ItemTag from "./Tags/ItemTag"
 import { addItem } from "../../slices/inventorySlice"
 
 
@@ -61,7 +61,7 @@ function Header() {
     }
 
     async function progressAction() {
-        const duration = 1000
+        const duration = 5500 // should be 5.5 sec note incase i forget while testing
         let currentProgress = 100
         let lastUpdate = 0
 

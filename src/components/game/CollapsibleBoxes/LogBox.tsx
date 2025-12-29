@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "../../../store"
 import { clearLog } from "../../../slices/PlayerDataSlice"
-import ItemTag from "../ItemTag"
+import ItemTag from "../Tags/ItemTag"
 
 function LogBox() {
 

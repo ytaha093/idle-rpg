@@ -4,7 +4,7 @@ import playerDataSlice from './slices/PlayerDataSlice'
 import SkillDataSlice from './slices/SkillsDataSlice'
 import inventorySlice from './slices/inventorySlice'
 import UIDataSlice from './slices/UIDataSlice'
-
+import equipmentSlice from './slices/EquipmentSlice'
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +12,7 @@ export const store = configureStore({
         playerData: playerDataSlice,
         skillData: SkillDataSlice,
         invData: inventorySlice,
+        EquipmentData: equipmentSlice,
         uiData: UIDataSlice,
     },
 })

@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 import type { RootState } from '../../../store'
 import { ITEMS, type ItemId } from '../../../util/Descriptions/Items'
-import ItemTag from '../ItemTag'
+import ItemTag from '../Tags/ItemTag'
 
 function Inventory() {
     const inv = useSelector((state: RootState) => state.invData)

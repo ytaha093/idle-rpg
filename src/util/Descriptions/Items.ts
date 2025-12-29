@@ -152,7 +152,7 @@ export const ITEMS: Record<ItemId, {
 
     // Components
     WeaponComponent: {
-        name: "Crafting Components",
+        name: "Weapon Components",
         description: "Used to upgrade weapons.",
         icon: '🗡️',
         textColor: "rarity-2",

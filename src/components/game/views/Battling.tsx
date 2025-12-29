@@ -3,6 +3,8 @@ function Battling() {
         <div>
             <h1 className="font-pixel text-2xl text-center mb-2">Battling</h1>
             <p className="font-pixel text-sm">Start battles and view combat logs here.</p>
+            <div className="mt-10 text-center">Coming soon 🫠</div>
+
         </div>
     )
 }

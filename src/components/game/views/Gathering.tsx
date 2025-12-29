@@ -5,8 +5,10 @@ import { setActiveSkill } from "../../../slices/PlayerDataSlice"
 import { miningIcon, woodcuttingIcon, quarryingIcon } from "../../../assets/icons"
 import type { SkillName } from "../../../slices/SkillsDataSlice"
 import { getLevel } from "../../../util/LevelCalcUtil"
-import ItemTag from "../ItemTag"
+import ItemTag from "../Tags/ItemTag"
 import type { ItemId } from "../../../util/Descriptions/Items"
+import ToolTag from "../Tags/ToolTag"
+import type { ToolSlot } from "../../../slices/EquipmentSlice"
 
 function Gathering() {
     const dispatch = useDispatch()
@@ -18,11 +20,13 @@ function Gathering() {
     const skills: {
         name: SkillName,
         icon: string,
+        tool: ToolSlot,
         loot: { name: string, itemId: string, req: number }[]
     }[] = [
             {
                 name: "Mining",
                 icon: miningIcon,
+                tool: "Pickaxe",
                 loot: [
                     { name: "Gem Fragments", itemId: "GemFragment", req: 50 },
                     { name: "Ruby", itemId: "Ruby", req: 50 },
@@ -34,6 +38,7 @@ function Gathering() {
             {
                 name: "Woodcutting",
                 icon: woodcuttingIcon,
+                tool: "Hatchet",
                 loot: [
                     { name: "Tree Sap", itemId: "TreeSap", req: 50 },
                     { name: "Resource Cache", itemId: "ResourceCache", req: 50 },
@@ -44,6 +49,7 @@ function Gathering() {
             {
                 name: "Quarrying",
                 icon: quarryingIcon,
+                tool: "Hammer",
                 loot: [
                     { name: "Sandstone", itemId: "Sandstone", req: 50 },
                     { name: "Marble", itemId: "Marble", req: 60 },
@@ -90,7 +96,10 @@ function Gathering() {
                             {isExpanded && (
                                 <div className="px-3 pt-2 pb-3 border-t border-stone-700 bg-grey2 flex justify-between">
 
-                                    <div className="text-sm">Tool: Pickaxe (4)</div>
+                                    <div className="text-xs flex font-pixel h-5 items-center">
+                                        <span className="font-bold mr-0.5">Tool:</span>
+                                        <ToolTag item={skill.tool} showImg={false} showQuality={false} />
+                                    </div>
                                     <div className="w-4/9">
                                         <div className="flex items-center font-pixel text-sm font-medium mb-px">
                                             <div className="flex-5">Potential Loot</div>

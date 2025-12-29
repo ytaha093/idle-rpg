@@ -3,6 +3,7 @@ function Land() {
         <div>
             <h1 className="font-pixel text-2xl text-center mb-2">Land</h1>
             <p className="font-pixel text-sm">Manage your land and buildings here.</p>
+            <div className="mt-10 text-center">Coming soon 🫠</div>
         </div>
     )
 }
