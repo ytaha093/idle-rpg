@@ -1,12 +1,12 @@
 services:
   web:
-    build: .
+    build: ./
     image: idle-quest
     container_name: idle-quest
     ports:
       - "8080:5173"
     working_dir: /app
     volumes:
-      - .:/app
+      - ./frontend:/app
       - /app/node_modules
     command: [ "npm", "run", "dev", "--", "--host" ]

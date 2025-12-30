@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Frontend-specific
+frontend/node_modules/
+frontend/dist/
