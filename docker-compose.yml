@@ -1,8 +1,33 @@
 services:
+  db:
+    image: postgres:16
+    container_name: idle-quest-db
+    environment:
+      POSTGRES_USER: "idlequest"
+      POSTGRES_PASSWORD: "test"
+      POSTGRES_DB: "game"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: idle-quest-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://idlequest:idlequest@db:5432/idlequest
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    command: sh -c "sleep 5; npx prisma migrate deploy && npm run dev"
+
   web:
-    build: ./
-    image: idle-quest
-    container_name: idle-quest
+    build: ./frontend
+    container_name: idle-quest-front
     ports:
       - "8080:5173"
     working_dir: /app
@@ -10,3 +35,6 @@ services:
       - ./frontend:/app
       - /app/node_modules
     command: [ "npm", "run", "dev", "--", "--host" ]
+
+volumes:
+  postgres_data:

@@ -1,7 +1,7 @@
 import { Router } from "express"
 import { Request, Response } from 'express';
-
 import { body, validationResult } from "express-validator";
+import prisma from "../prisma";
 
 const authRouter = Router()
 
@@ -44,7 +44,42 @@ authRouter.post("/login", loginValidator, (req: Request, res: Response) => {
     const { username, password } = req.body;
     console.log(username, password)
 
-    res.json({ status: "ok" })
+
+    res.json({ status: "oke" })
+})
+
+
+
+authRouter.post("/register", registerValidator, async (req: Request, res: Response) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg })
+    }
+
+    const { username, password, email = null } = req.body;
+    console.log(username, password, email)
+
+
+
+    // await prisma.user.create({
+    //     data: {
+    //         username: username,
+    //         password: password,
+    //         email: email
+    //     }
+    // })
+
+    const exists = await prisma.user.findUnique({
+        where: {
+            username: username
+        }
+    })
+
+    console.log(exists)
+
+
+    res.json({ status: "oke" })
 })
 
 
