@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { AttributeName } from "./SkillsDataSlice";
 import type { ItemId } from "../util/Descriptions/Items";
+import { hydrateUser } from "./AuthSlice"
 
 type logType = "item" | "attribute"
 
@@ -55,6 +56,17 @@ const playerDataSlice = createSlice({
         },
 
         resetPlayer: () => initialState
+    },
+    extraReducers: (builder) => {
+        builder.addCase(hydrateUser.fulfilled, (state, action) => {
+            if (action.payload.stats) {
+                state.maxEnergy = action.payload.stats.maxEnergy
+                state.currentEnergy = action.payload.stats.currentEnergy
+                state.bonusCap = action.payload.stats.bonusCap
+                state.bonusProgress = action.payload.stats.bonusProgress
+                state.trainingAttribute = action.payload.stats.trainingAttribute as AttributeName
+            }
+        })
     }
 });
 

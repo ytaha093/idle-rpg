@@ -16,7 +16,8 @@ export default defineConfig({
     },
     allowedHosts: [
       'idle-quest.com',
-      'www.idle-quest.com'
+      'www.idle-quest.com',
+      'http://localhost:3000',
     ]
   }
 

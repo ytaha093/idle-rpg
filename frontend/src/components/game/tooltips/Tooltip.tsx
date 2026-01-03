@@ -44,8 +44,6 @@ function Tooltip({ children, content, boxColor }: { children: ReactNode, content
             let x = e.clientX + offset
             let y = e.clientY + offset
 
-            console.log(x, y)
-
             const width = window.innerWidth
             const height = window.innerHeight
 

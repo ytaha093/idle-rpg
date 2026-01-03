@@ -1,8 +1,14 @@
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
 import ForgotPasswordForm from "./ForgotPasswordForm";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store";
+import { resetForm } from "../../slices/AuthSlice";
 
 function AuthPopup({ form, formSelector }: { form: string, formSelector: (form: string) => void }) {
+
+    const dispatch = useDispatch<AppDispatch>();
+
     if (!form) return null;
 
     // keep track of email state for no email warning durring regestration
@@ -15,6 +21,7 @@ function AuthPopup({ form, formSelector }: { form: string, formSelector: (form: 
         bg.classList.add('animate-fadeOut')
         modal.classList.add('animate-scaleOut')
         await new Promise(resolve => setTimeout(resolve, 200))
+        dispatch(resetForm())
         formSelector("")
     }
 

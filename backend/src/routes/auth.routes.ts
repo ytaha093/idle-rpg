@@ -2,6 +2,9 @@ import { Router } from "express"
 import { Request, Response } from 'express';
 import { body, validationResult } from "express-validator";
 import prisma from "../prisma";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { checkAuth } from "../middleware/checkAuth";
 
 const authRouter = Router()
 
@@ -24,17 +27,17 @@ const registerValidator = [
 
 const loginValidator = [
     body("username")
-        .isString()
+        .isString().withMessage("Invalid username")
         .exists().withMessage("username is required")
-        .isLength({ min: 3 }).withMessage("username too short"),
+        .isLength({ min: 1 }).withMessage("username too short"),
     body("password")
-        .isString()
+        .isString().withMessage("Invalid password")
         .exists().withMessage("password is required")
         .isLength({ min: 1 }).withMessage("password is required")
 ]
 
 
-authRouter.post("/login", loginValidator, (req: Request, res: Response) => {
+authRouter.post("/login", loginValidator, async (req: Request, res: Response) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -42,12 +45,45 @@ authRouter.post("/login", loginValidator, (req: Request, res: Response) => {
     }
 
     const { username, password } = req.body;
-    console.log(username, password)
+    const user = await prisma.user.findUnique({
+        where: {
+            username: username,
+        }
+    })
+    if (user == null) {
+        return res.status(400).json({ error: "Invalid username or password" })
+    }
+
+    const valid = await bcrypt.compare(password, user.password)
+    if (!valid) {
+        return res.status(400).json({ error: "Invalid username or password" })
+    }
+
+    const token = jwt.sign(
+        { userId: user.id },
+        process.env.JWT_SECRET!,
+        { expiresIn: "7d" }
+    )
 
 
-    res.json({ status: "oke" })
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax"
+    })
+
+    res.json({ status: "Logged in" })
 })
 
+authRouter.post("/logout", (req: Request, res: Response) => {
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+    });
+
+    res.json({ status: "logged out" });
+});
 
 
 authRouter.post("/register", registerValidator, async (req: Request, res: Response) => {
@@ -58,29 +94,60 @@ authRouter.post("/register", registerValidator, async (req: Request, res: Respon
     }
 
     const { username, password, email = null } = req.body;
-    console.log(username, password, email)
-
-
-
-    // await prisma.user.create({
-    //     data: {
-    //         username: username,
-    //         password: password,
-    //         email: email
-    //     }
-    // })
 
     const exists = await prisma.user.findUnique({
         where: {
             username: username
         }
     })
+    if (exists != null) {
+        return res.status(400).json({ error: "Username already in use" })
+    }
 
-    console.log(exists)
+    const newUser = await prisma.user.create({
+        data: {
+            username: username,
+            password: await bcrypt.hash(password, 12),
+            email: email,
+            skills: { create: {} },
+            attributes: { create: {} },
+            stats: { create: { trainingAttribute: "Health" } },
+            equipment: { create: {} },
+        }
+    })
 
+    const token = jwt.sign(
+        { userId: newUser.id },
+        process.env.JWT_SECRET!,
+        { expiresIn: "7d" }
+    )
 
-    res.json({ status: "oke" })
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax"
+    })
+
+    res.json({ status: "Success" })
 })
+
+
+authRouter.get("/me", checkAuth, async (req: Request, res: Response) => {
+    const user = await prisma.user.findUnique({
+        where: { id: req.userId },
+        include: {
+            skills: true,
+            attributes: true,
+            stats: true,
+            equipment: true,
+            inventory: true,
+        },
+    });
+
+    if (!user) return res.sendStatus(404);
+
+    res.json(user);
+});
 
 
 export default authRouter

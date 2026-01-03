@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { hydrateUser } from "./AuthSlice"
 
 const initialState = {
     Skills: {
@@ -68,6 +69,28 @@ const SkillDataSlice = createSlice({
             const { name, value } = action.payload
             state.Attributes[name] += value
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(hydrateUser.fulfilled, (state, action) => {
+            if (action.payload.skills) {
+                state.Skills = action.payload.skills;
+            }
+            if (action.payload.attributes) {
+                // Map Prisma attribute names to frontend names
+                state.Attributes = {
+                    Health: action.payload.attributes.Health,
+                    Attack: action.payload.attributes.Attack,
+                    Defense: action.payload.attributes.Defense,
+                    Accuracy: action.payload.attributes.Accuracy,
+                    Dodge: action.payload.attributes.Dodge,
+                    "Gold Rush": action.payload.attributes.GoldRush,
+                    Mining: action.payload.attributes.Mining,
+                    Woodcutting: action.payload.attributes.Woodcutting,
+                    Quarrying: action.payload.attributes.Quarrying,
+                    "Clan Boost": action.payload.attributes.ClanBoost,
+                };
+            }
+        });
     }
 })
 

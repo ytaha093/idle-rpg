@@ -1,4 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { hydrateUser } from "./AuthSlice"
 
 export type ArmorSlot =
     | "Helm"
@@ -52,6 +53,23 @@ const equipmentSlice = createSlice({
         },
         resetEquipment: () => initialState,
     },
+    extraReducers: (builder) => {
+        builder.addCase(hydrateUser.fulfilled, (state, action) => {
+            if (action.payload.equipment) {
+                const equip = action.payload.equipment;
+                state.MainWeapon = { level: equip.MainWeaponLevel, quality: equip.MainWeaponQuality };
+                state.OffWeapon = { level: equip.OffWeaponLevel, quality: equip.OffWeaponQuality };
+                state.Helm = { level: equip.HelmLevel, quality: equip.HelmQuality };
+                state.Armor = { level: equip.ArmorLevel, quality: equip.ArmorQuality };
+                state.Gauntlets = { level: equip.GauntletsLevel, quality: equip.GauntletsQuality };
+                state.Legs = { level: equip.LegsLevel, quality: equip.LegsQuality };
+                state.Boots = { level: equip.BootsLevel, quality: equip.BootsQuality };
+                state.Pickaxe = { level: equip.PickaxeLevel, quality: equip.PickaxeQuality };
+                state.Hatchet = { level: equip.HatchetLevel, quality: equip.HatchetQuality };
+                state.Hammer = { level: equip.HammerLevel, quality: equip.HammerQuality };
+            }
+        });
+    }
 });
 
 export const { setEquipment, upgradeLevel, upgradeQuality, resetEquipment } = equipmentSlice.actions;

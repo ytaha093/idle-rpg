@@ -14,9 +14,163 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  username  String   @unique
-  password  String
-  email     String?
-  createdAt DateTime @default(now()) @db.Date
+  id         Int             @id @default(autoincrement())
+  username   String          @unique
+  password   String
+  email      String?
+  createdAt  DateTime        @default(now()) @db.Date
+  stats      Stats?
+  skills     Skills?
+  attributes Attributes?
+  equipment  Equipment?
+  inventory  InventoryItem[]
+}
+
+model Stats {
+  userId Int @id
+
+  maxEnergy         Int               @default(10)
+  currentEnergy     Int               @default(10)
+  bonusCap          Int               @default(5)
+  bonusProgress     Int               @default(0)
+  trainingAttribute TrainingAttribute
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Skills {
+  userId Int @id
+
+  Battling      Int @default(0)
+  Dungeoneering Int @default(0)
+  Mining        Int @default(0)
+  Woodcutting   Int @default(0)
+  Quarrying     Int @default(0)
+  Runecrafting  Int @default(0)
+  Jewelcrafting Int @default(0)
+  Herblore      Int @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Attributes {
+  userId Int @id
+
+  Health      Int @default(0)
+  Attack      Int @default(0)
+  Defense     Int @default(0)
+  Accuracy    Int @default(0)
+  Dodge       Int @default(0)
+  GoldRush    Int @default(0)
+  Mining      Int @default(0)
+  Woodcutting Int @default(0)
+  Quarrying   Int @default(0)
+  ClanBoost   Int @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Equipment {
+  userId            Int  @id @unique
+  user              User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  MainWeaponLevel   Int  @default(1)
+  MainWeaponQuality Int  @default(1)
+  OffWeaponLevel    Int  @default(1)
+  OffWeaponQuality  Int  @default(1)
+  HelmLevel         Int  @default(1)
+  HelmQuality       Int  @default(1)
+  ArmorLevel        Int  @default(1)
+  ArmorQuality      Int  @default(1)
+  GauntletsLevel    Int  @default(1)
+  GauntletsQuality  Int  @default(1)
+  LegsLevel         Int  @default(1)
+  LegsQuality       Int  @default(1)
+  BootsLevel        Int  @default(1)
+  BootsQuality      Int  @default(1)
+  PickaxeLevel      Int  @default(1)
+  PickaxeQuality    Int  @default(1)
+  HatchetLevel      Int  @default(1)
+  HatchetQuality    Int  @default(1)
+  HammerLevel       Int  @default(1)
+  HammerQuality     Int  @default(1)
+}
+
+model InventoryItem {
+  userId Int
+  itemId ItemId
+  amount Int
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@id([userId, itemId])
+}
+
+enum ItemId {
+  // Currency
+  Gold
+  Credits
+  DungeoneeringTokens
+  GatheringSkillShard
+  ArtisanShard
+  ResourceCache
+  // Materials
+  Metal
+  Wood
+  Stone
+  // Components
+  WeaponComponent
+  ArmorComponent
+  ToolComponent
+  GemFragment
+  RunicLeather
+  // Gems
+  Ruby
+  Diamond
+  Dragonstone
+  Onyx
+  // Stones
+  Sandstone
+  Marble
+  Malachite
+  // Runes
+  RuneOfLesserFocus
+  RuneOfAdeptFocus
+  RuneOfGreaterFocus
+  RuneOfTheWarrior
+  RuneOfTheGladiator
+  RuneOfTheLegend
+  RuneOfTheWarlord
+  GreaterRuneOfTheWarlord
+  // Dungeon keys
+  GoblinCaveKey
+  TrollStrongholdKey
+  BarrowsTombKey
+  DemonicRuinsKey
+  DragonLairKey
+  GodWarsKey
+  AncientVaultKey
+  // Alchemy ingredients
+  TreeSap
+  SpiderEgg
+  BoneMeal
+  AlchemicalDust
+  VialOfTrollBlood
+  UndeadHeart
+  BirdsNest
+  AlchemicEssence
+  GoldenEgg
+  DemonicDust
+}
+
+enum TrainingAttribute {
+  Health
+  Attack
+  Defense
+  Accuracy
+  Dodge
+  GoldRush
+  Mining
+  Woodcutting
+  Quarrying
+  ClanBoost
 }
