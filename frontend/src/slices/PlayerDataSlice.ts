@@ -1,7 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { AttributeName } from "./SkillsDataSlice";
 import type { ItemId } from "../util/Descriptions/Items";
 import { hydrateUser } from "./AuthSlice"
+
+export const setAttribute = createAsyncThunk<AttributeName, { newAttribute: AttributeName, oldAttribute: AttributeName }, { rejectValue: AttributeName }>(
+    "action/setAttribute",
+    async ({ newAttribute, oldAttribute }, { rejectWithValue, dispatch }) => {
+        //dispatch(setTraining(newAttribute))
+        const response = await fetch("http://localhost:3000/api/action/train-attribute", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ attribute: newAttribute.replace("", "") }),
+        });
+
+        console.log("Response status:", response.status);
+
+        if (!response.ok) {
+            return rejectWithValue(oldAttribute);
+        }
+
+        console.log("Response status:", response.status);
+        return await response.json();
+    }
+)
+
+
 
 type logType = "item" | "attribute"
 
@@ -66,9 +90,16 @@ const playerDataSlice = createSlice({
                 state.bonusProgress = action.payload.stats.bonusProgress
                 state.trainingAttribute = action.payload.stats.trainingAttribute as AttributeName
             }
-        })
-    }
-});
+        }),
+            builder.addCase(setAttribute.fulfilled, (state, action) => {
+                state.trainingAttribute = action.payload
+            }),
+            builder.addCase(setAttribute.rejected, (state, action) => {
+                state.trainingAttribute = action.payload ?? state.trainingAttribute
+            })
+    },
+})
+
 
 export const {
     setActiveSkill,

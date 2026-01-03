@@ -83,7 +83,7 @@ authRouter.post("/logout", (req: Request, res: Response) => {
     });
 
     res.json({ status: "logged out" });
-});
+})
 
 
 authRouter.post("/register", registerValidator, async (req: Request, res: Response) => {

@@ -16,7 +16,7 @@ export const hydrateUser = createAsyncThunk<any, void, { rejectValue: string }>(
 
         return await response.json();
     }
-);
+)
 
 export const loginUser = createAsyncThunk<void, { username: string; password: string }, { rejectValue: string }>(
     "auth/loginUser",
