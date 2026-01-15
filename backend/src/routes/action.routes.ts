@@ -21,17 +21,17 @@ actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async 
 
     const { attribute } = req.body;
 
-    const updatedStats = await prisma.stats.update({
+    await prisma.stats.update({
         where: {
             userId: req.userId
         },
         data: {
             trainingAttribute: attribute
         }
-    });
+    })
 
-    res.json({ attribute: updatedStats });
-});
+    res.json({ attribute: attribute })
+})
 
 
 export default actionRouter;

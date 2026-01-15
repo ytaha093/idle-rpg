@@ -31,7 +31,7 @@ export const loginUser = createAsyncThunk<void, { username: string; password: st
         })
         const body = await response.json();
 
-        // Ensure minimum 200ms delay for loading animation
+        // Ensure minimum delay for loading animation
         while (Date.now() - startTime < 600) {
             await new Promise(resolve => setTimeout(resolve, 600 - (Date.now() - startTime)));
         }
@@ -86,7 +86,7 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
         }
 
         async function ensureDelay() {
-            // Ensure minimum 200ms delay for loading animation
+            // Ensure minimum delay for loading animation
             while (Date.now() - startTime < 600) {
                 await new Promise(resolve => setTimeout(resolve, 600 - (Date.now() - startTime)));
             }
@@ -146,6 +146,9 @@ const authSlice = createSlice({
             })
             .addCase(hydrateUser.fulfilled, (state) => {
                 state.loading = false
+            })
+            .addCase(hydrateUser.pending, (state) => {
+                state.loading = true
             })
             .addCase(hydrateUser.rejected, (state) => {
                 state.loading = false

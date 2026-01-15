@@ -3,7 +3,7 @@ import type { AttributeName } from "./SkillsDataSlice";
 import type { ItemId } from "../util/Descriptions/Items";
 import { hydrateUser } from "./AuthSlice"
 
-export const setAttribute = createAsyncThunk<AttributeName, { newAttribute: AttributeName, oldAttribute: AttributeName }, { rejectValue: AttributeName }>(
+export const setAttribute = createAsyncThunk<{ attribute: AttributeName }, { newAttribute: AttributeName, oldAttribute: AttributeName }, { rejectValue: AttributeName }>(
     "action/setAttribute",
     async ({ newAttribute, oldAttribute }, { rejectWithValue, dispatch }) => {
         //dispatch(setTraining(newAttribute))
@@ -12,16 +12,16 @@ export const setAttribute = createAsyncThunk<AttributeName, { newAttribute: Attr
             headers: { "Content-Type": "application/json" },
             credentials: "include",
             body: JSON.stringify({ attribute: newAttribute.replace("", "") }),
-        });
+        })
 
-        console.log("Response status:", response.status);
+        console.log("Response status:", response.status)
 
         if (!response.ok) {
-            return rejectWithValue(oldAttribute);
+            return rejectWithValue(oldAttribute)
         }
 
-        console.log("Response status:", response.status);
-        return await response.json();
+        console.log("Response status:", response.status)
+        return await response.json()
     }
 )
 
@@ -92,7 +92,7 @@ const playerDataSlice = createSlice({
             }
         }),
             builder.addCase(setAttribute.fulfilled, (state, action) => {
-                state.trainingAttribute = action.payload
+                state.trainingAttribute = action.payload.attribute
             }),
             builder.addCase(setAttribute.rejected, (state, action) => {
                 state.trainingAttribute = action.payload ?? state.trainingAttribute
