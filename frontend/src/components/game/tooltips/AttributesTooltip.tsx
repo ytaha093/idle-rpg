@@ -14,7 +14,6 @@ function SkillTooltip({
 }) {
   const attributeData = ATTRIBUTES[attribute];
 
-  console.log("DATA ", attributeData);
   const content = (
     <div className=" text-left max-w-65 font-inter">
       <div className="text-sm font-semibold font-pixel">

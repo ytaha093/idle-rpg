@@ -18,7 +18,6 @@ function LogBox() {
         <div className="flex flex-col">
           <div className=" max-h-50 overflow-y-scroll">
             {log.map((log, index) => {
-              console.log("LOG ITEM ", log);
               return (
                 <div
                   className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]  tracking-tight"
