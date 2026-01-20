@@ -30,12 +30,12 @@ services:
     build: ./frontend
     container_name: idle-quest-front
     ports:
-      - "8080:5173"
+      - "8081:5173"
     working_dir: /app
     volumes:
       - ./frontend:/app
       - /app/node_modules
-    command: [ "npm", "run", "dev", "--", "--host" ]
+    command: ["npm", "run", "dev", "--", "--host"]
 
 volumes:
   postgres_data:
