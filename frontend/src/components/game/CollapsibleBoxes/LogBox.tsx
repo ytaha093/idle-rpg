@@ -18,12 +18,8 @@ function LogBox() {
         <div className="flex flex-col">
           <div className=" max-h-50 overflow-y-scroll">
             {log.map((log, index) => {
-              console.log("LOG ITEM ", log);
               return (
-                <div
-                  className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]  tracking-tight"
-                  key={`${log.time}-${index}`}
-                >
+                <div className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]  tracking-tight" key={`${log.time}-${index}`}>
                   <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-px">
                     [{log.time}]
                   </span>
@@ -31,23 +27,19 @@ function LogBox() {
                     <span className="text-rsyellow">{log.text}</span>
                   )}
                   {log.type == "item" && log.item && (
-                    <span>
-                      {log.text}
-                      {log.itemAmount?.toLocaleString()}{" "}
+                    <span>{log.text}{log.itemAmount?.toLocaleString()}{" "}
                       <span className=" whitespace-nowrap">
                         <ItemTag item={log.item} />
                       </span>
                     </span>
                   )}
                 </div>
-              );
+              )
             })}
           </div>
-          <div
-            className="mt-1 text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c]"
-            onClick={() => dispatch(clearLog())}
-          >
-            <span className="text-greywhite">[</span>Clear
+          <div className="mt-1 text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c]" onClick={() => dispatch(clearLog())} >
+            <span className="text-greywhite">[</span>
+            Clear
             <span className="text-greywhite">]</span>
           </div>
         </div>

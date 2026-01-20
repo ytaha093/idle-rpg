@@ -1,25 +1,14 @@
 import type { ReactNode } from "react";
 import Tooltip from "./Tooltip";
-import {
-  ATTRIBUTES,
-  type AttributeId,
-} from "../../../util/Descriptions/Attributes";
+import { ATTRIBUTES, type AttributeId } from "../../../util/Descriptions/Attributes";
 
-function SkillTooltip({
-  children,
-  attribute,
-}: {
-  children: ReactNode;
-  attribute: AttributeId;
-}) {
+function SkillTooltip({ children, attribute }: { children: ReactNode, attribute: AttributeId }) {
   const attributeData = ATTRIBUTES[attribute];
 
   console.log("DATA ", attributeData);
   const content = (
     <div className=" text-left max-w-65 font-inter">
-      <div className="text-sm font-semibold font-pixel">
-        {attributeData.name}
-      </div>
+      <div className="text-sm font-semibold font-pixel">{attributeData.name}</div>
       <div className="flex flex-col gap-2">
         {attributeData.description.map((description) => {
           return <div>{description}</div>;

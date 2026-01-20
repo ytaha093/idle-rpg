@@ -5,12 +5,8 @@ import AttributesTooltip from "../tooltips/AttributesTooltip";
 import type { AttributeName } from "../../../slices/SkillsDataSlice";
 
 function AttributesBox() {
-  const training = useSelector(
-    (state: RootState) => state.playerData.trainingAttribute
-  );
-  const attributeData = useSelector(
-    (state: RootState) => state.skillData.Attributes
-  );
+  const training = useSelector((state: RootState) => state.playerData.trainingAttribute)
+  const attributeData = useSelector((state: RootState) => state.skillData.Attributes)
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -26,13 +22,8 @@ function AttributesBox() {
 
         return (
           <AttributesTooltip attribute={attribute} key={attribute}>
-            <div
-              className="flex justify-between hover:cursor-pointer hover:bg-grey2 transition-all duration-100"
-              style={{
-                color: training == attribute ? "var(--color-rsgreen)" : "",
-              }}
-              onClick={() => handleSetTraining(attribute)}
-            >
+            <div className="flex justify-between hover:cursor-pointer hover:bg-grey2 transition-all duration-100"
+              style={{ color: training == attribute ? "var(--color-rsgreen)" : "", }} onClick={() => handleSetTraining(attribute)}>
               <span>
                 {attribute}:{" "}
                 {training == attribute && (
