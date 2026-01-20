@@ -7,7 +7,7 @@ export const setAttribute = createAsyncThunk<{ attribute: AttributeName }, { new
     "action/setAttribute",
     async ({ newAttribute, oldAttribute }, { rejectWithValue, dispatch }) => {
         //dispatch(setTraining(newAttribute))
-        const response = await fetch("http://localhost:3000/api/action/train-attribute", {
+        const response = await fetch("/api/action/train-attribute", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",

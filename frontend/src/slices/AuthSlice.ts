@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const hydrateUser = createAsyncThunk<any, void, { rejectValue: string }>(
     "auth/hydrateUser",
     async (_, { rejectWithValue }) => {
-        const response = await fetch("http://localhost:3000/api/auth/me", {
+        const response = await fetch("/api/auth/me", {
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk<void, { username: string; password: st
     async ({ username, password }, { rejectWithValue, dispatch }) => {
         const startTime = Date.now();
 
-        const response = await fetch("http://localhost:3000/api/auth/login", {
+        const response = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
@@ -65,7 +65,7 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
         } else {
             const content: { username: string; password: string; email?: string } = { username, password }
             if (email) content.email = email
-            const response = await fetch("http://localhost:3000/api/auth/register", {
+            const response = await fetch("/api/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
