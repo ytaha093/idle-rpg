@@ -7,9 +7,9 @@ import Gathering from "./views/Gathering"
 import Crafting from "./views/Crafting"
 import Land from "./views/Land"
 import Clans from "./views/Clans"
-import Mining from "./Gatheringresults/Mining"
-import Woodcutting from "./Gatheringresults/Woodcutting"
-import Quarrying from "./Gatheringresults/Quarrying"
+import Woodcutting from "./views/Results/Woodcutting"
+import Quarrying from "./views/Results/Quarrying"
+import Mining from "./views/Results/Mining"
 
 function GameContent({ view }: { view: string }) {
   return (

@@ -1,28 +1,27 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
-import ItemTag from "../Tags/ItemTag";
+import { useSelector } from "react-redux"
+import type { RootState } from "../../../../store"
+import ItemTag from "../../Tags/ItemTag"
 
-const Mining = () => {
+const Woodcutting = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
   return (
     <div>
       <h1 className="font-pixel text-2xl text-center mb-2">Current Action</h1>
-      <p className="font-pixel text-sm">You swing your pickaxe...</p>
+      <p className="font-pixel text-sm">You swing your hammer...</p>
       <div className="mt-10 text-center">
         <h3 className="font-pixel text-lg">Your Items: </h3>
         <ul className="font-pixel text-sm">
           <li className="font-pixel text-sm">
-            <ItemTag item="Metal" />: {playerInventory.Metal}
+            <ItemTag item="Wood" />: {playerInventory.Wood}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="GemFragment" />: {playerInventory.GemFragment}
+            <ItemTag item="TreeSap" />: {playerInventory.TreeSap}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="Ruby" /> : {playerInventory.Ruby}
+            <ItemTag item="BirdsNest" /> : {playerInventory.BirdsNest}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="Diamond" /> : {playerInventory.Diamond}
+            <ItemTag item="GoldenEgg" /> : {playerInventory.GoldenEgg}
           </li>
         </ul>
       </div>
@@ -33,4 +32,4 @@ const Mining = () => {
   );
 };
 
-export default Mining;
+export default Woodcutting;

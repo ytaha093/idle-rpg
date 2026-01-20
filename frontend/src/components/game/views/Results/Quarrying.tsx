@@ -1,9 +1,8 @@
-import React from "react";
-import ItemTag from "../Tags/ItemTag";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
+import { useSelector } from "react-redux"
+import type { RootState } from "../../../../store"
+import ItemTag from "../../Tags/ItemTag"
 
-const Woodcutting = () => {
+const Quarrying = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
   return (
     <div>
@@ -13,16 +12,16 @@ const Woodcutting = () => {
         <h3 className="font-pixel text-lg">Your Items: </h3>
         <ul className="font-pixel text-sm">
           <li className="font-pixel text-sm">
-            <ItemTag item="Wood" />: {playerInventory.Wood}
+            <ItemTag item="Stone" />: {playerInventory.Stone}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="TreeSap" />: {playerInventory.TreeSap}
+            <ItemTag item="Sandstone" />: {playerInventory.Sandstone}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="BirdsNest" /> : {playerInventory.BirdsNest}
+            <ItemTag item="Marble" /> : {playerInventory.Marble}
           </li>
           <li className="font-pixel text-sm">
-            <ItemTag item="GoldenEgg" /> : {playerInventory.GoldenEgg}
+            <ItemTag item="Malachite" /> : {playerInventory.Malachite}
           </li>
         </ul>
       </div>
@@ -33,4 +32,4 @@ const Woodcutting = () => {
   );
 };
 
-export default Woodcutting;
+export default Quarrying;
