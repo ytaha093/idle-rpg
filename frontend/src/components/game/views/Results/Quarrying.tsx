@@ -5,30 +5,83 @@ import ItemTag from "../../Tags/ItemTag"
 const Quarrying = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
   return (
-    <div>
-      <h1 className="font-pixel text-2xl text-center mb-2">Current Action</h1>
-      <p className="font-pixel text-sm">You swing your hammer...</p>
-      <div className="mt-10 text-center">
-        <h3 className="font-pixel text-lg">Your Items: </h3>
-        <ul className="font-pixel text-sm">
-          <li className="font-pixel text-sm">
-            <ItemTag item="Stone" />: {playerInventory.Stone}
-          </li>
-          <li className="font-pixel text-sm">
-            <ItemTag item="Sandstone" />: {playerInventory.Sandstone}
-          </li>
-          <li className="font-pixel text-sm">
-            <ItemTag item="Marble" /> : {playerInventory.Marble}
-          </li>
-          <li className="font-pixel text-sm">
-            <ItemTag item="Malachite" /> : {playerInventory.Malachite}
-          </li>
-        </ul>
+<div className="flex flex-col items-center">
+
+  <p className="font-pixel text-sm text-center mt-4">
+    You swing your Hammer...
+  </p>
+
+  <div className="mt-10">
+    <h2 className="font-pixel text-lg font-bold text-center underline decoration-solid mb-2">
+      Your Items
+    </h2>
+
+    <ul className="font-pixel text-sm mx-auto w-fit space-y-1">
+      <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <span className="flex items-center gap-1">
+          <ItemTag item="Stone" />
+        </span>
+        <span className="text-right tabular-nums">
+          {playerInventory.Stone}
+        </span>
+      </li>
+
+      <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <span className="flex items-center gap-1">
+          <ItemTag item="Sandstone" />
+        </span>
+        <span className="text-right tabular-nums">
+          {playerInventory.Sandstone}
+        </span>
+      </li>
+
+      <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <span className="flex items-center gap-1">
+          <ItemTag item="Marble" />
+        </span>
+        <span className="text-right tabular-nums">
+          {playerInventory.Marble}
+        </span>
+      </li>
+
+      <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <span className="flex items-center gap-1">
+          <ItemTag item="Malachite" />
+        </span>
+        <span className="text-right tabular-nums">
+          {playerInventory.Malachite}
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <div className="font-pixel text-sm mx-auto w-fit space-y-1">
+    <h3 className="font-pixel font-bold text-center underline decoration-solid text-lg">
+      Action tracker
+    </h3>
+
+      <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <div className="flex items-center gap-1">
+          Total actions
+        </div>
+        <div className="text-right tabular-nums">
+          0
+        </div>
       </div>
-      <div className="mt-10 text-center">
-        <h3 className="font-pixel text-lg">Action tracker: </h3>
+
+      <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+        <div className="flex items-center gap-1">
+          Resources Gained
+        </div>
+        <div className="text-right tabular-nums">
+          0
+        </div>
       </div>
+  </div>
+    <div className="font-pixel items-center m-4">
+            <button className="text-sm cursor-pointer hover:text-gray-700">[Reset]</button>
     </div>
+</div>
   );
 };
 

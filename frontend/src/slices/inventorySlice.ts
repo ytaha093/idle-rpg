@@ -31,6 +31,8 @@ const initialState: InventoryState = {
     Diamond: 0,
     Dragonstone: 0,
     Onyx: 0,
+    Sapphire: 0,
+    Emerald: 0,
 
     // Stones
     Sandstone: 0,
