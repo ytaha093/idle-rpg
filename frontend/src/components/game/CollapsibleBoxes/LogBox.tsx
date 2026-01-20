@@ -23,24 +23,14 @@ function LogBox() {
                   <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-px">
                     [{log.time}]
                   </span>
-                  {log.type == "attribute" && (
-                    <span className="text-rsyellow">{log.text}</span>
-                  )}
-                  {log.type == "item" && log.item && (
-                    <span>{log.text}{log.itemAmount?.toLocaleString()}{" "}
-                      <span className=" whitespace-nowrap">
-                        <ItemTag item={log.item} />
-                      </span>
-                    </span>
-                  )}
+                  {log.type == "attribute" && (<span className="text-rsyellow">{log.text}</span>)}
+                  {log.type == "item" && log.item && (<span>{log.text}{log.itemAmount?.toLocaleString()} <span className=" whitespace-nowrap"><ItemTag item={log.item} /></span></span>)}
                 </div>
               )
             })}
           </div>
           <div className="mt-1 text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c]" onClick={() => dispatch(clearLog())} >
-            <span className="text-greywhite">[</span>
-            Clear
-            <span className="text-greywhite">]</span>
+            <span className="text-greywhite">[</span>Clear<span className="text-greywhite">]</span>
           </div>
         </div>
       )}
