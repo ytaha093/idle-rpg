@@ -16,6 +16,7 @@ services:
     container_name: idle-quest-backend
     ports:
       - "3000:3000"
+      - "5555:5555"
     depends_on:
       - db
     env_file:
@@ -23,7 +24,7 @@ services:
     volumes:
       - ./backend:/app
       - /app/node_modules
-    command: sh -c "sleep 5; npx prisma migrate deploy && npm run dev"
+    command: sh -c "sleep 3; npx prisma migrate deploy && npm run dev & npx prisma studio --port 5555"
 
   web:
     build: ./frontend
