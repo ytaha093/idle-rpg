@@ -2,13 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../slices/AuthSlice";
 import type { RootState } from "../../store";
-import {
-  refillEnergy,
-  consumeEnergy,
-  increaseBonus,
-  log,
-  resetPlayer,
-} from "../../slices/PlayerDataSlice";
+import { refillEnergy, consumeEnergy, increaseBonus, log, resetPlayer } from "../../slices/PlayerDataSlice";
 import settingsIcon from "../../assets/settings_icon.png";
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
@@ -32,9 +26,7 @@ function Header() {
   const bonusCapRef = useRef<number>(playerData.bonusCap);
 
   useEffect(() => {
-    if (activeAction) {
-      progressAction();
-    }
+    if (activeAction) { progressAction() }
     trainingAttrRef.current = playerData.trainingAttribute;
     bonusProgressRef.current = playerData.bonusProgress;
     bonusCapRef.current = playerData.bonusCap;
@@ -53,9 +45,7 @@ function Header() {
   async function openSettings() {
     settings ? setSettings(false) : setSettings(true);
     if (settingTimer.current) clearTimeout(settingTimer.current);
-    settingTimer.current = setTimeout(() => {
-      setSettings(false);
-    }, 5000);
+    settingTimer.current = setTimeout(() => { setSettings(false) }, 5000)
   }
 
   async function resetActionCount() {
@@ -80,10 +70,7 @@ function Header() {
         // prevent state from updating more then 40 times a second to prevent excessive re-renders
         if (time - lastUpdate > 25 || currentProgress == 0) {
           // move progress bar based on time
-          currentProgress = Math.max(
-            100 - ((currentTime - actionTimer.current) / duration) * 100,
-            0
-          );
+          currentProgress = Math.max(100 - ((currentTime - actionTimer.current) / duration) * 100, 0);
           setProgress(currentProgress);
           lastUpdate = time;
         }
@@ -95,9 +82,7 @@ function Header() {
           dispatch(addBattling(23));
           if (Math.random() < 0.5) {
             dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }));
-            dispatch(
-              log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` })
-            );
+            dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
           }
 
           dispatch(increaseBonus());
@@ -105,14 +90,7 @@ function Header() {
           if (bonusProgressRef.current == bonusCapRef.current) {
             const bonus = bonusCapRef.current * 15;
             dispatch(addItem({ id: "Gold", amount: bonus }));
-            dispatch(
-              log({
-                type: "item",
-                text: `Action Bonus: +`,
-                item: "Gold",
-                itemAmount: bonus,
-              })
-            );
+            dispatch(log({ type: "item", text: `Action Bonus: +`, item: "Gold", itemAmount: bonus }))
           }
 
           // reset timer
@@ -126,9 +104,7 @@ function Header() {
           dispatch(addBattling(23));
           if (Math.random() < 0.5) {
             dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }));
-            dispatch(
-              log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` })
-            );
+            dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
           }
 
           dispatch(increaseBonus());
@@ -136,14 +112,7 @@ function Header() {
           if (bonusProgressRef.current == bonusCapRef.current) {
             const bonus = bonusCapRef.current * 15;
             dispatch(addItem({ id: "GreaterRuneOfTheWarlord", amount: bonus }));
-            dispatch(
-              log({
-                type: "item",
-                text: `Action Bonus: +`,
-                itemAmount: bonus,
-                item: "GreaterRuneOfTheWarlord",
-              })
-            );
+            dispatch(log({ type: "item", text: `Action Bonus: +`, itemAmount: bonus, item: "GreaterRuneOfTheWarlord" }))
           }
 
           // reduce the display number but dont reset and stop animation
@@ -175,25 +144,9 @@ function Header() {
           </div>
         </div>
 
-        <div
-          data-section="progress bar"
-          className="flex items-center w-1/2 p-[0.2rem]"
-        >
-          <div
-            className={`w-full h-full bg-linear-0  ${
-              playerData.currentEnergy != 0
-                ? "to-stone-900 from-grey4"
-                : "to-red-950 from-red-900"
-            } from-grey4 border border-grey3 relative cursor-pointer`}
-            onClick={resetActionCount}
-          >
-            <div
-              id="meter"
-              className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all ${
-                progress > 99 ? "duration-0" : "duration-25"
-              } ease-linear`}
-              style={{ width: `${progress}%` }}
-            ></div>
+        <div data-section="progress bar" className="flex items-center w-1/2 p-[0.2rem]">
+          <div className={`w-full h-full bg-linear-0  ${playerData.currentEnergy != 0 ? "to-stone-900 from-grey4" : "to-red-950 from-red-900"} from-grey4 border border-grey3 relative cursor-pointer`} onClick={resetActionCount}>
+            <div id="meter" className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all ${progress > 99 ? "duration-0" : "duration-25"} ease-linear`} style={{ width: `${progress}%` }}></div>
             <div className=" absolute inset-0 flex justify-center items-center font-pixel text-[0.8rem] ">
               Energy Remaining: {playerData.currentEnergy.toLocaleString()}
             </div>
@@ -207,12 +160,7 @@ function Header() {
               {playerOnline.toLocaleString()}
             </span>
           </div>
-          <img
-            src={settingsIcon}
-            alt=""
-            className="cursor-pointer"
-            onClick={openSettings}
-          />
+          <img src={settingsIcon} alt="Settings Icon" className="cursor-pointer" onClick={openSettings} />
 
           {settings == true && (
             <div className="absolute right-0 top-7 w-32 bg-stone-900 flex-col border border-t-0 border-stone-700">
@@ -222,10 +170,7 @@ function Header() {
               <button className="w-full hover:bg-stone-700 p-1 border-b border-stone-700 cursor-pointer">
                 Settings
               </button>
-              <button
-                className="w-full hover:bg-stone-700 p-1 cursor-pointer"
-                onClick={logout}
-              >
+              <button className="w-full hover:bg-stone-700 p-1 cursor-pointer" onClick={logout}>
                 Logout
               </button>
             </div>
