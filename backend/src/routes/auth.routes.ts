@@ -1,40 +1,14 @@
 import { Router } from "express"
 import { Request, Response } from 'express';
-import { body, validationResult } from "express-validator";
+import { validationResult } from "express-validator";
 import prisma from "../prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { checkAuth } from "../middleware/checkAuth";
+import { authCookieOptions } from "../config/authCookies";
+import { loginValidator, registerValidator } from "../validators/auth.validators";
 
 const authRouter = Router()
-
-const registerValidator = [
-    body("username")
-        .exists().withMessage("username is required")
-        .isString().withMessage("username must be a string")
-        .isAlphanumeric().withMessage("username must be letters and numbers only")
-        .trim()
-        .isLength({ min: 3 }).withMessage("username too short"),
-    body("password")
-        .exists().withMessage("password is required")
-        .isString().withMessage("password must be a string")
-        .isLength({ min: 6 }).withMessage("password too short"),
-    body("email")
-        .optional()
-        .isEmail().withMessage("invalid email")
-];
-
-
-const loginValidator = [
-    body("username")
-        .isString().withMessage("Invalid username")
-        .exists().withMessage("username is required")
-        .isLength({ min: 1 }).withMessage("username too short"),
-    body("password")
-        .isString().withMessage("Invalid password")
-        .exists().withMessage("password is required")
-        .isLength({ min: 1 }).withMessage("password is required")
-]
 
 
 authRouter.post("/login", loginValidator, async (req: Request, res: Response) => {
@@ -65,22 +39,13 @@ authRouter.post("/login", loginValidator, async (req: Request, res: Response) =>
         { expiresIn: "7d" }
     )
 
-
-    res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax"
-    })
+    res.cookie("token", token, authCookieOptions);
 
     res.json({ status: "Logged in" })
 })
 
 authRouter.post("/logout", (req: Request, res: Response) => {
-    res.clearCookie("token", {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax",
-    });
+    res.clearCookie("token", authCookieOptions);
 
     res.json({ status: "logged out" });
 })
@@ -122,11 +87,7 @@ authRouter.post("/register", registerValidator, async (req: Request, res: Respon
         { expiresIn: "7d" }
     )
 
-    res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: "lax"
-    })
+    res.cookie("token", token, authCookieOptions);
 
     res.json({ status: "Success" })
 })

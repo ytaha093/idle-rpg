@@ -11,24 +11,16 @@ export const setAttribute = createAsyncThunk<
     "action/setAttribute",
     async ({ newAttribute, oldAttribute }, { rejectWithValue }) => {
         //dispatch(setTraining(newAttribute))
-        const response = await fetch(
-            "http://localhost:3000/api/action/train-attribute",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ attribute: newAttribute.replace("", "") }),
-            }
-        );
-
-        console.log("Response status:", response.status);
-
+        const response = await fetch("/api/action/train-attribute", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ attribute: newAttribute.replace("", "") }),
+        })
         if (!response.ok) {
             return rejectWithValue(oldAttribute);
         }
-
-        console.log("Response status:", response.status);
-        return await response.json();
+        return await response.json()
     }
 );
 
@@ -73,7 +65,7 @@ const playerDataSlice = createSlice({
         increaseBonus: (state) => {
             state.bonusProgress++;
             if (state.bonusProgress == state.bonusCap) {
-                console.log("trigger action bonus");
+                    console.log("trigger action bonus")
             } else if (state.bonusProgress > state.bonusCap) {
                 state.bonusCap++;
                 state.bonusProgress = 1;
