@@ -25,9 +25,6 @@ export type ItemId =
     | "Marble"
     | "Malachite"
 
-    | "Sapphire"
-    | "Emerald"
-
     | "RuneOfLesserFocus"
     | "RuneOfAdeptFocus"
     | "RuneOfGreaterFocus"
@@ -236,26 +233,6 @@ export const ITEMS: Record<ItemId, {
         boxColor: "rarity-5",
         tradeable: true,
         category: "Gems",
-    },
-
-    Sapphire: {
-        name: "Sapphire",
-        description: "A blue gem used in Jewelcrafting.",
-        icon: '🔵',
-        textColor: "rarity-2", //not sure abt this
-        boxColor: "rarity-2", //not sure abt this
-        tradeable: true, //not sure abt this
-        category: "Gems",
-    },
-
-    Emerald: {
-        name: "Emerald",
-        description: "A green gem used in Jewelcrafting.",
-        icon: '🟢',
-        textColor: "rarity-3", //not sure abt this
-        boxColor: "rarity-3", //not sure abt this
-        tradeable: true, //not sure abt this
-        category: "Gems", 
     },
     // Stones
     Sandstone: {

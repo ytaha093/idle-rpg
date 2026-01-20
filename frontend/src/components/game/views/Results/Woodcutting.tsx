@@ -54,32 +54,32 @@ const Woodcutting = () => {
         </ul>
       </div>
 
-  <div className="font-pixel text-sm mx-auto w-fit space-y-1">
-    <h3 className="font-pixel font-bold text-center underline decoration-solid text-lg">
-      Action tracker
-    </h3>
+      <div className="font-pixel text-sm mx-auto w-fit space-y-1">
+        <h3 className="font-pixel font-bold text-center underline decoration-solid text-lg">
+          Action tracker
+        </h3>
 
-      <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-        <div className="flex items-center gap-1">
-          Total actions
+        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+          <div className="flex items-center gap-1">
+            Total actions
+          </div>
+          <div className="text-right tabular-nums">
+            0
+          </div>
         </div>
-        <div className="text-right tabular-nums">
-          0
+
+        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
+          <div className="flex items-center gap-1">
+            Resources Gained
+          </div>
+          <div className="text-right tabular-nums">
+            0
+          </div>
         </div>
       </div>
-
-      <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-        <div className="flex items-center gap-1">
-          Resources Gained
-        </div>
-        <div className="text-right tabular-nums">
-          0
-        </div>
+      <div className="font-pixel items-center m-4">
+        <button className="text-sm cursor-pointer hover:text-gray-700">[Reset]</button>
       </div>
-  </div>
-    <div className="font-pixel items-center m-4">
-            <button className="text-sm cursor-pointer hover:text-gray-700">[Reset]</button>
-    </div>
     </div>
   );
 };
