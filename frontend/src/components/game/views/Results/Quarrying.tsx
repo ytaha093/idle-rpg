@@ -5,84 +5,73 @@ import ItemTag from "../../Tags/ItemTag"
 const Quarrying = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center ">
 
-      <p className="font-pixel text-sm text-center mt-4">
-        You swing your Hammer...
-      </p>
+      <div className="font-pixel text-center mt-1">You swing your Hammer...</div>
+      <div className="text-xs mt-1">
+        <div className="font">+364 <span className="text-[#bff] font-pixel">[Quarrying Exp]</span></div>
+        <div className="font">+102 <ItemTag item="Stone" /></div>
+        <div className="font">+1 <ItemTag item="Sandstone" /></div>
+      </div>
 
-      <div className="mt-10">
-        <h2 className="font-pixel text-lg font-bold text-center underline decoration-solid mb-2">
-          Your Items
-        </h2>
 
-        <ul className="font-pixel text-sm mx-auto w-fit space-y-1">
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Stone" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Stone}
-            </span>
+      <div className="mt-6 text-sm font-inter">
+        <div className="font-pixel font-semibold text-center mb-1">Your Items</div>
+
+        <ul className="text-[0.8rem] space-y-0.5 min-w-50">
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Stone" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Stone + 4118867).toLocaleString()})</span>
           </li>
 
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Sandstone" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Sandstone}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Sandstone" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Sandstone + 25).toLocaleString()})</span>
           </li>
 
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Marble" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Marble}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Marble" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Marble + 1).toLocaleString()})</span>
           </li>
 
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Malachite" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Malachite}
-            </span>
+
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Malachite" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Malachite).toLocaleString()})</span>
           </li>
         </ul>
+
       </div>
 
-      <div className="font-pixel text-sm mx-auto w-fit space-y-1">
-        <h3 className="font-pixel font-bold text-center underline decoration-solid text-lg">
-          Action tracker
-        </h3>
+      <div className="mt-6 font-inter">
+        <div className="font-pixel font-semibold text-sm text-center mb-px">Action tracker</div>
 
-        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-          <div className="flex items-center gap-1">
-            Total actions
-          </div>
-          <div className="text-right tabular-nums">
-            0
+        <ul className="text-[0.8rem]/4.5 min-w-40">
+          <li className="flex justify-between gap-4">
+            <span className="font-inter">Total Actions</span>
+            <span className="text-rsgreendim font-semibold">{(8).toLocaleString()}</span>
+          </li>
+
+          <li className="flex justify-between gap-4">
+            <span>Resources Gained</span>
+            <span className="text-rsgreendim font-semibold">{(625).toLocaleString()}</span>
+          </li>
+
+          <li>
+            <div className="text-greywhitedim font-semibold text-center w-full">({(46305).toLocaleString()} per hour)</div>
+          </li>
+        </ul>
+
+        <div className="flex justify-center mt-1">
+          <div className="text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c] w-fit" >
+            <span className="text-greywhite">[</span>Reset<span className="text-greywhite">]</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-          <div className="flex items-center gap-1">
-            Resources Gained
-          </div>
-          <div className="text-right tabular-nums">
-            0
-          </div>
-        </div>
-      </div>
-      <div className="font-pixel items-center m-4">
-        <button className="text-sm cursor-pointer hover:text-gray-700">[Reset]</button>
       </div>
     </div>
-  );
+
+  )
 };
 
 export default Quarrying;

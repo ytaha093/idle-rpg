@@ -6,111 +6,86 @@ const Mining = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center ">
 
-      <p className="font-pixel text-sm text-center mt-4">
-        You swing your pickaxe...
-      </p>
+      <div className="font-pixel text-center mt-1">You swing your pickaxe...</div>
+      <div className="text-xs mt-1">
+        <div className="font">+364 <span className="text-[#bff] font-pixel">[Mining Exp]</span></div>
+        <div className="font">+102 <ItemTag item="Metal" /></div>
+        <div className="font">+1 <ItemTag item="Ruby" /></div>
+      </div>
 
-      <div className="mt-10">
-        <h2 className="font-pixel text-lg font-bold text-center underline decoration-solid mb-2">
-          Your Items
-        </h2>
 
-        <ul className="font-pixel text-sm mx-auto w-fit space-y-1">
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Metal" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Metal}
-            </span>
+      <div className="mt-6 text-sm font-inter">
+        <div className="font-pixel font-semibold text-center mb-1">Your Items</div>
+
+        <ul className="text-[0.8rem] space-y-0.5 min-w-50">
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Metal" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Metal + 4118867).toLocaleString()})</span>
           </li>
 
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="GemFragment" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.GemFragment}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="GemFragment" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.GemFragment + 225256).toLocaleString()})</span>
           </li>
 
 
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Ruby" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Ruby}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Ruby" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Ruby + 21).toLocaleString()})</span>
+          </li>
+
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Diamond" />
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Diamond + 2).toLocaleString()})</span>
           </li>
 
 
 
-
-
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Diamond" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Diamond}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Dragonstone" />
+            <span className="text-greywhitedim font-semibold">({playerInventory.Dragonstone.toLocaleString()})</span>
           </li>
 
 
-
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Dragonstone" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Dragonstone}
-            </span>
-          </li>
-
-
-          <li className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-            <span className="flex items-center gap-1">
-              <ItemTag item="Onyx" />
-            </span>
-            <span className="text-right tabular-nums">
-              {playerInventory.Onyx}
-            </span>
+          <li className="flex justify-between gap-4">
+            <ItemTag item="Onyx" />
+            <span className="text-greywhitedim font-semibold">({playerInventory.Onyx.toLocaleString()})</span>
           </li>
         </ul>
+
       </div>
 
-      <div className="font-pixel text-sm mx-auto w-fit space-y-1">
-        <h3 className="font-pixel font-bold text-center underline decoration-solid text-lg">
-          Action tracker
-        </h3>
+      <div className="mt-6 font-inter">
+        <div className="font-pixel font-semibold text-sm text-center mb-px">Action tracker</div>
 
-        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-          <div className="flex items-center gap-1">
-            Total actions
-          </div>
-          <div className="text-right tabular-nums">
-            0
+        <ul className="text-[0.8rem]/4.5 min-w-40">
+          <li className="flex justify-between gap-4">
+            <span className="font-inter">Total Actions</span>
+            <span className="text-rsgreendim font-semibold">{(8).toLocaleString()}</span>
+          </li>
+
+          <li className="flex justify-between gap-4">
+            <span>Resources Gained</span>
+            <span className="text-rsgreendim font-semibold">{(625).toLocaleString()}</span>
+          </li>
+
+          <li>
+            <div className="text-greywhitedim font-semibold text-center w-full">({(46305).toLocaleString()} per hour)</div>
+          </li>
+        </ul>
+
+        <div className="flex justify-center mt-1">
+          <div className="text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c] w-fit" >
+            <span className="text-greywhite">[</span>Reset<span className="text-greywhite">]</span>
           </div>
         </div>
 
-        <div className="grid grid-cols-[max-content_1fr] gap-4 items-center w-64">
-          <div className="flex items-center gap-1">
-            Resources Gained
-          </div>
-          <div className="text-right tabular-nums">
-            0
-          </div>
-        </div>
-      </div>
-      <div className="font-pixel items-center m-4">
-        <button className="text-sm cursor-pointer hover:text-gray-700">[Reset]</button>
       </div>
     </div>
 
-  );
-};
+  )
+}
 
 export default Mining;
