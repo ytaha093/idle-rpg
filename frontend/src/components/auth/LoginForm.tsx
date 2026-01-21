@@ -1,14 +1,22 @@
-import { type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
 import { loginUser } from "../../slices/AuthSlice"
 import { setCurrentView } from "../../slices/UIDataSlice";
+import { showpassword, hidepassword } from "../../assets/icons";
+
 
 function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => void, onClose: () => void }) {
 
     const error = useSelector((state: RootState) => state.auth.error)
     const dispatch = useDispatch<AppDispatch>()
 
+    const [passwordVisible, setPasswordVisable] = useState(false);
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisable(!passwordVisible)
+        console.log("pass")
+    }
 
     // handle transition to forget page
     async function forgotPassword() {
@@ -43,7 +51,18 @@ function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => 
                     <label htmlFor="username" className="w-25 my-auto py-2 text-center">Username</label>
                     <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="username" name="username" placeholder="" required />
                     <label htmlFor="password" className="w-25 my-auto py-2 text-center">Password</label>
-                    <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="password" name="password" type="password" placeholder="" required />
+                    <input type={passwordVisible ? "text" : "password"} className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="password" name="password" placeholder="" required />
+                    <button
+                        type="button"
+                        onClick={togglePasswordVisibility}
+                        className="absolute right-18 bottom-31 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                    >
+                        <img
+                            src={passwordVisible ? showpassword : hidepassword}
+                            alt={passwordVisible ? "Hide Password" : "Show Password"}
+                            className="h-5 w-5"
+                        />
+                    </button>
                     <div className="w-25"></div><div className="p-1 pt-0 mr- w-80 text-blue-400"><span className="hover:cursor-pointer hover:underline" onClick={forgotPassword}>Forgot password?</span></div>
                 </div>
                 <footer className="flex justify-end gap-4 p-4 border-[#373737] border-t">
