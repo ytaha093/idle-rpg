@@ -47,7 +47,7 @@ function ItemDialog({ item }: { item: ItemId | null }) {
 
                             <header className=" bg-grey3 border-[#373737] border-b flex justify-between text-lg font-bold font-pixel">
                                 <span className="px-3 pb-1.5 pt-1.5" style={{ color: `var(--color-${itemData.textColor})` }}>
-                                    <span aria-hidden className="mr-px ">{itemData.icon}</span>
+                                    <span aria-hidden className="mr-px font-inter">{itemData.icon}</span>
                                     {itemData.name}
                                 </span>
                                 <button className="pb-0 mb-3 px-3 text-[#AAAAAA] hover:text-[#DDDDDD] hover:cursor-pointer font-pixelold text-xl" onClick={fadeOutAndClose}>x</button>

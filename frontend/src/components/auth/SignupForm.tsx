@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
 import { createUser } from "../../slices/AuthSlice";
 import { setCurrentView } from "../../slices/UIDataSlice";
+import { ClosedEye, OpenEye } from "../../assets/icons";
 
 function SignupForm({ onClose }: { onClose: () => void }) {
 
@@ -10,6 +11,10 @@ function SignupForm({ onClose }: { onClose: () => void }) {
     const error = useSelector((state: RootState) => state.auth.error)
 
     const dispatch = useDispatch<AppDispatch>()
+
+    const [passwordVisible, setPasswordVisable] = useState(false);
+    const [confirmVisible, setConfirmVisible] = useState(false);
+
 
 
     async function signup(event: FormEvent<HTMLFormElement>) {
@@ -36,10 +41,29 @@ function SignupForm({ onClose }: { onClose: () => void }) {
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="username" name="username" required />
 
                 <label htmlFor="password" className="my-auto py-2 text-end">Password<span className="text-red-400">*</span></label>
-                <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="password" type="password" name="password" required />
+                <div className="relative my-2">
+                    <input type={passwordVisible ? "text" : "password"} className="w-80 p-1.5 pr-10 bg-black border border-[#382418]" id="password" name="password" required />
+                    <div className=" absolute right-0 top-0 cursor-default h-full w-10.5" />
+                    {/* show password toggle*/}
+                    <button type="button" onClick={() => setPasswordVisable(!passwordVisible)}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 hover:cursor-pointer h-8 w-8 rounded-full flex items-center justify-center text-greywhitedim hover:text-greywhitedim2 hover:bg-grey5">
+                        {passwordVisible ? <OpenEye className="h-3/4 w-3/4" /> : <ClosedEye className="h-3/4 w-3/4" />}
+                    </button>
+                </div>
+
 
                 <label htmlFor="confirm" className="my-auto py-2 text-end">Confirm Password<span className="text-red-400">*</span></label>
-                <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="confirm" type="password" name="confirm" required />
+                <div className="relative my-2">
+                    <input type={confirmVisible ? "text" : "password"} className="w-80 p-1.5 pr-10 bg-black border border-[#382418]" id="confirm" name="confirm" required />
+                    <div className=" absolute right-0 top-0 cursor-default h-full w-10.5" />
+                    {/* show password toggle*/}
+                    <button type="button" onClick={() => setConfirmVisible(!confirmVisible)}
+                        className="absolute right-1 top-1/2 -translate-y-1/2 hover:cursor-pointer h-8 w-8 rounded-full flex items-center justify-center text-greywhitedim hover:text-greywhitedim2 hover:bg-grey5">
+                        {confirmVisible ? <OpenEye className="h-3/4 w-3/4" /> : <ClosedEye className="h-3/4 w-3/4" />}
+                    </button>
+                </div>
+
+
 
                 <label htmlFor="email" className="my-auto py-2 text-end pr-1">Email</label>
                 <input className="w-80 p-1.5 my-2 bg-black border border-[#382418]" id="email" name="email" type="text" pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$"
