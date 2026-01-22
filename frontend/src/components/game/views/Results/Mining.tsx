@@ -38,7 +38,7 @@ const Mining = () => {
 
           <li className="flex justify-between gap-4">
             <ItemTag item="Diamond" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Diamond + 2).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({playerInventory.Diamond.toLocaleString()})</span>
           </li>
 
 

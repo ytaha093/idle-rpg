@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutAction } from "../../slices/AuthSlice";
 import type { RootState } from "../../store";
 import { refillEnergy, consumeEnergy, increaseBonus, log, resetPlayer } from "../../slices/PlayerDataSlice";
-import settingsIcon from "../../assets/settings_icon.png";
+import { settingsIcon } from "../../assets/icons";
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
 import { addItem } from "../../slices/inventorySlice";
