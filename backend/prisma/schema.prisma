@@ -33,7 +33,7 @@ model Stats {
   currentEnergy     Int               @default(10)
   bonusCap          Int               @default(5)
   bonusProgress     Int               @default(0)
-  trainingAttribute TrainingAttribute
+  trainingAttribute TrainingAttribute @default(Health)
 
   user User @relation(fields: [userId], references: [id])
 }
@@ -168,9 +168,9 @@ enum TrainingAttribute {
   Defense
   Accuracy
   Dodge
-  GoldRush
+  Gold_Rush
   Mining
   Woodcutting
   Quarrying
-  ClanBoost
+  Clan_Boost
 }

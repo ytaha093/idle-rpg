@@ -9,9 +9,9 @@ const actionRouter = Router()
 const trainAttributeValidator = [
     body("attribute")
         .exists().withMessage("trainingAttribute is required")
-        .isIn(['Health', 'Attack', 'Defense', 'Accuracy', 'Dodge', 'GoldRush', 'Mining', 'Woodcutting', 'Quarrying', 'ClanBoost'])
+        .isIn(['Health', 'Attack', 'Defense', 'Accuracy', 'Dodge', 'Gold_Rush', 'Mining', 'Woodcutting', 'Quarrying', 'Clan_Boost'])
         .withMessage("Invalid training attribute")
-];
+]
 
 actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -19,7 +19,9 @@ actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async 
         return res.status(400).json({ error: errors.array()[0].msg });
     }
 
-    const { attribute } = req.body;
+    const { attribute } = req.body
+
+    console.log(attribute)
 
     await prisma.stats.update({
         where: {

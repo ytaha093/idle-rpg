@@ -15,12 +15,12 @@ export const setAttribute = createAsyncThunk<
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({ attribute: newAttribute.replace("", "") }),
+            body: JSON.stringify({ attribute: newAttribute.replace(" ", "_") }),
         })
         if (!response.ok) {
             return rejectWithValue(oldAttribute);
         }
-        return await response.json()
+        return { attribute: newAttribute }
     }
 );
 
@@ -65,7 +65,7 @@ const playerDataSlice = createSlice({
         increaseBonus: (state) => {
             state.bonusProgress++;
             if (state.bonusProgress == state.bonusCap) {
-                    console.log("trigger action bonus")
+                console.log("trigger action bonus")
             } else if (state.bonusProgress > state.bonusCap) {
                 state.bonusCap++;
                 state.bonusProgress = 1;
