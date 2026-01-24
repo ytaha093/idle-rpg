@@ -16,6 +16,11 @@ export default defineConfig({
       interval: 100,
     },
 
+    allowedHosts: [
+      'idle-quest.com',
+      'www.idle-quest.com',
+    ],
+
     proxy: {
       '/api': {
         target: 'http://backend:3000',

@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store";
 
-export default function PageLoader({ loading }: { loading: boolean }) {
-    const [visible, setVisible] = useState(false);
-    const [faded, setFaded] = useState(true);
+export default function PageLoader() {
+    const [visible, setVisible] = useState(false)
+    const [faded, setFaded] = useState(true)
+    const loading = useSelector((state: RootState) => state.auth.loading)
+
 
     useEffect(() => {
 

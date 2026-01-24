@@ -94,6 +94,16 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
     }
 )
 
+export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
+    const response = await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    })
+    const body = await response.json()
+    return body
+})
+
 
 type authObj = { loggedIn: boolean, loading: boolean, error?: string }
 
@@ -104,13 +114,9 @@ const authSlice = createSlice({
     initialState: initialState,
     reducers: {
         loginAction: (state) => {
-            let newState = state
-            newState.loggedIn = true
-            //localStorage.setItem("auth", JSON.stringify(newState))
             state.loggedIn = true
         },
         logoutAction: (state) => {
-            localStorage.clear()
             state.loggedIn = false
         },
         resetForm: (state) => {
@@ -119,9 +125,9 @@ const authSlice = createSlice({
         }
     }, extraReducers: (builder) => {
         builder
-            .addCase(loginUser.fulfilled, (state, action) => {
-                state.loggedIn = true;
-                state.error = undefined;
+            .addCase(loginUser.fulfilled, (state) => {
+                state.loggedIn = true
+                state.error = undefined
                 state.loading = false
             })
             .addCase(loginUser.rejected, (state, action) => {
@@ -133,8 +139,8 @@ const authSlice = createSlice({
                 state.loading = true
             })
             .addCase(createUser.fulfilled, (state, action) => {
-                state.loggedIn = true;
-                state.error = undefined;
+                state.loggedIn = true
+                state.error = undefined
                 state.loading = false
             })
             .addCase(createUser.rejected, (state, action) => {
@@ -152,6 +158,19 @@ const authSlice = createSlice({
             })
             .addCase(hydrateUser.rejected, (state) => {
                 state.loading = false
+                state.loggedIn = false
+                state.error = "Failed to fetch user data"
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.loading = false
+                state.loggedIn = false
+            })
+            .addCase(logoutUser.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(logoutUser.rejected, (state) => {
+                state.loading = false
+                state.loggedIn = false
             })
     }
 })

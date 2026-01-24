@@ -4,18 +4,13 @@ import { chatIcon, clansIcon, marketIcon, herbloreIcon, jewelcraftingIcon, runec
 import { useState } from "react"
 import AuthPopup from "../components/auth/AuthForm"
 import PageLoader from "../components/game/PageLoader.tsx"
-import type { RootState } from "../store.ts"
-import { useSelector } from "react-redux"
 
 function Login() {
   const [activeForm, setActiveForm] = useState("")
-  const loading = useSelector((state: RootState) => state.auth.loading)
-
-
 
   return (
     <>
-      <PageLoader loading={loading} />
+      <PageLoader />
 
       <AuthPopup form={activeForm} formSelector={(form: string) => setActiveForm(form)} />
 

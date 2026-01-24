@@ -30,7 +30,7 @@ services:
     build: ./frontend
     container_name: idle-quest-frontend
     ports:
-      - "8081:5173"
+      - "80:5173"
     working_dir: /app
     volumes:
       - ./frontend:/app

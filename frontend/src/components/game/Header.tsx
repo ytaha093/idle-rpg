@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction } from "../../slices/AuthSlice";
-import type { RootState } from "../../store";
-import { refillEnergy, consumeEnergy, increaseBonus, log, resetPlayer } from "../../slices/PlayerDataSlice";
+import { logoutAction, logoutUser } from "../../slices/AuthSlice";
+import type { AppDispatch, RootState } from "../../store";
+import { refillEnergy, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice";
 import { settingsIcon } from "../../assets/icons";
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
@@ -12,7 +12,7 @@ function Header() {
   const playerData = useSelector((state: RootState) => state.playerData);
   const invData = useSelector((state: RootState) => state.invData);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>()
 
   const [settings, setSettings] = useState(false);
   const [progress, setProgress] = useState<number>(100);
@@ -38,8 +38,7 @@ function Header() {
   ]);
 
   function logout() {
-    dispatch(resetPlayer());
-    dispatch(logoutAction());
+    dispatch(logoutUser());
   }
 
   async function openSettings() {
