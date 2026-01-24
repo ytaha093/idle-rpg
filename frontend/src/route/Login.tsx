@@ -10,8 +10,6 @@ function Login() {
 
   return (
     <>
-      <PageLoader />
-
       <AuthPopup form={activeForm} formSelector={(form: string) => setActiveForm(form)} />
 
       < div className=" max-w-[1250px] min-h-[calc(100dvh-28px)] px-16.5 m-auto max-[1250px]:px-1 max-[1250px]:max-w-[1126px] " >

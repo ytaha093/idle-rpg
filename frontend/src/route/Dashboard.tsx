@@ -31,7 +31,6 @@ function Dashboard() {
 
           <div data-section="main buttons" className="w-full flex gap-[-10px] text-center" >
             {["Home", "Inventory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans",].map((name) => {
-              console.log("CURRENT VIEW ", view);
               return (
                 <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view.includes(name) ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => dispatch(setCurrentView(name))} >
                   {name}
@@ -86,7 +85,6 @@ function Dashboard() {
       </div>
       <ItemDialog item={itemDialog} />
       <EquipmentDialog item={equipmentDialog} />
-      <PageLoader />
     </div>
   )
 }

@@ -12,12 +12,10 @@ export default function PageLoader() {
 
         if (loading) {
             setVisible(true)
-            setFaded(true)
-            // Trigger fade in after a frame
-            window.setTimeout(() => setFaded(false), 10)
+            setFaded(false)
         } else {
             setFaded(true)
-            window.setTimeout(() => setVisible(false), 300)
+            window.setTimeout(() => setVisible(false), 400)
         }
 
     }, [loading]);

@@ -8,10 +8,12 @@ export const hydrateUser = createAsyncThunk<any, void, { rejectValue: string }>(
             method: "GET",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-        });
+        })
+
+        await new Promise(resolve => setTimeout(resolve, 300))
 
         if (!response.ok) {
-            return rejectWithValue("Failed to fetch user data");
+            return rejectWithValue("Failed to fetch user data")
         }
 
         return await response.json();
@@ -77,7 +79,6 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
                 console.log("Login failed:", response.status, errorMsg);
                 return rejectWithValue(errorMsg);
             }
-            console.log(body)
             await ensureDelay()
 
             // Hydrate user data after successful registration
@@ -107,7 +108,10 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
 
 type authObj = { loggedIn: boolean, loading: boolean, error?: string }
 
-const initialState: authObj = { loggedIn: false, loading: false }
+const initialState: authObj = {
+    loggedIn: (localStorage.getItem("loggedIn") === "true"),
+    loading: (localStorage.getItem("loggedIn") === "true"),
+}
 
 const authSlice = createSlice({
     name: "auth status",
@@ -151,17 +155,20 @@ const authSlice = createSlice({
                 state.loading = true
             })
             .addCase(hydrateUser.fulfilled, (state) => {
+                localStorage.setItem("loggedIn", "true")
+                state.loggedIn = true
                 state.loading = false
             })
             .addCase(hydrateUser.pending, (state) => {
                 state.loading = true
             })
             .addCase(hydrateUser.rejected, (state) => {
+                localStorage.clear()
                 state.loading = false
                 state.loggedIn = false
-                state.error = "Failed to fetch user data"
             })
             .addCase(logoutUser.fulfilled, (state) => {
+                localStorage.clear()
                 state.loading = false
                 state.loggedIn = false
             })
@@ -169,6 +176,7 @@ const authSlice = createSlice({
                 state.loading = true
             })
             .addCase(logoutUser.rejected, (state) => {
+                localStorage.clear()
                 state.loading = false
                 state.loggedIn = false
             })
