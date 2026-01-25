@@ -1,9 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import { loginUser } from "../../slices/AuthSlice"
 import { setCurrentView } from "../../slices/UIDataSlice";
 import { OpenEye, ClosedEye } from "../../assets/icons";
+import { loginUser } from "../../slices/thunks/authThunk";
 
 
 function LoginForm({ formSelector, onClose }: { formSelector: (form: string) => void, onClose: () => void }) {

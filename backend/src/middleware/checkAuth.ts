@@ -10,13 +10,13 @@ export interface JwtUserPayload extends JwtPayload {
 export function checkAuth(req: Request, res: Response, next: NextFunction) {
     const token = req.cookies.token
 
-    if (!token) return res.sendStatus(401);
+    if (!token) return res.sendStatus(401)
 
     try {
         const payload = jwt.verify(token, process.env.JWT_SECRET as jwt.Secret) as JwtUserPayload
-        req.userId = payload.userId;
-        next();
+        req.userId = payload.userId
+        next()
     } catch {
-        res.sendStatus(401);
+        res.sendStatus(401)
     }
 }

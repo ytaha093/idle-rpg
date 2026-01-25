@@ -3,7 +3,6 @@ import button from "../assets/button.png"
 import { chatIcon, clansIcon, marketIcon, herbloreIcon, jewelcraftingIcon, runecraftingIcon, quarryingIcon, woodcuttingIcon, miningIcon, dungioneeringIcon, battleIcon } from "../assets/icons.ts"
 import { useState } from "react"
 import AuthPopup from "../components/auth/AuthForm"
-import PageLoader from "../components/game/PageLoader.tsx"
 
 function Login() {
   const [activeForm, setActiveForm] = useState("")

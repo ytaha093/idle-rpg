@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutAction, logoutUser } from "../../slices/AuthSlice";
 import type { AppDispatch, RootState } from "../../store";
 import { refillEnergy, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice";
 import { settingsIcon } from "../../assets/icons";
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
 import { addItem } from "../../slices/inventorySlice";
+import { logoutUser } from "../../slices/thunks/authThunk";
+import { gather, type GatherTypes } from "../../slices/thunks/actionThunks";
 
 function Header() {
   const playerData = useSelector((state: RootState) => state.playerData);
@@ -16,7 +17,7 @@ function Header() {
 
   const [settings, setSettings] = useState(false);
   const [progress, setProgress] = useState<number>(100);
-  const [activeAction, setActive] = useState(true);
+  const [activeAction, setActive] = useState(true)
 
   const currentEnergyRef = useRef<number>(playerData.currentEnergy);
   const settingTimer = useRef<number>(null);
@@ -24,22 +25,23 @@ function Header() {
   const trainingAttrRef = useRef(playerData.trainingAttribute);
   const bonusProgressRef = useRef<number>(playerData.bonusProgress);
   const bonusCapRef = useRef<number>(playerData.bonusCap);
+  const playerActionRef = useRef(playerData.activeAction);
+
+
 
   useEffect(() => {
     if (activeAction) { progressAction() }
     trainingAttrRef.current = playerData.trainingAttribute;
     bonusProgressRef.current = playerData.bonusProgress;
     bonusCapRef.current = playerData.bonusCap;
+    playerActionRef.current = playerData.activeAction;
   }, [
     activeAction,
     playerData.trainingAttribute,
     playerData.bonusProgress,
     playerData.bonusCap,
-  ]);
-
-  function logout() {
-    dispatch(logoutUser());
-  }
+    playerData.activeAction
+  ])
 
   async function openSettings() {
     settings ? setSettings(false) : setSettings(true);
@@ -77,6 +79,11 @@ function Header() {
         // when progress bar hits 0 if actions remain, reset timer
         if (currentProgress === 0 && currentEnergyRef.current > 1) {
           // trigger on complete action
+          const playerAction = playerActionRef.current
+          console.log(playerAction)
+          if (playerAction.action === "gathering") {
+            dispatch(gather(playerAction.options as GatherTypes));
+          }
           dispatch(addItem({ id: "Gold", amount: 24 }));
           dispatch(addBattling(23));
           if (Math.random() < 0.5) {
@@ -169,7 +176,7 @@ function Header() {
               <button className="w-full hover:bg-stone-700 p-1 border-b border-stone-700 cursor-pointer">
                 Settings
               </button>
-              <button className="w-full hover:bg-stone-700 p-1 cursor-pointer" onClick={logout}>
+              <button className="w-full hover:bg-stone-700 p-1 cursor-pointer" onClick={() => dispatch(logoutUser())}>
                 Logout
               </button>
             </div>

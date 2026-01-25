@@ -9,8 +9,7 @@ import type { JSX } from "react";
 // checks if user logged in and redirects to login 
 function ProtectedRoute({ element }: { element: JSX.Element }) {
   const auth = useSelector((state: RootState) => state.auth)
-  // if logged in redirect login to game
-  // if not logged in, redirect to login
+  // if logged in redirect login to game, else redirect to login
   if (element.type.name === "Login") {
     return auth.loggedIn ? <Navigate to="/game" replace /> : <Login />
   } else {

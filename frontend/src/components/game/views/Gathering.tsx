@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../store";
-import { setActiveSkill } from "../../../slices/PlayerDataSlice";
+import { setActiveAction, setActiveSkill } from "../../../slices/PlayerDataSlice";
 import { miningIcon, woodcuttingIcon, quarryingIcon } from "../../../assets/icons";
 import type { SkillName } from "../../../slices/SkillsDataSlice";
 import { getLevel } from "../../../util/LevelCalcUtil";
@@ -60,6 +60,7 @@ function Gathering() {
 
   function startGather(name: SkillName) {
     dispatch(setActiveSkill(name))
+    dispatch(setActiveAction({ action: "gathering", options: name }))
     dispatch(setCurrentView(name))
 
   }

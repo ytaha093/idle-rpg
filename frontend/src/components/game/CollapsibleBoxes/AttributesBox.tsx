@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
-import { setAttribute, setTraining } from "../../../slices/PlayerDataSlice";
 import AttributesTooltip from "../tooltips/AttributesTooltip";
 import type { AttributeName } from "../../../slices/SkillsDataSlice";
+import { setAttribute } from "../../../slices/thunks/actionThunks";
 
 function AttributesBox() {
   const training = useSelector((state: RootState) => state.playerData.trainingAttribute)

@@ -6,10 +6,9 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { checkAuth } from "../middleware/checkAuth";
 import { authCookieOptions } from "../config/authCookies";
-import { loginValidator, registerValidator } from "../validators/auth.validators";
+import { loginValidator, registerValidator } from "../middleware/validators";
 
 const authRouter = Router()
-
 
 authRouter.post("/login", loginValidator, async (req: Request, res: Response) => {
 
@@ -44,7 +43,7 @@ authRouter.post("/login", loginValidator, async (req: Request, res: Response) =>
     res.json({ status: "Logged in" })
 })
 
-authRouter.post("/logout", (req: Request, res: Response) => {
+authRouter.post("/logout", (_req: Request, res: Response) => {
     res.clearCookie("token", authCookieOptions);
 
     res.json({ status: "logged out" });

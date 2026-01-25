@@ -14,7 +14,6 @@ import type { RootState } from "../store"
 import { setCurrentView } from "../slices/UIDataSlice"
 import ItemDialog from "../components/game/ItemDialog "
 import EquipmentDialog from "../components/game/EquipmentDialog"
-import PageLoader from "../components/game/PageLoader"
 
 function Dashboard() {
   const { equipmentDialog, itemDialog, view } = useSelector((state: RootState) => ({ equipmentDialog: state.uiData.equitmentPopup, itemDialog: state.uiData.itemPopup, view: state.uiData.currentView }), shallowEqual)

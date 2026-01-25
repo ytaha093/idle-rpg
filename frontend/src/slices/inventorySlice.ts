@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { ItemId } from "../util/Descriptions/Items"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { hydrateUser } from "./AuthSlice"
+import { hydrateUser } from "./thunks/authThunk"
+import { gather } from "./thunks/actionThunks"
 
 type InventoryState = Record<ItemId, number>
 
@@ -87,18 +88,25 @@ const inventorySlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(hydrateUser.fulfilled, (state, action) => {
-            if (action.payload.inventory && Array.isArray(action.payload.inventory)) {
-                // Reset to initial state first
-                Object.keys(state).forEach(key => {
-                    state[key as ItemId] = 0;
+        builder
+            .addCase(hydrateUser.fulfilled, (state, action) => {
+                if (action.payload.inventory && Array.isArray(action.payload.inventory)) {
+                    // Reset to initial state first
+                    Object.keys(state).forEach(key => {
+                        state[key as ItemId] = 0;
+                    })
+                    // Populate from inventory items
+                    action.payload.inventory.forEach((item: any) => {
+                        state[item.itemId as ItemId] = item.amount;
+                    })
+                }
+            })
+            .addCase(gather.fulfilled, (state, action) => {
+                action.payload.item.forEach((item) => {
+                    const { itemId, amount } = item
+                    state[itemId] += amount
                 })
-                // Populate from inventory items
-                action.payload.inventory.forEach((item: any) => {
-                    state[item.itemId as ItemId] = item.amount;
-                })
-            }
-        })
+            })
     }
 })
 

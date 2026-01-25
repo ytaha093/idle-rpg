@@ -29,3 +29,17 @@ export const loginValidator = [
     .isString().withMessage("Invalid password")
     .isLength({ min: 1 }).withMessage("password is required"),
 ];
+
+export const trainAttributeValidator = [
+  body("attribute")
+    .exists().withMessage("trainingAttribute is required")
+    .isIn(['Health', 'Attack', 'Defense', 'Accuracy', 'Dodge', 'Gold_Rush', 'Mining', 'Woodcutting', 'Quarrying', 'Clan_Boost'])
+    .withMessage("Invalid training attribute")
+]
+
+export const gatheringValidator = [
+  body("type")
+    .exists().withMessage("type is required")
+    .isIn(['Mining', 'Woodcutting', 'Quarrying'])
+    .withMessage("Invalid gathering type")
+]

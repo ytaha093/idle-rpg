@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { hydrateUser } from "./AuthSlice"
+import { hydrateUser } from "./thunks/authThunk";
 
 export type ArmorSlot =
     | "Helm"

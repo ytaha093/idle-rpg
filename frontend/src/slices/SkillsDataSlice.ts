@@ -1,5 +1,6 @@
-import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { hydrateUser } from "./AuthSlice"
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+import { hydrateUser } from "./thunks/authThunk"
+import { gather } from "./thunks/actionThunks"
 
 const initialState = {
     Skills: {
@@ -71,26 +72,31 @@ const SkillDataSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(hydrateUser.fulfilled, (state, action) => {
-            if (action.payload.skills) {
-                state.Skills = action.payload.skills;
-            }
-            if (action.payload.attributes) {
-                // Map Prisma attribute names to frontend names
-                state.Attributes = {
-                    Health: action.payload.attributes.Health,
-                    Attack: action.payload.attributes.Attack,
-                    Defense: action.payload.attributes.Defense,
-                    Accuracy: action.payload.attributes.Accuracy,
-                    Dodge: action.payload.attributes.Dodge,
-                    "Gold Rush": action.payload.attributes.GoldRush,
-                    Mining: action.payload.attributes.Mining,
-                    Woodcutting: action.payload.attributes.Woodcutting,
-                    Quarrying: action.payload.attributes.Quarrying,
-                    "Clan Boost": action.payload.attributes.ClanBoost,
-                };
-            }
-        });
+        builder
+            .addCase(hydrateUser.fulfilled, (state, action) => {
+                if (action.payload.skills) {
+                    state.Skills = action.payload.skills;
+                }
+                if (action.payload.attributes) {
+                    // Map Prisma attribute names to frontend names
+                    state.Attributes = {
+                        Health: action.payload.attributes.Health,
+                        Attack: action.payload.attributes.Attack,
+                        Defense: action.payload.attributes.Defense,
+                        Accuracy: action.payload.attributes.Accuracy,
+                        Dodge: action.payload.attributes.Dodge,
+                        "Gold Rush": action.payload.attributes.GoldRush,
+                        Mining: action.payload.attributes.Mining,
+                        Woodcutting: action.payload.attributes.Woodcutting,
+                        Quarrying: action.payload.attributes.Quarrying,
+                        "Clan Boost": action.payload.attributes.ClanBoost,
+                    }
+                }
+            })
+            .addCase(gather.fulfilled, (state, action) => {
+                const { skill, xp } = action.payload.xp
+                state.Skills[skill] = xp
+            })
     }
 })
 

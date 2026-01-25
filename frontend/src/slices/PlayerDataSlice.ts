@@ -1,28 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { AttributeName } from "./SkillsDataSlice";
-import type { ItemId } from "../util/Descriptions/Items";
-import { hydrateUser } from "./AuthSlice";
-
-export const setAttribute = createAsyncThunk<
-    { attribute: AttributeName },
-    { newAttribute: AttributeName; oldAttribute: AttributeName },
-    { rejectValue: AttributeName }
->(
-    "action/setAttribute",
-    async ({ newAttribute, oldAttribute }, { rejectWithValue }) => {
-        //dispatch(setTraining(newAttribute))
-        const response = await fetch("/api/action/train-attribute", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify({ attribute: newAttribute.replace(" ", "_") }),
-        })
-        if (!response.ok) {
-            return rejectWithValue(oldAttribute);
-        }
-        return { attribute: newAttribute }
-    }
-);
+import { createSlice } from "@reduxjs/toolkit"
+import type { AttributeName, SkillName } from "./SkillsDataSlice"
+import type { ItemId } from "../util/Descriptions/Items"
+import { hydrateUser } from "./thunks/authThunk"
+import { setAttribute } from "./thunks/actionThunks"
 
 type logType = "item" | "attribute"
 
@@ -33,15 +13,19 @@ const initialState = {
     currentEnergy: 10,
     bonusCap: 5,
     bonusProgress: 0,
-    activeSkill: "Battling",
     trainingAttribute: "Health" as AttributeName,
     log: [] as logEntry[],
-};
+    activeSkill: "Battling" as SkillName,
+    activeAction: { action: "", options: "" }
+}
 
 const playerDataSlice = createSlice({
     name: "player data",
     initialState,
     reducers: {
+        setActiveAction: (state, action) => {
+            state.activeAction = action.payload;
+        },
         setActiveSkill: (state, action) => {
             state.activeSkill = action.payload;
         },
@@ -78,7 +62,7 @@ const playerDataSlice = createSlice({
                 text: action.payload.text,
                 item: action.payload.item,
                 itemAmount: action.payload.itemAmount,
-            });
+            })
         },
         clearLog: (state) => {
             state.log = [];
@@ -107,6 +91,7 @@ const playerDataSlice = createSlice({
 });
 
 export const {
+    setActiveAction,
     setActiveSkill,
     setTraining,
     setMaxEnergy,
