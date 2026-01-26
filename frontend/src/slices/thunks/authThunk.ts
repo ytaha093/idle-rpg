@@ -39,7 +39,6 @@ export const loginUser = createAsyncThunk<void, { username: string; password: st
 
         if (!response.ok) {
             const errorMsg = body.error || "Login failed";
-            console.log("Login failed:", response.status, errorMsg);
             return rejectWithValue(errorMsg);
         }
 
@@ -65,7 +64,6 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
     "auth/createUser",
     async ({ username, password, confirm, email }, { rejectWithValue, dispatch }) => {
         const startTime = Date.now();
-        console.log(username, password, confirm, email);
         if (password !== confirm) {
             await ensureDelay()
             return rejectWithValue("Passwords do not match");
@@ -87,7 +85,6 @@ export const createUser = createAsyncThunk<void, { username: string; password: s
             const body = await response.json();
             if (!response.ok) {
                 const errorMsg = body.error || "Login failed";
-                console.log("Login failed:", response.status, errorMsg);
                 return rejectWithValue(errorMsg);
             }
             await ensureDelay()

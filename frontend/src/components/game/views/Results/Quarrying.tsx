@@ -21,17 +21,17 @@ const Quarrying = () => {
         <ul className="text-[0.8rem] space-y-0.5 min-w-50">
           <li className="flex justify-between gap-4">
             <ItemTag item="Stone" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Stone + 4118867).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Stone).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <ItemTag item="Sandstone" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Sandstone + 25).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Sandstone).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <ItemTag item="Marble" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Marble + 1).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Marble).toLocaleString()})</span>
           </li>
 
 
@@ -49,16 +49,16 @@ const Quarrying = () => {
         <ul className="text-[0.8rem]/4.5 min-w-40">
           <li className="flex justify-between gap-4">
             <span className="font-inter">Total Actions</span>
-            <span className="text-rsgreendim font-semibold">{(8).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <span>Resources Gained</span>
-            <span className="text-rsgreendim font-semibold">{(625).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li>
-            <div className="text-greywhitedim font-semibold text-center w-full">({(46305).toLocaleString()} per hour)</div>
+            <div className="text-greywhitedim font-semibold text-center w-full">({(0).toLocaleString()} per hour)</div>
           </li>
         </ul>
 

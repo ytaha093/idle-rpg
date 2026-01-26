@@ -49,7 +49,6 @@ const playerDataSlice = createSlice({
         increaseBonus: (state) => {
             state.bonusProgress++;
             if (state.bonusProgress == state.bonusCap) {
-                console.log("trigger action bonus")
             } else if (state.bonusProgress > state.bonusCap) {
                 state.bonusCap++;
                 state.bonusProgress = 1;

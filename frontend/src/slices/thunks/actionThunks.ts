@@ -23,7 +23,6 @@ export type GatherTypes = "Mining" | "Woodcutting" | "Quarrying"
 type gatherResponce = { xp: { xp: number, skill: GatherTypes }, item: Array<{ itemId: ItemId, amount: number }> }
 
 export const gather = createAsyncThunk<gatherResponce, GatherTypes, { rejectValue: string }>("action/gather", async (type, { rejectWithValue }) => {
-    console.log(type)
     const response = await fetch("/api/action/gathering", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -22,18 +22,18 @@ const Mining = () => {
         <ul className="text-[0.8rem] space-y-0.5 min-w-50">
           <li className="flex justify-between gap-4">
             <ItemTag item="Metal" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Metal + 4118867).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Metal).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <ItemTag item="GemFragment" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.GemFragment + 225256).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.GemFragment).toLocaleString()})</span>
           </li>
 
 
           <li className="flex justify-between gap-4">
             <ItemTag item="Ruby" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Ruby + 21).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Ruby).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
@@ -63,16 +63,16 @@ const Mining = () => {
         <ul className="text-[0.8rem]/4.5 min-w-40">
           <li className="flex justify-between gap-4">
             <span className="font-inter">Total Actions</span>
-            <span className="text-rsgreendim font-semibold">{(8).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <span>Resources Gained</span>
-            <span className="text-rsgreendim font-semibold">{(625).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li>
-            <div className="text-greywhitedim font-semibold text-center w-full">({(46305).toLocaleString()} per hour)</div>
+            <div className="text-greywhitedim font-semibold text-center w-full">({(0).toLocaleString()} per hour)</div>
           </li>
         </ul>
 

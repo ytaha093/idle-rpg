@@ -17,8 +17,6 @@ actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async 
 
     const { attribute } = req.body
 
-    console.log(attribute)
-
     await prisma.stats.update({
         where: {
             userId: req.userId
@@ -38,7 +36,6 @@ actionRouter.post("/gathering", checkAuth, gatheringValidator, async (req: Reque
     }
 
     const { type } = req.body
-    console.log(type)
 
     // handle the xp drop
     const xp = await prisma.skills.update({
@@ -49,7 +46,6 @@ actionRouter.post("/gathering", checkAuth, gatheringValidator, async (req: Reque
             [type]: { increment: 100 }
         }
     })
-    console.log(xp[type as keyof Skills])
 
     // handle the item drop
     function dropType(type: "Mining" | "Woodcutting" | "Quarrying"): ItemId {
@@ -78,8 +74,6 @@ actionRouter.post("/gathering", checkAuth, gatheringValidator, async (req: Reque
             amount: 100,
         },
     })
-
-    console.log(item)
 
     return res.json({ xp: { skill: type, xp: xp[type as keyof Skills] }, item: [item] })
 })

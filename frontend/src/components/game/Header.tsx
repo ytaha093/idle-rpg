@@ -80,7 +80,6 @@ function Header() {
         if (currentProgress === 0 && currentEnergyRef.current > 1) {
           // trigger on complete action
           const playerAction = playerActionRef.current
-          console.log(playerAction)
           if (playerAction.action === "gathering") {
             dispatch(gather(playerAction.options as GatherTypes));
           }

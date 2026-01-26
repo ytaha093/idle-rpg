@@ -21,23 +21,23 @@ const Woodcutting = () => {
         <ul className="text-[0.8rem] space-y-0.5 min-w-50">
           <li className="flex justify-between gap-4">
             <ItemTag item="Wood" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.Wood + 4118867).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.Wood).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <ItemTag item="TreeSap" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.TreeSap + 61).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.TreeSap).toLocaleString()})</span>
           </li>
 
 
           <li className="flex justify-between gap-4">
             <ItemTag item="ResourceCache" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.ResourceCache + 12).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.ResourceCache).toLocaleString()})</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <ItemTag item="BirdsNest" />
-            <span className="text-greywhitedim font-semibold">({(playerInventory.BirdsNest + 2).toLocaleString()})</span>
+            <span className="text-greywhitedim font-semibold">({(playerInventory.BirdsNest).toLocaleString()})</span>
           </li>
 
 
@@ -56,16 +56,16 @@ const Woodcutting = () => {
         <ul className="text-[0.8rem]/4.5 min-w-40">
           <li className="flex justify-between gap-4">
             <span className="font-inter">Total Actions</span>
-            <span className="text-rsgreendim font-semibold">{(8).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li className="flex justify-between gap-4">
             <span>Resources Gained</span>
-            <span className="text-rsgreendim font-semibold">{(625).toLocaleString()}</span>
+            <span className="text-rsgreendim font-semibold">{(0).toLocaleString()}</span>
           </li>
 
           <li>
-            <div className="text-greywhitedim font-semibold text-center w-full">({(46305).toLocaleString()} per hour)</div>
+            <div className="text-greywhitedim font-semibold text-center w-full">({(0).toLocaleString()} per hour)</div>
           </li>
         </ul>
 
