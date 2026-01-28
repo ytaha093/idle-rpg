@@ -34,6 +34,7 @@ model Stats {
   bonusCap          Int               @default(5)
   bonusProgress     Int               @default(0)
   trainingAttribute TrainingAttribute @default(Health)
+  lastActionAt      DateTime?
 
   user User @relation(fields: [userId], references: [id])
 }
@@ -61,11 +62,11 @@ model Attributes {
   Defense     Int @default(0)
   Accuracy    Int @default(0)
   Dodge       Int @default(0)
-  GoldRush    Int @default(0)
+  Gold_Rush   Int @default(0)
   Mining      Int @default(0)
   Woodcutting Int @default(0)
   Quarrying   Int @default(0)
-  ClanBoost   Int @default(0)
+  Clan_Boost  Int @default(0)
 
   user User @relation(fields: [userId], references: [id])
 }

@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit"
 import type { ItemId } from "../util/Descriptions/Items"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import { hydrateUser } from "./thunks/authThunk"
-import { gather } from "./thunks/actionThunks"
 
 type InventoryState = Record<ItemId, number>
 
@@ -74,37 +73,24 @@ const inventorySlice = createSlice({
     name: "inventory data",
     initialState,
     reducers: {
-        addItem(state, action: PayloadAction<{ id: ItemId; amount: number }>) {
+        addItem(state, action: { type: string, payload: { id: ItemId, amount: number } }) {
             state[action.payload.id] += action.payload.amount
         },
-        removeItem(state, action: PayloadAction<{ id: ItemId; amount: number }>) {
+        removeItem(state, action: PayloadAction<{ id: ItemId, amount: number }>) {
             state[action.payload.id] = Math.max(
                 0,
                 state[action.payload.id] - action.payload.amount
             )
         },
-        setItemAmount(state, action: PayloadAction<{ id: ItemId; amount: number }>) {
+        setItemAmount(state, action: PayloadAction<{ id: ItemId, amount: number }>) {
             state[action.payload.id] = action.payload.amount
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(hydrateUser.fulfilled, (state, action) => {
-                if (action.payload.inventory && Array.isArray(action.payload.inventory)) {
-                    // Reset to initial state first
-                    Object.keys(state).forEach(key => {
-                        state[key as ItemId] = 0;
-                    })
-                    // Populate from inventory items
-                    action.payload.inventory.forEach((item: any) => {
-                        state[item.itemId as ItemId] = item.amount;
-                    })
-                }
-            })
-            .addCase(gather.fulfilled, (state, action) => {
-                action.payload.item.forEach((item) => {
-                    const { itemId, amount } = item
-                    state[itemId] += amount
+            .addCase(hydrateUser.fulfilled, (state, action: PayloadAction<{ inventory: { itemId: ItemId, amount: number }[] }>) => {
+                action.payload.inventory.forEach((item) => {
+                    state[item.itemId] = item.amount
                 })
             })
     }

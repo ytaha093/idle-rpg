@@ -9,7 +9,7 @@ import ItemTag from "../Tags/ItemTag";
 import type { ItemId } from "../../../util/Descriptions/Items";
 import ToolTag from "../Tags/ToolTag";
 import type { ToolSlot } from "../../../slices/EquipmentSlice";
-import { setCurrentView } from "../../../slices/UIDataSlice";
+import { setCurrentView, setLastResults } from "../../../slices/UIDataSlice";
 
 function Gathering() {
   const dispatch = useDispatch();
@@ -59,6 +59,7 @@ function Gathering() {
   }
 
   function startGather(name: SkillName) {
+    dispatch(setLastResults(null))
     dispatch(setActiveSkill(name))
     dispatch(setActiveAction({ action: "gathering", options: name }))
     dispatch(setCurrentView(name))

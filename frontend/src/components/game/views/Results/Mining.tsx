@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import type { RootState } from "../../../../store"
 import ItemTag from "../../Tags/ItemTag"
+import CurrentResults from "./CurrentResults";
 
 const Mining = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
@@ -10,9 +11,7 @@ const Mining = () => {
 
       <div className="font-pixel text-center mt-1">You swing your pickaxe...</div>
       <div className="text-xs mt-1">
-        <div className="font">+364 <span className="text-[#bff] font-pixel">[Mining Exp]</span></div>
-        <div className="font">+102 <ItemTag item="Metal" /></div>
-        <div className="font">+1 <ItemTag item="Ruby" /></div>
+        <CurrentResults />
       </div>
 
 

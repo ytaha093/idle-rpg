@@ -18,13 +18,17 @@ function LogBox() {
         <div className="flex flex-col">
           <div className=" max-h-50 overflow-y-scroll">
             {log.map((log, index) => {
+
+              const attributeText = (log.type === "attribute" && (log.text == "Accuracy" || log.text == "Dodge")) ? "+0.01%" : "+1"
+
               return (
-                <div className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]  tracking-tight" key={`${log.time}-${index}`}>
-                  <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-px">
+                <div className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]" key={`${log.time}-${index}`}>
+                  <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-0.5 tracking-tighter">
                     [{log.time}]
                   </span>
-                  {log.type == "attribute" && (<span className="text-rsyellow">{log.text}</span>)}
-                  {log.type == "item" && log.item && (<span>{log.text}{log.itemAmount?.toLocaleString()} <span className=" whitespace-nowrap"><ItemTag item={log.item} /></span></span>)}
+                  {log.type == "level" && (<span className="">Skill: {log.text} (<span className="text-rsgreen">{log.text2}</span>)</span>)}
+                  {log.type == "attribute" && (<span className="text-rsyellow">{attributeText} {log.text}</span>)}
+                  {log.type == "item" && log.item && (<span>{log.text}+{log.itemAmount?.toLocaleString()} <span className=" whitespace-nowrap"><ItemTag item={log.item} /></span></span>)}
                 </div>
               )
             })}

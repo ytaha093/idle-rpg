@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import { refillEnergy, consumeEnergy, increaseBonus, log } from "../../slices/PlayerDataSlice";
+import { refillEnergy, consumeEnergy, log } from "../../slices/PlayerDataSlice";
 import { settingsIcon } from "../../assets/icons";
 import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
@@ -23,8 +23,6 @@ function Header() {
   const settingTimer = useRef<number>(null);
   const actionTimer = useRef<number>(null);
   const trainingAttrRef = useRef(playerData.trainingAttribute);
-  const bonusProgressRef = useRef<number>(playerData.bonusProgress);
-  const bonusCapRef = useRef<number>(playerData.bonusCap);
   const playerActionRef = useRef(playerData.activeAction);
 
 
@@ -32,14 +30,10 @@ function Header() {
   useEffect(() => {
     if (activeAction) { progressAction() }
     trainingAttrRef.current = playerData.trainingAttribute;
-    bonusProgressRef.current = playerData.bonusProgress;
-    bonusCapRef.current = playerData.bonusCap;
     playerActionRef.current = playerData.activeAction;
   }, [
     activeAction,
     playerData.trainingAttribute,
-    playerData.bonusProgress,
-    playerData.bonusCap,
     playerData.activeAction
   ])
 
@@ -83,20 +77,9 @@ function Header() {
           if (playerAction.action === "gathering") {
             dispatch(gather(playerAction.options as GatherTypes));
           }
-          dispatch(addItem({ id: "Gold", amount: 24 }));
-          dispatch(addBattling(23));
-          if (Math.random() < 0.5) {
-            dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }));
-            dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
-          }
+          // dispatch(addItem({ id: "Gold", amount: 24 }));
+          // dispatch(addBattling(23));
 
-          dispatch(increaseBonus());
-          bonusProgressRef.current++;
-          if (bonusProgressRef.current == bonusCapRef.current) {
-            const bonus = bonusCapRef.current * 15;
-            dispatch(addItem({ id: "Gold", amount: bonus }));
-            dispatch(log({ type: "item", text: `Action Bonus: +`, item: "Gold", itemAmount: bonus }))
-          }
 
           // reset timer
           actionTimer.current = null;
@@ -105,20 +88,8 @@ function Header() {
           // when the last action is completed dont reset timer
         } else if (currentProgress === 0 && currentEnergyRef.current <= 1) {
           // trigger on complete action
-          dispatch(addItem({ id: "Gold", amount: 24 }));
-          dispatch(addBattling(23));
-          if (Math.random() < 0.5) {
-            dispatch(addAttribute({ name: trainingAttrRef.current, value: 1 }));
-            dispatch(log({ type: "attribute", text: `+1 ${trainingAttrRef.current}` }))
-          }
-
-          dispatch(increaseBonus());
-          bonusProgressRef.current++;
-          if (bonusProgressRef.current == bonusCapRef.current) {
-            const bonus = bonusCapRef.current * 15;
-            dispatch(addItem({ id: "GreaterRuneOfTheWarlord", amount: bonus }));
-            dispatch(log({ type: "item", text: `Action Bonus: +`, itemAmount: bonus, item: "GreaterRuneOfTheWarlord" }))
-          }
+          // dispatch(addItem({ id: "Gold", amount: 24 }));
+          // dispatch(addBattling(23));
 
           // reduce the display number but dont reset and stop animation
           dispatch(consumeEnergy());

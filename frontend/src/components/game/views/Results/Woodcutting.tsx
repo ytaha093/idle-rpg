@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux"
 import type { RootState } from "../../../../store"
 import ItemTag from "../../Tags/ItemTag"
+import CurrentResults from "./CurrentResults";
 
 const Woodcutting = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
@@ -9,9 +10,7 @@ const Woodcutting = () => {
 
       <div className="font-pixel text-center mt-1">You swing your hatchet...</div>
       <div className="text-xs mt-1">
-        <div className="font">+364 <span className="text-[#bff] font-pixel">[Woodcutting Exp]</span></div>
-        <div className="font">+102 <ItemTag item="Wood" /></div>
-        <div className="font">+1 <ItemTag item="TreeSap" /></div>
+        <CurrentResults />
       </div>
 
 

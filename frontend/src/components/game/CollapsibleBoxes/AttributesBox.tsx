@@ -11,8 +11,7 @@ function AttributesBox() {
   const dispatch = useDispatch<AppDispatch>();
 
   function handleSetTraining(newAttribute: AttributeName) {
-    const oldAttribute = training;
-    dispatch(setAttribute({ newAttribute, oldAttribute }));
+    dispatch(setAttribute({ newAttribute }))
   }
 
   return (

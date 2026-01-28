@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { hydrateUser } from "./thunks/authThunk"
-import { gather } from "./thunks/actionThunks"
 
 const initialState = {
     Skills: {
@@ -70,6 +69,14 @@ const SkillDataSlice = createSlice({
             const { name, value } = action.payload
             state.Attributes[name] += value
         },
+        setSkillXP(state, action: PayloadAction<{ name: keyof typeof initialState.Skills, value: number }>) {
+            const { name, value } = action.payload
+            state.Skills[name] = value
+        },
+        addSkillXP(state, action: PayloadAction<{ name: keyof typeof initialState.Skills, value: number }>) {
+            const { name, value } = action.payload
+            state.Skills[name] += value
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -85,21 +92,17 @@ const SkillDataSlice = createSlice({
                         Defense: action.payload.attributes.Defense,
                         Accuracy: action.payload.attributes.Accuracy,
                         Dodge: action.payload.attributes.Dodge,
-                        "Gold Rush": action.payload.attributes.GoldRush,
+                        "Gold Rush": action.payload.attributes.Gold_Rush,
                         Mining: action.payload.attributes.Mining,
                         Woodcutting: action.payload.attributes.Woodcutting,
                         Quarrying: action.payload.attributes.Quarrying,
-                        "Clan Boost": action.payload.attributes.ClanBoost,
+                        "Clan Boost": action.payload.attributes.Clan_Boost,
                     }
                 }
-            })
-            .addCase(gather.fulfilled, (state, action) => {
-                const { skill, xp } = action.payload.xp
-                state.Skills[skill] = xp
             })
     }
 })
 
-export const { setBattling, addBattling, setDungeoneering, setMining, setWoodcutting, setQuarrying, setRunecrafting, setJewelcrafting, setHerblore, setAttribute, addAttribute } = SkillDataSlice.actions
+export const { setBattling, addBattling, setDungeoneering, setMining, setWoodcutting, setQuarrying, setRunecrafting, setJewelcrafting, setHerblore, setAttribute, addAttribute, setSkillXP, addSkillXP } = SkillDataSlice.actions
 
 export default SkillDataSlice.reducer;

@@ -5,8 +5,8 @@ import ProtectedRouter from './route/ProtectedRouter.tsx'
 import type { AppDispatch } from './store.ts'
 import PageLoader from './components/game/PageLoader.tsx'
 import { hydrateUser } from './slices/thunks/authThunk.ts'
-
 export default function App() {
+
     const dispatch = useDispatch<AppDispatch>()
 
     // if user should be logged in, hydrate user data 

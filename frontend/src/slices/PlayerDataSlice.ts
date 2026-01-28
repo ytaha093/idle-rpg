@@ -2,11 +2,10 @@ import { createSlice } from "@reduxjs/toolkit"
 import type { AttributeName, SkillName } from "./SkillsDataSlice"
 import type { ItemId } from "../util/Descriptions/Items"
 import { hydrateUser } from "./thunks/authThunk"
-import { setAttribute } from "./thunks/actionThunks"
 
-type logType = "item" | "attribute"
+type logType = "item" | "attribute" | "text" | "level"
 
-type logEntry = { time: string, type: logType, text: string, item?: ItemId, itemAmount?: number }
+type logEntry = { time?: string, type: logType, text?: string, text2?: string, item?: ItemId, itemAmount?: number }
 
 const initialState = {
     maxEnergy: 10,
@@ -46,19 +45,16 @@ const playerDataSlice = createSlice({
         refillEnergy: (state) => {
             state.currentEnergy = state.maxEnergy;
         },
-        increaseBonus: (state) => {
-            state.bonusProgress++;
-            if (state.bonusProgress == state.bonusCap) {
-            } else if (state.bonusProgress > state.bonusCap) {
-                state.bonusCap++;
-                state.bonusProgress = 1;
-            }
+        setBonusData: (state, action: { type: string, payload: { bonusCap: number, bonusProgress: number } }) => {
+            state.bonusCap = action.payload.bonusCap;
+            state.bonusProgress = action.payload.bonusProgress;
         },
-        log: (state, action: { type: string, payload: { type: logType, text: string, item?: ItemId, itemAmount?: number } }) => {
+        log: (state, action: { type: string, payload: logEntry }) => {
             state.log.unshift({
                 time: new Date().toLocaleTimeString("en-GB"),
                 type: action.payload.type,
                 text: action.payload.text,
+                text2: action.payload.text2,
                 item: action.payload.item,
                 itemAmount: action.payload.itemAmount,
             })
@@ -70,22 +66,16 @@ const playerDataSlice = createSlice({
         resetPlayer: () => initialState,
     },
     extraReducers: (builder) => {
-        builder.addCase(hydrateUser.fulfilled, (state, action) => {
-            if (action.payload.stats) {
-                state.maxEnergy = action.payload.stats.maxEnergy;
-                state.currentEnergy = action.payload.stats.currentEnergy;
-                state.bonusCap = action.payload.stats.bonusCap;
-                state.bonusProgress = action.payload.stats.bonusProgress;
-                state.trainingAttribute = action.payload.stats
-                    .trainingAttribute as AttributeName;
-            }
-        }),
-            builder.addCase(setAttribute.fulfilled, (state, action) => {
-                state.trainingAttribute = action.payload.attribute;
-            }),
-            builder.addCase(setAttribute.rejected, (state, action) => {
-                state.trainingAttribute = action.payload ?? state.trainingAttribute;
-            });
+        builder
+            .addCase(hydrateUser.fulfilled, (state, action) => {
+                if (action.payload.stats) {
+                    state.maxEnergy = action.payload.stats.maxEnergy
+                    state.currentEnergy = action.payload.stats.currentEnergy
+                    state.bonusCap = action.payload.stats.bonusCap
+                    state.bonusProgress = action.payload.stats.bonusProgress
+                    state.trainingAttribute = action.payload.stats.trainingAttribute.replace("_", " ") as AttributeName
+                }
+            })
     },
 });
 
@@ -97,7 +87,7 @@ export const {
     setCurrentEnergy,
     consumeEnergy,
     refillEnergy,
-    increaseBonus,
+    setBonusData,
     log,
     clearLog,
     resetPlayer,
