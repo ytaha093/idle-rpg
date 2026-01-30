@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import prisma from '../prisma'
 
-const COOLDOWN_MS = 5000; // 5 seconds
+const COOLDOWN_MS = 5400; // 5.4 seconds instead of 5.5 to account for varriance in network latency
 
 export async function checkCooldown(req: Request, res: Response, next: NextFunction) {
     if (!req.userId) return res.status(401).json({ error: "Unauthorized" })

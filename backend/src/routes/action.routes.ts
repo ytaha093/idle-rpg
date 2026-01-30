@@ -6,9 +6,16 @@ import { validationResult } from "express-validator";
 import { gatheringValidator, trainAttributeValidator } from "../middleware/validators";
 import { getGatheringItemDrops, getGatheringXPDrop } from "../utils/gatheringUtils";
 import { checkCooldown } from "../middleware/checkCooldown";
-import { getActionBonus, getAttributeUpgrade } from "../utils/ActionUtils";
+import { getActionBonus, getAttributeUpgrade, refillEnergy } from "../utils/ActionUtils";
+import { checEnergyCount } from "../middleware/checEnergyCount";
 
 const actionRouter = Router()
+
+actionRouter.post("/refill-energy", checkAuth, async (req: Request, res: Response) => {
+    const energy = await refillEnergy(req.userId as number)
+
+    res.json({ energy: energy.currentEnergy })
+})
 
 actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async (req: Request, res: Response) => {
     const errors = validationResult(req);
@@ -30,7 +37,7 @@ actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async 
     res.json({ attribute: attribute })
 })
 
-actionRouter.post("/gathering", checkAuth, checkCooldown, gatheringValidator, async (req: Request, res: Response) => {
+actionRouter.post("/gathering", checkAuth, checkCooldown, checEnergyCount, gatheringValidator, async (req: Request, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ error: errors.array()[0].msg });
@@ -42,7 +49,7 @@ actionRouter.post("/gathering", checkAuth, checkCooldown, gatheringValidator, as
     const actionBonus = await getActionBonus(req.userId as number)
     const attributeUpgrade = await getAttributeUpgrade(req.userId as number)
 
-    return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade })
+    return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade, energyRemaining: req.energy })
 })
 
 

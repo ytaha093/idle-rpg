@@ -26,7 +26,7 @@ function LogBox() {
                   <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-0.5 tracking-tighter">
                     [{log.time}]
                   </span>
-                  {log.type == "level" && (<span className="">Skill: {log.text} (<span className="text-rsgreen">{log.text2}</span>)</span>)}
+                  {log.type == "level" && (<span className="">Skill: {log.text} (<span className="text-rsgreen font-semibold">{log.text2}</span>)</span>)}
                   {log.type == "attribute" && (<span className="text-rsyellow">{attributeText} {log.text}</span>)}
                   {log.type == "item" && log.item && (<span>{log.text}+{log.itemAmount?.toLocaleString()} <span className=" whitespace-nowrap"><ItemTag item={log.item} /></span></span>)}
                 </div>

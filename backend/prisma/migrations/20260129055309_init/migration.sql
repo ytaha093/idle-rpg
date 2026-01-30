@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Stats" ALTER COLUMN "maxEnergy" SET DEFAULT 300,
+ALTER COLUMN "currentEnergy" SET DEFAULT 300;

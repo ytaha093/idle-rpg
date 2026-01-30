@@ -1,9 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { addAttribute, addSkillXP, type AttributeName } from "../SkillsDataSlice"
-import type { ItemId } from "../../util/Descriptions/Items";
-import { log, setBonusData, setTraining } from "../PlayerDataSlice";
-import { addItem } from "../inventorySlice";
-import { setLastResults } from "../UIDataSlice";
+import type { ItemId } from "../../util/Descriptions/Items"
+import { log, setBonusData, setCurrentEnergy, setTraining } from "../PlayerDataSlice"
+import { addItem } from "../inventorySlice"
+import { setLastResults } from "../UIDataSlice"
+
+
+export const executeAction = createAsyncThunk("actions/execute", async (action: { action: string; options: string }, { dispatch }) => {
+    if (action.action === "Gathering") {
+        dispatch(gather(action.options as GatherTypes))
+    }
+})
+
+type energyResponse = { energy: number }
+
+export const refillEnergy = createAsyncThunk<void>("action/refillEnergy", async (_, { dispatch }) => {
+    const response = await fetch("/api/action/refill-energy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+    })
+    if (!response.ok) {
+        return console.error("Failed to refill energy")
+    }
+
+    const data = await response.json() as energyResponse
+    dispatch(setCurrentEnergy(data.energy))
+})
+
 
 export const setAttribute = createAsyncThunk<void, { newAttribute: AttributeName }>("action/setAttribute", async ({ newAttribute }, { dispatch }) => {
     const response = await fetch("/api/action/train-attribute", {
@@ -24,7 +48,8 @@ type gatherResponse = {
     xp: { amount: number, skill: GatherTypes, levelUp: boolean, level: number | false },
     item: { itemId: ItemId, amount: number, log: boolean }[],
     actionBonus: { bonusProgress: number, bonusCap: number, triggerBonus: boolean, bonusItem: { itemId: ItemId, amount: number } | null },
-    attribute: { attribute: string, amount: number } | null
+    attribute: { attribute: string, amount: number } | null,
+    energyRemaining: number
 }
 
 export const gather = createAsyncThunk<void, GatherTypes, { rejectValue: string }>("action/gather", async (type, { dispatch }) => {
@@ -59,10 +84,11 @@ export const gather = createAsyncThunk<void, GatherTypes, { rejectValue: string 
     }
     // update attribute if amy
     if (data.attribute) {
-        dispatch(addAttribute({ name: data.attribute.attribute.replace("_", " ") as AttributeName, value: 1 }))
+        dispatch(addAttribute({ name: data.attribute.attribute as AttributeName, value: 1 }))
         dispatch(log({ type: "attribute", text: data.attribute.attribute }))
     }
     // set current results
     if (data.actionBonus.bonusItem) data.item.push({ itemId: data.actionBonus.bonusItem.itemId, amount: data.actionBonus.bonusItem.amount, log: false })
     dispatch(setLastResults({ xp: { skill: data.xp.skill, amount: data.xp.amount }, items: data.item, attribute: data.attribute }))
+    dispatch(setCurrentEnergy(data.energyRemaining))
 })

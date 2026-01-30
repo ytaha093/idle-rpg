@@ -17,7 +17,7 @@ export default function App() {
     }, [])
 
     return (<>
-        <PageLoader />
+        <PageLoader startVisible={true} />
         <RouterProvider router={ProtectedRouter} />
     </>)
 }

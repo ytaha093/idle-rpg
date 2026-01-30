@@ -22,6 +22,9 @@ const playerDataSlice = createSlice({
     name: "player data",
     initialState,
     reducers: {
+        clearActiveAction: (state) => {
+            state.activeAction = { action: "", options: "" };
+        },
         setActiveAction: (state, action) => {
             state.activeAction = action.payload;
         },
@@ -38,12 +41,7 @@ const playerDataSlice = createSlice({
             state.currentEnergy = action.payload;
         },
         consumeEnergy: (state) => {
-            if (state.currentEnergy > 0) {
-                state.currentEnergy--;
-            }
-        },
-        refillEnergy: (state) => {
-            state.currentEnergy = state.maxEnergy;
+            state.currentEnergy--
         },
         setBonusData: (state, action: { type: string, payload: { bonusCap: number, bonusProgress: number } }) => {
             state.bonusCap = action.payload.bonusCap;
@@ -80,13 +78,13 @@ const playerDataSlice = createSlice({
 });
 
 export const {
+    clearActiveAction,
     setActiveAction,
     setActiveSkill,
     setTraining,
     setMaxEnergy,
     setCurrentEnergy,
     consumeEnergy,
-    refillEnergy,
     setBonusData,
     log,
     clearLog,

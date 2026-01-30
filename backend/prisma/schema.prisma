@@ -29,8 +29,8 @@ model User {
 model Stats {
   userId Int @id
 
-  maxEnergy         Int               @default(10)
-  currentEnergy     Int               @default(10)
+  maxEnergy         Int               @default(300)
+  currentEnergy     Int               @default(300)
   bonusCap          Int               @default(5)
   bonusProgress     Int               @default(0)
   trainingAttribute TrainingAttribute @default(Health)

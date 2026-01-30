@@ -1,13 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
-import { refillEnergy, consumeEnergy, log } from "../../slices/PlayerDataSlice";
 import { settingsIcon } from "../../assets/icons";
-import { addAttribute, addBattling } from "../../slices/SkillsDataSlice";
 import ItemTag from "./Tags/ItemTag";
-import { addItem } from "../../slices/inventorySlice";
 import { logoutUser } from "../../slices/thunks/authThunk";
-import { gather, type GatherTypes } from "../../slices/thunks/actionThunks";
+import { executeAction, refillEnergy } from "../../slices/thunks/actionThunks";
 
 function Header() {
   const playerData = useSelector((state: RootState) => state.playerData);
@@ -17,25 +14,67 @@ function Header() {
 
   const [settings, setSettings] = useState(false);
   const [progress, setProgress] = useState<number>(100);
-  const [activeAction, setActive] = useState(true)
 
-  const currentEnergyRef = useRef<number>(playerData.currentEnergy);
-  const settingTimer = useRef<number>(null);
-  const actionTimer = useRef<number>(null);
-  const trainingAttrRef = useRef(playerData.trainingAttribute);
-  const playerActionRef = useRef(playerData.activeAction);
+  const settingTimer = useRef<number | null>(null)
+  const actionStartTime = useRef<number | null>(null)
+  const animationFrameRef = useRef<number | null>(null)
+  const activeActionRef = useRef<{ action: string, options: string }>(playerData.activeAction)
+  const currentEnergyRef = useRef<number>(playerData.currentEnergy)
 
-
+  const duration = 5500; // 5.5 seconds
 
   useEffect(() => {
-    if (activeAction) { progressAction() }
-    trainingAttrRef.current = playerData.trainingAttribute;
-    playerActionRef.current = playerData.activeAction;
-  }, [
-    activeAction,
-    playerData.trainingAttribute,
-    playerData.activeAction
-  ])
+    // update refs on every change to action or energy
+    activeActionRef.current = playerData.activeAction
+    currentEnergyRef.current = playerData.currentEnergy
+
+    // only starts new if animation has stopped, current loop will be updated by refs
+    if (activeActionRef.current.action !== "" && animationFrameRef.current == null && currentEnergyRef.current > 0) {
+      animationFrameRef.current = requestAnimationFrame(step)
+    }
+
+    if (activeActionRef.current.action == "" && animationFrameRef.current == null && currentEnergyRef.current > 0) {
+      setProgress(100)
+    }
+
+
+    // the animation function
+    function step(timestamp: number) {
+      // if no timer, start timer and do action
+      if (actionStartTime.current == null) {
+        // do action here
+        dispatch(executeAction(activeActionRef.current))
+        actionStartTime.current = timestamp
+      }
+
+      const elapsed = timestamp - actionStartTime.current
+      const progress = 100 - (elapsed / duration * 100)
+      setProgress(progress)
+      // when done reset the timer
+      if (progress <= 0) {
+        actionStartTime.current = null
+        // if stop action selected or out of energy stop once bar empty
+        if (activeActionRef.current.action === "") {
+          cancelAnimationFrame(animationFrameRef.current as number)
+          animationFrameRef.current = null
+          console.log("action stopped")
+          setProgress(100)
+          return
+        } else if (currentEnergyRef.current <= 0) {
+          cancelAnimationFrame(animationFrameRef.current as number)
+          animationFrameRef.current = null
+          console.log("action stopped")
+          setProgress(0)
+          return
+        }
+      }
+      animationFrameRef.current = requestAnimationFrame(step)
+    }
+
+  }, [playerData.activeAction, playerData.currentEnergy])
+
+
+
 
   async function openSettings() {
     settings ? setSettings(false) : setSettings(true);
@@ -43,64 +82,6 @@ function Header() {
     settingTimer.current = setTimeout(() => { setSettings(false) }, 5000)
   }
 
-  async function resetActionCount() {
-    if (progress == 0) actionTimer.current = null;
-    dispatch(refillEnergy());
-    currentEnergyRef.current = playerData.maxEnergy;
-    setActive(true);
-    // TODO: send request to server for server side energy update
-  }
-
-  async function progressAction() {
-    const duration = 5500; // should be 5.5 sec note incase i forget while testing
-    let currentProgress = 100;
-    let lastUpdate = 0;
-
-    const process = (time: number) => {
-      if (currentEnergyRef.current > 0) {
-        // set start time if unset, get current time, set last update time
-        const currentTime = time;
-        if (!actionTimer.current) actionTimer.current = currentTime;
-
-        // prevent state from updating more then 40 times a second to prevent excessive re-renders
-        if (time - lastUpdate > 25 || currentProgress == 0) {
-          // move progress bar based on time
-          currentProgress = Math.max(100 - ((currentTime - actionTimer.current) / duration) * 100, 0);
-          setProgress(currentProgress);
-          lastUpdate = time;
-        }
-
-        // when progress bar hits 0 if actions remain, reset timer
-        if (currentProgress === 0 && currentEnergyRef.current > 1) {
-          // trigger on complete action
-          const playerAction = playerActionRef.current
-          if (playerAction.action === "gathering") {
-            dispatch(gather(playerAction.options as GatherTypes));
-          }
-          // dispatch(addItem({ id: "Gold", amount: 24 }));
-          // dispatch(addBattling(23));
-
-
-          // reset timer
-          actionTimer.current = null;
-          dispatch(consumeEnergy());
-          currentEnergyRef.current--;
-          // when the last action is completed dont reset timer
-        } else if (currentProgress === 0 && currentEnergyRef.current <= 1) {
-          // trigger on complete action
-          // dispatch(addItem({ id: "Gold", amount: 24 }));
-          // dispatch(addBattling(23));
-
-          // reduce the display number but dont reset and stop animation
-          dispatch(consumeEnergy());
-          currentEnergyRef.current--;
-          setActive(false);
-        }
-        requestAnimationFrame(process);
-      }
-    };
-    requestAnimationFrame(process);
-  }
   const playerOnline = 126;
   return (
     <>
@@ -121,8 +102,8 @@ function Header() {
         </div>
 
         <div data-section="progress bar" className="flex items-center w-1/2 p-[0.2rem]">
-          <div className={`w-full h-full bg-linear-0  ${playerData.currentEnergy != 0 ? "to-stone-900 from-grey4" : "to-red-950 from-red-900"} from-grey4 border border-grey3 relative cursor-pointer`} onClick={resetActionCount}>
-            <div id="meter" className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all ${progress > 99 ? "duration-0" : "duration-25"} ease-linear`} style={{ width: `${progress}%` }}></div>
+          <div className={`w-full h-full bg-linear-0  ${(playerData.currentEnergy != 0 || progress != 0) ? "to-stone-900 from-grey4" : "to-red-950 from-red-900"} from-grey4 border border-grey3 relative cursor-pointer`} onClick={() => dispatch(refillEnergy())}>
+            <div id="meter" className={`w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38] transition-all duration-0`} style={{ width: `${progress}%` }}></div>
             <div className=" absolute inset-0 flex justify-center items-center font-pixel text-[0.8rem] ">
               Energy Remaining: {playerData.currentEnergy.toLocaleString()}
             </div>

@@ -96,14 +96,14 @@ export async function getAttributeUpgrade(userID: number) {
     }
 
     // how many full 100-level chunks
-    const tiers = Math.floor(currentAttribute[stats.trainingAttribute] / 50);
+    const tiers = Math.floor(currentAttribute[stats.trainingAttribute] / 60);
 
     // each tier reduces chance by 30%
     const chance = 0.04 * Math.pow(0.85, tiers);
 
 
     if (Math.random() < chance) {
-        const attribute = (stats.trainingAttribute).replace("_", "");
+        const attribute = (stats.trainingAttribute)
         await prisma.attributes.update({
             where: {
                 userId: userID
@@ -112,7 +112,29 @@ export async function getAttributeUpgrade(userID: number) {
                 [attribute]: { increment: 1 }
             }
         })
-        attributeUpgrade = { attribute, amount: 1 }
+        attributeUpgrade = { attribute: attribute.replace("_", " "), amount: 1 }
     }
     return attributeUpgrade
+}
+
+export async function refillEnergy(userId: number) {
+    const stats = await prisma.stats.findUnique({
+        where: { userId },
+        select: { maxEnergy: true, currentEnergy: true }
+    })
+
+    if (!stats) {
+        throw new Error("User stats not found")
+    }
+
+    if (stats.currentEnergy >= stats.maxEnergy) {
+        return { currentEnergy: stats.currentEnergy }
+    }
+
+    await prisma.stats.update({
+        where: { userId },
+        data: { currentEnergy: stats.maxEnergy }
+    })
+
+    return { currentEnergy: stats.maxEnergy }
 }

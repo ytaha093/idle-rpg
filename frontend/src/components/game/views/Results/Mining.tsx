@@ -5,6 +5,9 @@ import CurrentResults from "./CurrentResults";
 
 const Mining = () => {
   const playerInventory = useSelector((state: RootState) => state.invData);
+  const results = useSelector((state: RootState) => state.uiData.lastResults)
+
+  if (!results) return <div className="font-pixel text-center">Starting action...</div>
 
   return (
     <div className="flex flex-col items-center ">

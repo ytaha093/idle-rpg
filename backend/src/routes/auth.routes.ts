@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import { checkAuth } from "../middleware/checkAuth";
 import { authCookieOptions } from "../config/authCookies";
 import { loginValidator, registerValidator } from "../middleware/validators";
+import { refillEnergy } from "../utils/ActionUtils";
 
 const authRouter = Router()
 
@@ -93,6 +94,8 @@ authRouter.post("/register", registerValidator, async (req: Request, res: Respon
 
 
 authRouter.get("/me", checkAuth, async (req: Request, res: Response) => {
+    await refillEnergy(req.userId as number)
+
     const user = await prisma.user.findUnique({
         where: { id: req.userId },
         include: {

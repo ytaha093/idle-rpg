@@ -27,7 +27,6 @@ const authSlice = createSlice({
             .addCase(loginUser.fulfilled, (state) => {
                 state.loggedIn = true
                 state.error = undefined
-                state.loading = false
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loggedIn = false;
@@ -40,7 +39,6 @@ const authSlice = createSlice({
             .addCase(createUser.fulfilled, (state) => {
                 state.loggedIn = true
                 state.error = undefined
-                state.loading = false
             })
             .addCase(createUser.rejected, (state, action) => {
                 state.error = action.payload || "An error occurred";

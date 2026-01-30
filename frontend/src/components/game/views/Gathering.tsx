@@ -61,8 +61,8 @@ function Gathering() {
   function startGather(name: SkillName) {
     dispatch(setLastResults(null))
     dispatch(setActiveSkill(name))
-    dispatch(setActiveAction({ action: "gathering", options: name }))
-    dispatch(setCurrentView(name))
+    dispatch(setActiveAction({ action: "Gathering", options: name }))
+    dispatch(setCurrentView(`Gathering ${name}`))
 
   }
 
