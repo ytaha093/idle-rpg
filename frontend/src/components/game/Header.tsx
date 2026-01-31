@@ -5,7 +5,6 @@ import { settingsIcon } from "../../assets/icons";
 import ItemTag from "./Tags/ItemTag";
 import { logoutUser } from "../../slices/thunks/authThunk";
 import { executeAction, refillEnergy } from "../../slices/thunks/actionThunks";
-import { consumeEnergy } from "../../slices/PlayerDataSlice";
 
 function Header() {
   const playerData = useSelector((state: RootState) => state.playerData);
@@ -23,6 +22,7 @@ function Header() {
   const duration = 5500 // 5.5s
 
   const intervalRef = useRef<number | null>(null)
+  const animationFrameRef = useRef<number | null>(null)
   const lastActionTimeRef = useRef<number | null>(null)
 
   useEffect(() => {
@@ -36,36 +36,73 @@ function Header() {
       setProgress(100)
     }
 
-    // start action fuction if action is active and no interval started yet
+    // start action bar fuction if action is active and no interval started yet
     if (intervalRef.current === null && activeActionRef.current.action !== "" && currentEnergyRef.current > 0) {
 
+      // The timer has 2 functions, the first is just for the action bar animation, the second is to trigger the action event
+      // both use lastActionTimeRef to track time for 1 src of truth
+
+
+      // start animation function
+      animationFrameRef.current = requestAnimationFrame(step)
+
+      function step(timestamp: number) {
+        // if no timer keep looping till timer set by interval function
+        if (lastActionTimeRef.current != null) {
+
+          // moves the progress bar
+          const elapsed = Date.now() - lastActionTimeRef.current
+          const progress = 100 - (elapsed / duration * 100)
+          setProgress(progress)
+
+
+          // when done reset the timer
+          if (progress <= 0) {
+            // if stop action selected or out of energy, then stop once bar empty.
+            if (activeActionRef.current.action === "") {
+              cancelAnimationFrame(animationFrameRef.current as number)
+              animationFrameRef.current = null
+              console.log("action stopped")
+              setProgress(100)
+              return
+            } else if (currentEnergyRef.current <= 0) {
+              cancelAnimationFrame(animationFrameRef.current as number)
+              animationFrameRef.current = null
+              console.log("action stopped")
+              setProgress(0)
+              return
+            }
+          }
+        }
+        animationFrameRef.current = requestAnimationFrame(step)
+      }
+
+      // timer for action event trigger
       intervalRef.current = window.setInterval(() => {
         // if no time / time reset use current time and execute action
         if (lastActionTimeRef.current === null) {
           lastActionTimeRef.current = Date.now()
-          dispatch(consumeEnergy())
+          dispatch(executeAction(activeActionRef.current))
         }
 
-        // handle progress bar
+        // timer
         const now = Date.now()
         const elapsed = now - (lastActionTimeRef.current as number)
-        const progress = 100 - (elapsed / duration * 100)
-        setProgress(Math.max(0, Math.min(100, progress)))
 
         // when timer completes reset timer or stop interval if no energy or action
-        if (progress <= 0) {
+        if (elapsed >= duration) {
           lastActionTimeRef.current = null
           if (currentEnergyRef.current <= 0) {
             clearInterval(intervalRef.current as number)
             intervalRef.current = null
+            setProgress(0)
           } else if (activeActionRef.current.action == "") {
             clearInterval(intervalRef.current as number)
             intervalRef.current = null
             setProgress(100)
           }
         }
-
-      }, 10) // update every 10ms
+      }, 25)
     }
 
   }, [playerData.activeAction, playerData.currentEnergy])
