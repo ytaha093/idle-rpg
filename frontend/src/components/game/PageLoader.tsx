@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 
 export default function PageLoader({ startVisible = true }) {
-    console.log(startVisible)
     const [visible, setVisible] = useState(startVisible)
     const [faded, setFaded] = useState(!startVisible)
     const loading = useSelector((state: RootState) => state.auth.loading)
