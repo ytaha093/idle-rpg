@@ -22,13 +22,13 @@ function LogBox() {
               const attributeText = (log.type === "attribute" && (log.text == "Accuracy" || log.text == "Dodge")) ? "+0.01%" : "+1"
 
               return (
-                <div className="text-[0.7rem]/3.5 text-left [word-spacing:-1px]" key={`${log.time}-${index}`}>
-                  <span className=" text-center text-neutral-500 text-[0.6rem] inline-block mr-0.5 tracking-tighter">
+                <div className="text-[0.7rem]/3.5 text-left [word-spacing:-1px] flex items-center flex-wrap" key={`${log.time}-${index}`}>
+                  <span className=" text-center text-neutral-500 text-[0.6rem] mr-0.5 tracking-tighter inline-block">
                     [{log.time}]
                   </span>
                   {log.type == "level" && (<span className="">Skill: {log.text} (<span className="text-rsgreen font-semibold">{log.text2}</span>)</span>)}
                   {log.type == "attribute" && (<span className="text-rsyellow">{attributeText} {log.text}</span>)}
-                  {log.type == "item" && log.item && (<span>{log.text}+{log.itemAmount?.toLocaleString()} <span className=" whitespace-nowrap"><ItemTag item={log.item} /></span></span>)}
+                  {log.type == "item" && log.item && (<><span>{log.text}+{log.itemAmount?.toLocaleString()} </span><span className="leading-3"><ItemTag item={log.item} /></span></>)}
                 </div>
               )
             })}
