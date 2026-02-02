@@ -12,12 +12,13 @@ const initialState: InventoryState = {
     DungeoneeringTokens: 0,
     GatheringSkillShard: 0,
     ArtisanShard: 0,
-    ResourceCache: 0,
+    HeroicShard: 0,
 
     // Materials
     Metal: 0,
     Wood: 0,
     Stone: 0,
+    ResourceCache: 0,
 
     // Components
     WeaponComponent: 0,
@@ -67,6 +68,10 @@ const initialState: InventoryState = {
     AlchemicEssence: 0,
     GoldenEgg: 0,
     DemonicDust: 0,
+
+    // Upgrade stones
+    HealthUpgradeStone: 0,
+    DamageUpgradeStone: 0,
 }
 
 const inventorySlice = createSlice({

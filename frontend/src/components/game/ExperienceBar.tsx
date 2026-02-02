@@ -53,12 +53,12 @@ function ExperienceBar({ activeSkill, skill }: { activeSkill?: boolean, skill?: 
 
         return (
             <>
-                <div data-section="skill xp bar" className="mb-0.5">
+                <div data-section="skill xp bar" className="mx-px mb-0.75">
                     <SkillTooltip skill={activeName}>
                         <div className="w-full h-6 bg-linear-0 to-stone-900 from-grey4 border border-stone-800 relative">
                             <img src={getIconForSkill(activeName)} alt={`${activeName} icon`} className="absolute right-2 top-1/2 -translate-y-1/2 inline-block max-h-5 max-w-6" />
                             <div id="meter" className="w-full h-full bg-g bg-linear-0 to-[#392f23] from-[#5c4b38]" style={{ width: `${activeProgress}%` }}></div>
-                            <div className=" absolute inset-0 flex justify-between items-center font-pixel text-xs hover:cursor-default mr-9 ml-1">
+                            <div className=" absolute inset-0 flex justify-between items-center font-pixel text-xs hover:cursor-default mr-9 ml-1.5">
                                 <span>{activeName}</span> <span>({activeLevel})</span>
                             </div>
                         </div>

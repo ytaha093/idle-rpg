@@ -2,14 +2,13 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../store";
 import { setActiveAction, setActiveSkill } from "../../../slices/PlayerDataSlice";
-import { miningIcon, woodcuttingIcon, quarryingIcon } from "../../../assets/icons";
 import type { SkillName } from "../../../slices/SkillsDataSlice";
 import { getLevel } from "../../../util/LevelCalcUtil";
 import ItemTag from "../Tags/ItemTag";
 import type { ItemId } from "../../../util/Descriptions/Items";
 import ToolTag from "../Tags/ToolTag";
-import type { ToolSlot } from "../../../slices/EquipmentSlice";
 import { setCurrentView, setLastResults } from "../../../slices/UIDataSlice";
+import { gatheringSkills } from "../../../util/Descriptions/GatheringSkills";
 
 function Gathering() {
   const dispatch = useDispatch();
@@ -17,42 +16,6 @@ function Gathering() {
   const skillXP = useSelector((state: RootState) => state.skillData.Skills)
 
   const [expanded, setExpanded] = useState<SkillName | null>(null)
-
-  const skills: { name: SkillName, icon: string, tool: ToolSlot, loot: { name: string; itemId: string; req: number }[] }[] = [
-    {
-      name: "Mining",
-      icon: miningIcon,
-      tool: "Pickaxe",
-      loot: [
-        { name: "Gem Fragments", itemId: "GemFragment", req: 50 },
-        { name: "Ruby", itemId: "Ruby", req: 50 },
-        { name: "Diamond", itemId: "Diamond", req: 60 },
-        { name: "Dragonstone", itemId: "Dragonstone", req: 75 },
-        { name: "Onyx", itemId: "Onyx", req: 100 },
-      ]
-    },
-    {
-      name: "Woodcutting",
-      icon: woodcuttingIcon,
-      tool: "Hatchet",
-      loot: [
-        { name: "Tree Sap", itemId: "TreeSap", req: 50 },
-        { name: "Resource Cache", itemId: "ResourceCache", req: 50 },
-        { name: "Bird's Nest", itemId: "BirdsNest", req: 60 },
-        { name: "Golden Egg", itemId: "GoldenEgg", req: 100 },
-      ]
-    },
-    {
-      name: "Quarrying",
-      icon: quarryingIcon,
-      tool: "Hammer",
-      loot: [
-        { name: "Sandstone", itemId: "Sandstone", req: 50 },
-        { name: "Marble", itemId: "Marble", req: 60 },
-        { name: "Malachite", itemId: "Malachite", req: 100 },
-      ]
-    }
-  ]
 
   function toggle(name: SkillName) {
     setExpanded((prev) => (prev === name ? null : name))
@@ -63,17 +26,16 @@ function Gathering() {
     dispatch(setActiveSkill(name))
     dispatch(setActiveAction({ action: "Gathering", options: name }))
     dispatch(setCurrentView(`Gathering ${name}`))
-
   }
 
   return (
     <div>
       <div className="flex flex-col gap-3 m-auto">
-        {skills.map((skill) => {
+        {gatheringSkills.map((skill) => {
           const level = getLevel(skillXP[skill.name]);
           const isExpanded = expanded === skill.name;
           return (
-            <div key={skill.name} className={`w-full border rounded-xs overflow-hidden bg-grey1 ${activeSkill === skill.name ? "border-rsgreendim" : "border-stone-700"}`} >
+            <div key={skill.name} className={`w-full border rounded-xs overflow-hidden bg-grey1 ${activeSkill === skill.name ? "border-rsgreendim2" : "border-stone-800"}`} >
               <div className="flex items-center justify-between px-3 py-2 hover:cursor-pointer" onClick={() => toggle(skill.name)} >
                 <div className="flex items-center gap-3">
                   <img src={skill.icon} alt={`${skill.name} icon`} className="inline-block max-h-10 max-w-10" />
@@ -96,7 +58,7 @@ function Gathering() {
               </div>
 
               {isExpanded && (
-                <div className="px-3 pt-2 pb-3 border-t border-stone-700 bg-grey2 flex justify-between">
+                <div className="px-3 pt-2 pb-3 border-t border-stone-800 bg-grey2 flex justify-between">
                   <div className="text-xs flex font-pixel h-5 items-center">
                     <span className="font-bold mr-0.5">Tool:</span>
                     <ToolTag item={skill.tool} showImg={false} showQuality={false} />

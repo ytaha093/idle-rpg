@@ -4,11 +4,12 @@ export type ItemId =
     | "DungeoneeringTokens"
     | "GatheringSkillShard"
     | "ArtisanShard"
-    | "ResourceCache"
+    | "HeroicShard"
 
     | "Metal"
     | "Wood"
     | "Stone"
+    | "ResourceCache"
 
     | "WeaponComponent"
     | "ArmorComponent"
@@ -53,6 +54,9 @@ export type ItemId =
     | "DragonLairKey"
     | "GodWarsKey"
     | "AncientVaultKey"
+
+    | "HealthUpgradeStone"
+    | "DamageUpgradeStone"
 
 export const ITEMS: Record<ItemId, {
     name: string
@@ -111,15 +115,16 @@ export const ITEMS: Record<ItemId, {
         tradeable: false,
         category: "Currency",
     },
-    ResourceCache: {
-        name: "Resource Cache",
-        description: "Can be traded on the Black Market for 10,000 of any resource.",
-        icon: '💼',
-        textColor: "rarity-2",
-        boxColor: "rarity-2",
-        tradeable: false,
+    HeroicShard: {
+        name: "Heroic Shard",
+        description: "When these shards are used, they provide a permanent gold increase to battling and resource increase to gathering.",
+        icon: '🪞',
+        textColor: "rarity-4",
+        boxColor: "rarity-4",
+        tradeable: true,
         category: "Currency",
     },
+
 
     // Materials
     Metal: {
@@ -147,6 +152,15 @@ export const ITEMS: Record<ItemId, {
         textColor: "rarity-1",
         boxColor: "rarity-1",
         tradeable: true,
+        category: "Materials",
+    },
+    ResourceCache: {
+        name: "Resource Cache",
+        description: "Can be traded on the Black Market for 10,000 of any resource.",
+        icon: '💼',
+        textColor: "rarity-2",
+        boxColor: "rarity-2",
+        tradeable: false,
         category: "Materials",
     },
 
@@ -459,7 +473,6 @@ export const ITEMS: Record<ItemId, {
         tradeable: true,
         category: "Runes",
     },
-
     RuneOfTheGladiator: {
         name: "Rune of the Gladiator",
         description: "+150 or +7.5% Health \n+150 or +7.5% Attack \n+150 or +7.5% Defence \n+1.5% Resources",
@@ -496,4 +509,23 @@ export const ITEMS: Record<ItemId, {
         tradeable: true,
         category: "Runes",
     },
+    // Upgrade Stones
+    HealthUpgradeStone: {
+        name: "Health Upgrade Stone",
+        description: "Used to upgrade maximum health.",
+        icon: '❤️',
+        textColor: "rarity-3",
+        boxColor: "rarity-3",
+        tradeable: true,
+        category: "Upgrade Stones",
+    },
+    DamageUpgradeStone: {
+        name: "Damage Upgrade Stone",
+        description: "Used to upgrade damage to mobs and bosses.",
+        icon: '⚔️',
+        textColor: "rarity-4",
+        boxColor: "rarity-4",
+        tradeable: true,
+        category: "Upgrade Stones",
+    }
 }
