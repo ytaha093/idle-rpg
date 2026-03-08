@@ -9,6 +9,7 @@ const toolTyles = ['Worn', '', "Tempered"]
 const armorTypes = ['Worn', '', "Full"]
 
 export function getWeaponName(level: number) {
+    level = level + 1
     if (level >= 1 && level <= 27) {
         const metal = metalTypes[Math.floor((level - 1) / 3)]
         const type = swordTypes[(level - 1) % 3]
@@ -21,6 +22,7 @@ export function getWeaponName(level: number) {
 }
 
 export function getArmorName(level: number, peice: ArmorSlot) {
+    level = level + 1
     if (level >= 1 && level <= 27) {
         const metal = metalTypes[Math.floor((level - 1) / 3)]
         const type = armorTypes[(level - 1) % 3]
@@ -33,6 +35,7 @@ export function getArmorName(level: number, peice: ArmorSlot) {
 }
 
 export function getToolName(level: number, tool: ToolSlot) {
+    level = level + 1
     if (level >= 1 && level <= 27) {
         const metal = metalTypes[Math.floor((level - 1) / 3)]
         const type = toolTyles[(level - 1) % 3]

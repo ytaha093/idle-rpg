@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../../store";
+import type { AppDispatch, RootState } from "../../../store";
 import { setActiveAction, setActiveSkill } from "../../../slices/PlayerDataSlice";
 import type { SkillName } from "../../../slices/SkillsDataSlice";
 import { getLevel } from "../../../util/LevelCalcUtil";
@@ -9,9 +9,10 @@ import type { ItemId } from "../../../util/Descriptions/Items";
 import ToolTag from "../Tags/ToolTag";
 import { setCurrentView, setLastResults } from "../../../slices/UIDataSlice";
 import { gatheringSkills } from "../../../util/Descriptions/GatheringSkills";
+import { refillEnergy } from "../../../slices/thunks/actionThunks";
 
 function Gathering() {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const activeSkill = useSelector((state: RootState) => state.playerData.activeSkill)
   const skillXP = useSelector((state: RootState) => state.skillData.Skills)
 
@@ -26,6 +27,7 @@ function Gathering() {
     dispatch(setActiveSkill(name))
     dispatch(setActiveAction({ action: "Gathering", options: name }))
     dispatch(setCurrentView(`Gathering ${name}`))
+    dispatch(refillEnergy())
   }
 
   return (

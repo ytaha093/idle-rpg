@@ -227,7 +227,7 @@ export function getMobById(mobId: number) {
     for (const zone of battlingData) {
         const mob = zone.mobs.find(m => m.id === mobId)
         if (mob) {
-            return { ...mob, zone: zone.name }
+            return { ...mob, zone: zone.name, loot: zone.loot }
         }
     }
     return null

@@ -57,9 +57,9 @@ model Skills {
 model Attributes {
   userId Int @id
 
-  Health      Int @default(0)
-  Attack      Int @default(0)
-  Defense     Int @default(0)
+  Health      Int @default(10)
+  Attack      Int @default(10)
+  Defense     Int @default(10)
   Accuracy    Int @default(0)
   Dodge       Int @default(0)
   Gold_Rush   Int @default(0)
@@ -74,26 +74,26 @@ model Attributes {
 model Equipment {
   userId            Int  @id @unique
   user              User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  MainWeaponLevel   Int  @default(1)
-  MainWeaponQuality Int  @default(1)
-  OffWeaponLevel    Int  @default(1)
-  OffWeaponQuality  Int  @default(1)
-  HelmLevel         Int  @default(1)
-  HelmQuality       Int  @default(1)
-  ArmorLevel        Int  @default(1)
-  ArmorQuality      Int  @default(1)
-  GauntletsLevel    Int  @default(1)
-  GauntletsQuality  Int  @default(1)
-  LegsLevel         Int  @default(1)
-  LegsQuality       Int  @default(1)
-  BootsLevel        Int  @default(1)
-  BootsQuality      Int  @default(1)
-  PickaxeLevel      Int  @default(1)
-  PickaxeQuality    Int  @default(1)
-  HatchetLevel      Int  @default(1)
-  HatchetQuality    Int  @default(1)
-  HammerLevel       Int  @default(1)
-  HammerQuality     Int  @default(1)
+  MainWeaponLevel   Int  @default(0)
+  MainWeaponQuality Int  @default(0)
+  OffWeaponLevel    Int  @default(0)
+  OffWeaponQuality  Int  @default(0)
+  HelmLevel         Int  @default(0)
+  HelmQuality       Int  @default(0)
+  ArmorLevel        Int  @default(0)
+  ArmorQuality      Int  @default(0)
+  GauntletsLevel    Int  @default(0)
+  GauntletsQuality  Int  @default(0)
+  LegsLevel         Int  @default(0)
+  LegsQuality       Int  @default(0)
+  BootsLevel        Int  @default(0)
+  BootsQuality      Int  @default(0)
+  PickaxeLevel      Int  @default(0)
+  PickaxeQuality    Int  @default(0)
+  HatchetLevel      Int  @default(0)
+  HatchetQuality    Int  @default(0)
+  HammerLevel       Int  @default(0)
+  HammerQuality     Int  @default(0)
 }
 
 model InventoryItem {
@@ -114,6 +114,7 @@ enum ItemId {
   GatheringSkillShard
   ArtisanShard
   ResourceCache
+  HeroicShard
   // Materials
   Metal
   Wood
@@ -161,6 +162,9 @@ enum ItemId {
   AlchemicEssence
   GoldenEgg
   DemonicDust
+  // Upgrade Stones
+  HealthUpgradeStone
+  DamageUpgradeStone
 }
 
 enum TrainingAttribute {

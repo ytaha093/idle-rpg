@@ -14,15 +14,19 @@ import { useDispatch } from "react-redux"
 import { setCurrentView, setLastResults } from "../../slices/UIDataSlice"
 import { setActiveAction, setActiveSkill } from "../../slices/PlayerDataSlice"
 import type { SkillName } from "../../slices/SkillsDataSlice"
+import BattlingResults from "./views/Results/BattlingResults"
+import { refillEnergy } from "../../slices/thunks/actionThunks"
+import type { AppDispatch } from "../../store"
 
 function GameContent({ view }: { view: string }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   function startAction(name: SkillName, view: string, action: { action: string, options: string }) {
     dispatch(setLastResults(null))
     dispatch(setActiveSkill(name))
     dispatch(setActiveAction({ action: action.action, options: action.options }))
     dispatch(setCurrentView(`Gathering ${name}`))
+    dispatch(refillEnergy())
   }
 
   function stopAction() {
@@ -58,6 +62,7 @@ function GameContent({ view }: { view: string }) {
         {view == ("Gathering Mining") && <Mining />}
         {view == ("Gathering Woodcutting") && <Woodcutting />}
         {view == ("Gathering Quarrying") && <Quarrying />}
+        {view == ("Battling Result") && <BattlingResults />}
       </div>
     </div>
   )

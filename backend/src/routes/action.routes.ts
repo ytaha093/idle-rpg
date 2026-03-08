@@ -3,11 +3,12 @@ import { Request, Response } from 'express';
 import { checkAuth } from "../middleware/checkAuth";
 import prisma from "../prisma";
 import { validationResult } from "express-validator";
-import { gatheringValidator, trainAttributeValidator } from "../middleware/validators";
+import { battlingValidator, gatheringValidator, trainAttributeValidator } from "../middleware/validators";
 import { getGatheringItemDrops, getGatheringXPDrop } from "../utils/gatheringUtils";
 import { checkCooldown } from "../middleware/checkCooldown";
 import { getActionBonus, getAttributeUpgrade, refillEnergy } from "../utils/ActionUtils";
 import { checEnergyCount } from "../middleware/checEnergyCount";
+import { getBattleData, getCombatItemDrops, getCombatXPDrop } from "../utils/BattlingUtils";
 
 const actionRouter = Router()
 
@@ -50,6 +51,22 @@ actionRouter.post("/gathering", checkAuth, checkCooldown, checEnergyCount, gathe
     const attributeUpgrade = await getAttributeUpgrade(req.userId as number)
 
     return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade, energyRemaining: req.energy })
+})
+
+actionRouter.post("/battling", checkAuth, checkCooldown, checEnergyCount, battlingValidator, async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    const { mobID } = req.body
+    const battleData = await getBattleData(req.userId as number, mobID)
+    const xpDrop = await getCombatXPDrop(battleData.win, mobID, req.userId as number)
+    const itemDrops = await getCombatItemDrops(battleData.win, mobID, req.userId as number)
+    const actionBonus = await getActionBonus(req.userId as number)
+    const attributeUpgrade = await getAttributeUpgrade(req.userId as number)
+
+    return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade, energyRemaining: req.energy, battleData: battleData })
 })
 
 

@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../../../store";
+import type { AppDispatch, RootState } from "../../../store";
 import { setActiveAction, setActiveSkill } from "../../../slices/PlayerDataSlice";
 import { setCurrentView, setLastResults } from "../../../slices/UIDataSlice";
 import { battlingData } from "../../../util/Descriptions/BattlingData";
 import ItemTag from "../Tags/ItemTag";
 import type { ItemId } from "../../../util/Descriptions/Items";
+import { refillEnergy } from "../../../slices/thunks/actionThunks";
 
 function Battling() {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const playerData = useSelector((state: RootState) => state.playerData);
     const [expanded, setExpanded] = useState<string | null>(null);
 
@@ -17,11 +18,12 @@ function Battling() {
         setExpanded((prev) => (prev === zoneName ? null : zoneName));
     }
 
-    function startBattle(zoneName: string, mobId: number, mobName: string) {
+    function startBattle(mobId: number) {
         dispatch(setActiveSkill("Battling"));
         dispatch(setLastResults(null));
-        dispatch(setActiveAction({ action: "Battling", options: `${zoneName}|${mobId}` }));
-        dispatch(setCurrentView(`Battling ${mobName}`));
+        dispatch(setActiveAction({ action: "Battling", options: `${mobId}` }));
+        dispatch(setCurrentView(`Battling Result`));
+        dispatch(refillEnergy())
     }
 
     return (
@@ -61,14 +63,14 @@ function Battling() {
                                 <div className="px-2.5 pt-2 pb-3 border-t border-stone-800 bg-grey2 flex justify-between">
                                     <div>
                                         <div className="flex flex-col gap-1">
-                                            <div className="flex justify-between items-center text-sm font-pixel font-medium mb-1 pb-1 pl-1 border-b border-grey4">
+                                            <div className="flex justify-between items-center text-sm font-pixel font-medium mb-1 pb-1 pl-1 border-b border-grey5">
                                                 <div className="text-base">Mobs</div>
                                                 <div className="text-right">Power</div>
                                             </div>
                                             {zone.mobs.map((mob) => (
                                                 <div key={mob.id}
                                                     className="font-pixel text-xs hover:cursor-pointer text-[#7ae] hover:text-[#58c] p-1 rounded hover:bg-grey3 flex items-center justify-between gap-6"
-                                                    onClick={() => startBattle(zone.name, mob.id, mob.name)} >
+                                                    onClick={() => startBattle(mob.id)} >
                                                     <div>{mob.name}</div>
                                                     <div className="text-right text-greywhite">{mob.power.toLocaleString()}</div>
                                                 </div>
@@ -78,7 +80,7 @@ function Battling() {
 
                                     <div className="w-1/2">
                                         <div className="flex flex-col gap-1">
-                                            <div className="flex justify-between items-center text-sm font-pixel font-medium mb-1 pb-1 pl-1 border-b border-grey4">
+                                            <div className="flex justify-between items-center text-sm font-pixel font-medium mb-1 pb-1 pl-1 border-b border-grey5">
                                                 <div className="text-base">Potential Loot</div>
                                                 <div className="grid grid-cols-2 w-4/10 ">
                                                     <div className="text-greywhite text-center">Amount</div>

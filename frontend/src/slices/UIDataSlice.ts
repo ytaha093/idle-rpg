@@ -2,7 +2,16 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ItemId } from "../util/Descriptions/Items";
 import type { EquipmentSlot, ToolSlot } from "./EquipmentSlice";
 
-type lastResultsType = { xp: { skill: string, amount: number }, items: { itemId: ItemId, amount: number }[], attribute: { attribute: string } | null } | null
+type lastResultsType = {
+    xp: { skill: string, amount: number },
+    items: { itemId: ItemId, amount: number }[],
+    attribute: { attribute: string } | null,
+    battleData?: {
+        win: boolean,
+        player: { maxHP: number, currentHP: number, playerDamage: number, playerHits: number, playerMisses: number, playerDodges: number },
+        mob: { maxHP: number, currentHP: number, mobDamage: number, mobHits: number, mobMisses: number, mobName: string }
+    }
+} | null
 
 const initialState = {
     equitmentPopup: null as EquipmentSlot | ToolSlot | null,

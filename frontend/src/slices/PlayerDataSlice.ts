@@ -8,6 +8,7 @@ type logType = "item" | "attribute" | "text" | "level"
 type logEntry = { time?: string, type: logType, text?: string, text2?: string, item?: ItemId, itemAmount?: number }
 
 const initialState = {
+    name: "null",
     maxEnergy: 10,
     currentEnergy: 10,
     bonusCap: 5,
@@ -67,6 +68,7 @@ const playerDataSlice = createSlice({
         builder
             .addCase(hydrateUser.fulfilled, (state, action) => {
                 if (action.payload.stats) {
+                    state.name = action.payload.username
                     state.maxEnergy = action.payload.stats.maxEnergy
                     state.currentEnergy = action.payload.stats.currentEnergy
                     state.bonusCap = action.payload.stats.bonusCap

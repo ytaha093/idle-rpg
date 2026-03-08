@@ -43,3 +43,11 @@ export const gatheringValidator = [
     .isIn(['Mining', 'Woodcutting', 'Quarrying'])
     .withMessage("Invalid gathering type")
 ]
+
+export const battlingValidator = [
+  body("mobID")
+    .exists().withMessage("mobID is required")
+    .custom((value) => typeof value === "number")
+    .withMessage("mobID must be a number")
+    .isInt({ min: 1 }).withMessage("Invalid mobID")
+]
