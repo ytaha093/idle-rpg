@@ -13,7 +13,6 @@ type battleResponse = {
 export async function getBattleData(userID: number, mobID: number): Promise<battleResponse> {
     const playerStats = await getPlayerStats(userID)
     const mobStats = await getMobStats(mobID)
-    console.log(playerStats, mobStats)
     let win = false
     let playerHP = playerStats.playerHP
     let mobHP = mobStats.hp
@@ -149,14 +148,23 @@ async function getCombatXP(userID: number): Promise<number> {
     return xpData.Battling
 }
 
-export async function getCombatItemDrops(win: boolean, mobID: number, userID: number): Promise<{ itemId: ItemId; amount: number; log: boolean }[]> {
+type ItemDrop = { itemId: ItemId, amount: number, log: boolean, text?: string, rarity?: number }
+
+export async function getCombatItemDrops(win: boolean, mobID: number, userID: number): Promise<ItemDrop[]> {
     if (!win) return []
 
     const mob = getMobById(mobID)
     if (!mob) throw new Error("Mob not found")
 
     const itemDrops = getZoneItemDrops(mob.loot)
-    itemDrops.push({ itemId: "Gold", amount: (100 + (mob.id * 17)), log: false })
+    const goldDrop = (100 + (mob.id * 17))
+    itemDrops.push({ itemId: "Gold", amount: goldDrop, log: false })
+
+    if (Math.random() <= (1 / 2000)) {
+        const goldRush = await getGoldRushDrop(userID, goldDrop)
+        itemDrops.push({ itemId: "Gold", amount: goldRush.gold, log: true, text: "Gold Rush: ", rarity: goldRush.rarity })
+    }
+
 
     for (const drop of itemDrops) {
         await prisma.inventoryItem.upsert({
@@ -181,7 +189,7 @@ export async function getCombatItemDrops(win: boolean, mobID: number, userID: nu
 
 }
 
-function getZoneItemDrops(lootTable: { item: ItemId, chance: number, amount: number }[]): { itemId: ItemId; amount: number; log: boolean }[] {
+function getZoneItemDrops(lootTable: { item: ItemId, chance: number, amount: number }[]): ItemDrop[] {
     const drops = []
     const dropChance = 0.02
     if (Math.random() >= dropChance) return []
@@ -198,4 +206,18 @@ function getZoneItemDrops(lootTable: { item: ItemId, chance: number, amount: num
     }
 
     return drops
+}
+
+async function getGoldRushDrop(userId: number, goldDrop: number): Promise<{ gold: number, rarity: number }> {
+    const goldRush = await prisma.attributes.findUnique({
+        where: { userId },
+        select: { Gold_Rush: true }
+    })
+
+    if (Math.random() <= 0.8) {
+        return { gold: goldDrop * (100 + goldRush!.Gold_Rush), rarity: 3 }
+    } if (Math.random() <= 0.8) {
+        return { gold: goldDrop * (200 + (goldRush!.Gold_Rush * 2)), rarity: 4 }
+    }
+    return { gold: goldDrop * (300 + (goldRush!.Gold_Rush * 3)), rarity: 5 }
 }

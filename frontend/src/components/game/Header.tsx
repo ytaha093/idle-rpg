@@ -106,7 +106,6 @@ function Header() {
     }
 
     return () => {
-      console.log("cleanup")
       if (intervalRef.current !== null) clearInterval(intervalRef.current)
       if (animationFrameRef.current !== null) cancelAnimationFrame(animationFrameRef.current)
       intervalRef.current = null

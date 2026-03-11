@@ -9,7 +9,7 @@ const CurrentResults = () => {
     return (<div>
         {results && <>
             <div>+{results.xp.amount} <span className="text-[#bff] font-pixel">[{results.xp.skill} Exp]</span></div>
-            {results.items.map((item) => { return <div key={item.itemId}>+{item.amount} <ItemTag item={item.itemId} /></div> })}
+            {results.items.map((item) => { return <div key={item.itemId + item.amount}>+{item.amount.toLocaleString()} <ItemTag item={item.itemId} /></div> })}
             {results.attribute && <span className="text-rsyellow font-semibold">+1 {results.attribute.attribute}</span>}
         </>}
     </div >)

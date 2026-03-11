@@ -5,7 +5,7 @@ import { hydrateUser, logoutUser } from "./thunks/authThunk"
 
 type logType = "item" | "attribute" | "text" | "level"
 
-type logEntry = { time?: string, type: logType, text?: string, text2?: string, item?: ItemId, itemAmount?: number }
+type logEntry = { time?: string, type: logType, text?: string, text2?: string, item?: ItemId, itemAmount?: number, textRarity?: number }
 
 const initialState = {
     name: "null",
@@ -56,6 +56,7 @@ const playerDataSlice = createSlice({
                 text2: action.payload.text2,
                 item: action.payload.item,
                 itemAmount: action.payload.itemAmount,
+                textRarity: action.payload.textRarity
             })
         },
         clearLog: (state) => {

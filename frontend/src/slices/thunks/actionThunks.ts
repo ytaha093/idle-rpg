@@ -72,7 +72,7 @@ export type GatherTypes = "Mining" | "Woodcutting" | "Quarrying"
 
 type gatherResponse = {
     xp: { amount: number, skill: GatherTypes, levelUp: boolean, level: number | false },
-    item: { itemId: ItemId, amount: number, log: boolean }[],
+    item: { itemId: ItemId, amount: number, log: boolean, text?: string, rarity?: number }[],
     actionBonus: { bonusProgress: number, bonusCap: number, triggerBonus: boolean, bonusItem: { itemId: ItemId, amount: number } | null },
     attribute: { attribute: string, amount: number } | null,
     energyRemaining: number
@@ -99,7 +99,7 @@ export const gather = createAsyncThunk<void, GatherTypes, { rejectValue: string 
     data.item.forEach(item => {
         dispatch(addItem({ id: item.itemId, amount: item.amount }))
         if (item.log) {
-            dispatch(log({ type: "item", item: item.itemId as ItemId, itemAmount: item.amount }))
+            dispatch(log({ type: "item", item: item.itemId, itemAmount: item.amount, text: item.text, textRarity: item.rarity }))
         }
     })
     // update action bonus
@@ -121,7 +121,7 @@ export const gather = createAsyncThunk<void, GatherTypes, { rejectValue: string 
 
 type battleResponse = {
     xp: { amount: number, skill: GatherTypes, levelUp: boolean, level: number | false },
-    item: { itemId: ItemId, amount: number, log: boolean }[],
+    item: { itemId: ItemId, amount: number, log: boolean, text?: string, rarity?: number }[],
     actionBonus: { bonusProgress: number, bonusCap: number, triggerBonus: boolean, bonusItem: { itemId: ItemId, amount: number } | null },
     attribute: { attribute: string, amount: number } | null,
     energyRemaining: number,
@@ -153,7 +153,7 @@ export const battle = createAsyncThunk<void, number, { rejectValue: string }>("a
     data.item.forEach(item => {
         dispatch(addItem({ id: item.itemId, amount: item.amount }))
         if (item.log) {
-            dispatch(log({ type: "item", item: item.itemId as ItemId, itemAmount: item.amount }))
+            dispatch(log({ type: "item", item: item.itemId, itemAmount: item.amount, text: item.text, textRarity: item.rarity }))
         }
     })
     // update action bonus

@@ -5,7 +5,26 @@ import ItemTag from "../Tags/ItemTag";
 
 function LogBox() {
   let log = useSelector((state: RootState) => state.playerData.log);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+
+  function colorTextByRarity(text?: string, rarity?: number) {
+    if (!rarity || !text) return ""
+
+    switch (rarity) {
+      case 1:
+        return <span className="text-rarity-1">{text}</span>
+      case 2:
+        return <span className="text-rarity-2">{text}</span>
+      case 3:
+        return <span className="text-rarity-3">{text}</span>
+      case 4:
+        return <span className="text-rarity-4">{text}</span>
+      case 5:
+        return <span className="text-rarity-5">{text}</span>
+      default:
+        return <span className="text-rarity-1">{text}</span>
+    }
+  }
 
   return (
     <>
@@ -28,7 +47,7 @@ function LogBox() {
                   </span>
                   {log.type == "level" && (<span className="">Skill: {log.text} (<span className="text-rsgreen font-semibold">{log.text2}</span>)</span>)}
                   {log.type == "attribute" && (<span className="text-rsyellow">{attributeText} {log.text}</span>)}
-                  {log.type == "item" && log.item && (<><span>{log.text}+{log.itemAmount?.toLocaleString()} </span><span className="leading-3"><ItemTag item={log.item} /></span></>)}
+                  {log.type == "item" && log.item && (<><span>{colorTextByRarity(log.text, log.textRarity)}+{log.itemAmount?.toLocaleString()} </span><span className="leading-3"><ItemTag item={log.item} /></span></>)}
                 </div>
               )
             })}

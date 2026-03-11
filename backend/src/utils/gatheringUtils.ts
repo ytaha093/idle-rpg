@@ -1,4 +1,4 @@
-import { ItemId } from "../generated/prisma/client"
+import { Attributes, ItemId } from "../generated/prisma/client"
 import prisma from "../prisma"
 import { getLevel, getNextLevelXP } from "./levelUtils"
 
@@ -27,16 +27,19 @@ export async function getGatheringXPDrop(userID: number, type: "Mining" | "Woodc
     return { amount: xpDrop, skill: type, levelUp: levelUp, level: levelUp && getLevel(xp) + 1 }
 }
 
-export async function getGatheringItemDrops(userID: number, type: "Mining" | "Woodcutting" | "Quarrying"): Promise<{ itemId: ItemId; amount: number; log: boolean }[]> {
+type ItemDrop = { itemId: ItemId, amount: number, log: boolean, text?: string, rarity?: number }
+
+
+export async function getGatheringItemDrops(userID: number, type: "Mining" | "Woodcutting" | "Quarrying"): Promise<ItemDrop[]> {
     const level = getLevel(await getUserSkillXP(userID, type))
     const equipment = await getEquipmentBonuses(userID, type)
 
-    let itemDrops
+    let itemDrops: ItemDrop[]
 
     switch (type) {
-        case "Mining": itemDrops = miningDrops(level, equipment); break
-        case "Woodcutting": itemDrops = woodcuttingDrops(level, equipment); break
-        case "Quarrying": itemDrops = quarryingDrops(level, equipment); break
+        case "Mining": itemDrops = await miningDrops(userID, level, equipment); break
+        case "Woodcutting": itemDrops = await woodcuttingDrops(userID, level, equipment); break
+        case "Quarrying": itemDrops = await quarryingDrops(userID, level, equipment); break
     }
 
     for (const drop of itemDrops) {
@@ -62,8 +65,8 @@ export async function getGatheringItemDrops(userID: number, type: "Mining" | "Wo
 
 }
 
-function miningDrops(level: number, equipment: EquipmentBonuses) {
-    const drops = []
+async function miningDrops(userID: number, level: number, equipment: EquipmentBonuses) {
+    const drops: ItemDrop[] = []
 
     const randomModifier = getRandomArbitrary(0.9, 1.1)
     const lootChanceModifier = equipment.lootChanceBonus // item drop chance bonus
@@ -71,7 +74,15 @@ function miningDrops(level: number, equipment: EquipmentBonuses) {
     const resourceModifier = equipment.resourceBonus // equipment xp bonus
 
     // always drop metal
-    drops.push({ itemId: ItemId.Metal, amount: Math.round((100 * (levelModifier * resourceModifier)) * randomModifier), log: false })
+    const resourceAmount = Math.round((100 * (levelModifier * resourceModifier)) * randomModifier)
+    drops.push({ itemId: ItemId.Metal, amount: resourceAmount, log: false })
+
+    // roll for resource rush
+    if (Math.random() <= (1 / 2000)) {
+        const resourceRush = await getResourceRushDrop(userID, resourceAmount, "Mining")
+        drops.push({ itemId: ItemId.Metal, amount: resourceRush.resource, log: true, text: "Resource Rush: ", rarity: resourceRush.rarity })
+    }
+
     // level based rare items
     if (level >= 50) {
         if (Math.random() < 0.02 * lootChanceModifier) drops.push({ itemId: ItemId.GemFragment, amount: Math.round(12 * randomModifier), log: true })
@@ -92,7 +103,7 @@ function miningDrops(level: number, equipment: EquipmentBonuses) {
 }
 
 
-function woodcuttingDrops(level: number, equipment: EquipmentBonuses) {
+async function woodcuttingDrops(userID: number, level: number, equipment: EquipmentBonuses) {
     const drops = []
 
     const randomModifier = getRandomArbitrary(0.9, 1.1)
@@ -100,8 +111,16 @@ function woodcuttingDrops(level: number, equipment: EquipmentBonuses) {
     const levelModifier = (1 + (level / 100)) // +1%  per level
     const resourceModifier = equipment.resourceBonus // equipment xp bonus
 
-    // always drop wood
-    drops.push({ itemId: ItemId.Wood, amount: Math.round((100 * (levelModifier * resourceModifier)) * randomModifier), log: false })
+    // always drop metal
+    const resourceAmount = Math.round((100 * (levelModifier * resourceModifier)) * randomModifier)
+    drops.push({ itemId: ItemId.Wood, amount: resourceAmount, log: false })
+
+    // roll for resource rush
+    if (Math.random() <= (1 / 2000)) {
+        const resourceRush = await getResourceRushDrop(userID, resourceAmount, "Woodcutting")
+        drops.push({ itemId: ItemId.Wood, amount: resourceRush.resource, log: true, text: "Resource Rush: ", rarity: resourceRush.rarity })
+    }
+
     // level based rare items
     if (level >= 50) {
         if (Math.random() < 0.02 * lootChanceModifier) drops.push({ itemId: ItemId.TreeSap, amount: Math.round(1 * randomModifier), log: true })
@@ -119,7 +138,7 @@ function woodcuttingDrops(level: number, equipment: EquipmentBonuses) {
 }
 
 
-function quarryingDrops(level: number, equipment: EquipmentBonuses) {
+async function quarryingDrops(userID: number, level: number, equipment: EquipmentBonuses) {
     const drops = []
 
     const randomModifier = getRandomArbitrary(0.9, 1.1)
@@ -127,8 +146,16 @@ function quarryingDrops(level: number, equipment: EquipmentBonuses) {
     const levelModifier = (1 + (level / 100)) // +1% per level
     const resourceModifier = equipment.resourceBonus // equipment xp bonus
 
-    // always drop stone
-    drops.push({ itemId: ItemId.Stone, amount: Math.round((100 * (levelModifier * resourceModifier)) * randomModifier), log: false })
+    // always drop metal
+    const resourceAmount = Math.round((100 * (levelModifier * resourceModifier)) * randomModifier)
+    drops.push({ itemId: ItemId.Stone, amount: resourceAmount, log: false })
+
+    // roll for resource rush
+    if (Math.random() <= (1 / 2000)) {
+        const resourceRush = await getResourceRushDrop(userID, resourceAmount, "Quarrying")
+        drops.push({ itemId: ItemId.Stone, amount: resourceRush.resource, log: true, text: "Resource Rush: ", rarity: resourceRush.rarity })
+    }
+
     // level based rare items
     if (level >= 50) {
         if (Math.random() < 0.02 * lootChanceModifier) drops.push({ itemId: ItemId.Sandstone, amount: Math.round(1 * randomModifier), log: true })
@@ -191,3 +218,18 @@ function getBonuses(equipment: Equipment): EquipmentBonuses {
 
     return { resourceBonus, lootChanceBonus, xpBonus }
 }
+
+async function getResourceRushDrop(userId: number, resourceAmount: number, attribute: keyof Attributes): Promise<{ resource: number, rarity: number }> {
+    const rush = await prisma.attributes.findUnique({
+        where: { userId },
+        select: { [attribute]: true }
+    })
+
+    if (Math.random() <= 0.8) {
+        return { resource: resourceAmount * (100 + rush![attribute]), rarity: 3 }
+    } if (Math.random() <= 0.8) {
+        return { resource: resourceAmount * (200 + (rush![attribute] * 2)), rarity: 4 }
+    }
+    return { resource: resourceAmount * (300 + (rush![attribute] * 3)), rarity: 5 }
+}
+
