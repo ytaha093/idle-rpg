@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { hydrateUser } from "./thunks/authThunk";
+import { hydrateUser, logoutUser } from "./thunks/authThunk";
 
 export type ArmorSlot =
     | "Helm"
@@ -19,11 +19,11 @@ export type ToolSlot =
 
 export type EquipmentSlot = ToolSlot | WeaponSlot | ArmorSlot
 
-export type EquipData = { level: number; quality: number };
+export type EquipData = { level: number; quality: number }
 
-export type EquipmentState = Record<EquipmentSlot, EquipData>;
+export type EquipmentState = Record<EquipmentSlot, EquipData>
 
-const defaultEquip: EquipData = { level: 1, quality: 1 };
+const defaultEquip: EquipData = { level: 1, quality: 1 }
 
 const initialState: EquipmentState = {
     MainWeapon: { ...defaultEquip },
@@ -68,7 +68,8 @@ const equipmentSlice = createSlice({
                 state.Hatchet = { level: equip.HatchetLevel, quality: equip.HatchetQuality };
                 state.Hammer = { level: equip.HammerLevel, quality: equip.HammerQuality };
             }
-        });
+        })
+            .addCase(logoutUser.fulfilled, () => initialState)
     }
 });
 

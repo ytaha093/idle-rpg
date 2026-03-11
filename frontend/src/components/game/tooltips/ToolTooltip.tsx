@@ -30,6 +30,10 @@ function ToolTooltip({ children, item }: { children: ReactNode, item: "Hammer" |
     }
   }
 
+  const materialBoost = equipment.level
+  const xpBoost = equipment.quality
+  const lootBoost = equipment.quality
+
   const content = (
     <div className=" text-left max-w-90 font-inter relative">
       <div className="font-pixel flex gap-1 text-sm hover:cursor-pointer hover:bg-grey2 transition-all duration-100">
@@ -43,9 +47,9 @@ function ToolTooltip({ children, item }: { children: ReactNode, item: "Hammer" |
           [<span className="text-rsgreen font-semibold">{equipment.level}</span>]
         </div>
       </div>
-      <div>+2% {getMaterial(item)}</div>
-      <div>+2% {getSkill(item)} Exp</div>
-      <div>+2% {getSkill(item)} Loot</div>
+      <div>+{materialBoost}% {getMaterial(item)}</div>
+      <div>+{xpBoost}% {getSkill(item)} Exp</div>
+      <div>+{lootBoost}% {getSkill(item)} Loot</div>
 
       <img src={getIcon(item)} alt="" className="absolute bottom-0 right-0 h-7" />
     </div>

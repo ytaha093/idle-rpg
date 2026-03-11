@@ -105,6 +105,13 @@ function Header() {
       }, 25)
     }
 
+    return () => {
+      console.log("cleanup")
+      if (intervalRef.current !== null) clearInterval(intervalRef.current)
+      if (animationFrameRef.current !== null) cancelAnimationFrame(animationFrameRef.current)
+      intervalRef.current = null
+      animationFrameRef.current = null
+    }
   }, [playerData.activeAction, playerData.currentEnergy])
 
 

@@ -64,6 +64,7 @@ const authSlice = createSlice({
                 localStorage.clear()
                 state.loading = false
                 state.loggedIn = false
+                state = initialState
             })
             .addCase(logoutUser.pending, (state) => {
                 state.loading = true

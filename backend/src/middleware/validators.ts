@@ -51,3 +51,16 @@ export const battlingValidator = [
     .withMessage("mobID must be a number")
     .isInt({ min: 1 }).withMessage("Invalid mobID")
 ]
+
+export const upgradeEquipmentValidator = [
+  body("equipment")
+    .exists().withMessage("equipment is required")
+    .isString().withMessage("equipment must be a string")
+    .isIn(["MainWeapon", "OffWeapon", "Helm", "Armor", "Gauntlets", "Legs", "Boots", "Pickaxe", "Hatchet", "Hammer"])
+    .withMessage("Invalid equipment slot"),
+  body("type")
+    .exists().withMessage("type is required")
+    .isString().withMessage("type must be a string")
+    .isIn(["level", "quality"])
+    .withMessage("Invalid upgrade type")
+]

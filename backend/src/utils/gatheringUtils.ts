@@ -85,7 +85,7 @@ function miningDrops(level: number, equipment: EquipmentBonuses) {
     }
     // other drops
     if (Math.random() < 0.02 * lootChanceModifier) drops.push({ itemId: ItemId.ToolComponent, amount: Math.round(1 * randomModifier * levelModifier), log: true })
-    if (Math.random() < 0.005) drops.push({ itemId: ItemId.Credits, amount: Math.round(1 * randomModifier), log: true })
+    if (Math.random() < 0.001) drops.push({ itemId: ItemId.Credits, amount: Math.round(1 * randomModifier), log: true })
 
 
     return drops
@@ -167,27 +167,27 @@ async function getEquipmentBonuses(userID: number, skill: "Mining" | "Woodcuttin
             where: { userId: userID },
             select: { PickaxeLevel: true, PickaxeQuality: true }
         })
-        return getBonuses({ level: equipment?.PickaxeLevel ?? 1, quality: equipment?.PickaxeQuality ?? 1 })
+        return getBonuses({ level: equipment?.PickaxeLevel ?? 0, quality: equipment?.PickaxeQuality ?? 0 })
     } else if (skill === "Woodcutting") {
         const equipment = await prisma.equipment.findUnique({
             where: { userId: userID },
             select: { HatchetLevel: true, HatchetQuality: true }
         })
-        return getBonuses({ level: equipment?.HatchetLevel ?? 1, quality: equipment?.HatchetQuality ?? 1 })
+        return getBonuses({ level: equipment?.HatchetLevel ?? 0, quality: equipment?.HatchetQuality ?? 0 })
     } else {
         const equipment = await prisma.equipment.findUnique({
             where: { userId: userID },
             select: { HammerLevel: true, HammerQuality: true }
         })
-        return getBonuses({ level: equipment?.HammerLevel ?? 1, quality: equipment?.HammerQuality ?? 1 })
+        return getBonuses({ level: equipment?.HammerLevel ?? 0, quality: equipment?.HammerQuality ?? 0 })
     }
 }
 
 
 function getBonuses(equipment: Equipment): EquipmentBonuses {
-    const resourceBonus = 1 + (equipment.level * 0.02)
-    const lootChanceBonus = 1 + (equipment.quality * 0.02)
-    const xpBonus = 1 + (equipment.quality * 0.02)
+    const resourceBonus = 1 + (equipment.level * 0.01)
+    const lootChanceBonus = 1 + (equipment.quality * 0.01)
+    const xpBonus = 1 + (equipment.quality * 0.01)
 
     return { resourceBonus, lootChanceBonus, xpBonus }
 }

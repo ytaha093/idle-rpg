@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { ItemId } from "../util/Descriptions/Items"
 import type { PayloadAction } from "@reduxjs/toolkit"
-import { hydrateUser } from "./thunks/authThunk"
+import { hydrateUser, logoutUser } from "./thunks/authThunk"
 
 type InventoryState = Record<ItemId, number>
 
@@ -98,6 +98,7 @@ const inventorySlice = createSlice({
                     state[item.itemId] = item.amount
                 })
             })
+            .addCase(logoutUser.fulfilled, () => initialState)
     }
 })
 

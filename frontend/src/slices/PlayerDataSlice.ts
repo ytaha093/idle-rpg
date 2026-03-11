@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import type { AttributeName, SkillName } from "./SkillsDataSlice"
 import type { ItemId } from "../util/Descriptions/Items"
-import { hydrateUser } from "./thunks/authThunk"
+import { hydrateUser, logoutUser } from "./thunks/authThunk"
 
 type logType = "item" | "attribute" | "text" | "level"
 
@@ -76,6 +76,7 @@ const playerDataSlice = createSlice({
                     state.trainingAttribute = action.payload.stats.trainingAttribute.replace("_", " ") as AttributeName
                 }
             })
+            .addCase(logoutUser.fulfilled, () => initialState)
     },
 });
 

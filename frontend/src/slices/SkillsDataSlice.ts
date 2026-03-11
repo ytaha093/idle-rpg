@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
-import { hydrateUser } from "./thunks/authThunk"
+import { hydrateUser, logoutUser } from "./thunks/authThunk"
 
 const initialState = {
     Skills: {
@@ -100,6 +100,7 @@ const SkillDataSlice = createSlice({
                     }
                 }
             })
+            .addCase(logoutUser.fulfilled, () => initialState)
     }
 })
 

@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { ItemId } from "../util/Descriptions/Items";
 import type { EquipmentSlot, ToolSlot } from "./EquipmentSlice";
+import { logoutUser } from "./thunks/authThunk";
 
 type lastResultsType = {
     xp: { skill: string, amount: number },
@@ -36,6 +37,9 @@ const UIDataSlice = createSlice({
         setLastResults(state, action: PayloadAction<lastResultsType>) {
             state.lastResults = action.payload
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(logoutUser.fulfilled, () => initialState)
     }
 })
 

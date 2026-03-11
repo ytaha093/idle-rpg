@@ -3,12 +3,13 @@ import { Request, Response } from 'express';
 import { checkAuth } from "../middleware/checkAuth";
 import prisma from "../prisma";
 import { validationResult } from "express-validator";
-import { battlingValidator, gatheringValidator, trainAttributeValidator } from "../middleware/validators";
+import { battlingValidator, gatheringValidator, trainAttributeValidator, upgradeEquipmentValidator } from "../middleware/validators";
 import { getGatheringItemDrops, getGatheringXPDrop } from "../utils/gatheringUtils";
 import { checkCooldown } from "../middleware/checkCooldown";
 import { getActionBonus, getAttributeUpgrade, refillEnergy } from "../utils/ActionUtils";
 import { checEnergyCount } from "../middleware/checEnergyCount";
 import { getBattleData, getCombatItemDrops, getCombatXPDrop } from "../utils/BattlingUtils";
+import { type EquipmentSlot, type UpgradeType, queueUpgradeUserEquipment } from "../utils/upgradeEquipmentUtils";
 
 const actionRouter = Router()
 
@@ -36,6 +37,25 @@ actionRouter.post("/train-attribute", checkAuth, trainAttributeValidator, async 
     })
 
     res.json({ attribute: attribute })
+})
+
+actionRouter.post("/upgrade-equipment", checkAuth, upgradeEquipmentValidator, async (req: Request, res: Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
+    const { equipment, type } = req.body as { equipment: EquipmentSlot, type: UpgradeType }
+
+    try {
+        const upgraded = await queueUpgradeUserEquipment(req.userId as number, equipment, type)
+        return res.json(upgraded)
+    } catch (error) {
+        if (error instanceof Error) {
+            return res.status(400).json({ error: error.message })
+        }
+        return res.status(500).json({ error: "Failed to upgrade equipment" })
+    }
 })
 
 actionRouter.post("/gathering", checkAuth, checkCooldown, checEnergyCount, gatheringValidator, async (req: Request, res: Response) => {

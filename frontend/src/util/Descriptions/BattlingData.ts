@@ -11,9 +11,9 @@ export const battlingData: zone[] = [
             { item: "ArmorComponent", chance: 50, amount: 1 },
         ],
         mobs: [
-            { id: 1, name: "Rat", power: 10 },
-            { id: 2, name: "Spider", power: 25 },
-            { id: 3, name: "Chicken", power: 40 },
+            { id: 1, name: "Rat", power: 5 },
+            { id: 2, name: "Spider", power: 10 },
+            { id: 3, name: "Chicken", power: 25 },
             { id: 4, name: "Frog", power: 40 },
             { id: 5, name: "Man", power: 80 },
             { id: 6, name: "Cow", power: 140 },

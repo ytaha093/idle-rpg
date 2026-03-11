@@ -24,7 +24,7 @@ export async function getBattleData(userID: number, mobID: number): Promise<batt
     let mobMisses = 0
 
     const randomModifier = (Math.random() * 0.1) + 0.95 // random modifier between 0.95 and 1.05
-    const playerDamage = Math.round((1 + playerStats.totalAttack * 0.25) + Math.min(1, Math.abs((playerStats.totalAttack * 0.75) - mobStats.defense)) * randomModifier)
+    const playerDamage = Math.round((playerStats.totalAttack * 0.25) + Math.min(1, Math.abs((playerStats.totalAttack * 0.75) - mobStats.defense)) * randomModifier)
     const mobDamage = Math.round(((mobStats.attack * 0.25) + Math.min(1, Math.abs((mobStats.attack * 0.75) - playerStats.totalDefense))) * randomModifier)
 
     while (playerHP > 0 && mobHP > 0) {
@@ -74,13 +74,13 @@ async function getPlayerStats(userID: number): Promise<{ totalAttack: number, to
     if (!equipment) throw new Error("Equipment not found for user")
 
     let totalAttack = getTotalPower(equipment.MainWeaponLevel, equipment.MainWeaponQuality) +
-        getTotalPower(equipment.OffWeaponLevel, equipment.OffWeaponQuality) + 5
+        getTotalPower(equipment.OffWeaponLevel, equipment.OffWeaponQuality) + 10
 
     let totalDefense = getTotalPower(equipment.HelmLevel, equipment.HelmQuality) +
         getTotalPower(equipment.ArmorLevel, equipment.ArmorQuality) +
         getTotalPower(equipment.GauntletsLevel, equipment.GauntletsQuality) +
         getTotalPower(equipment.LegsLevel, equipment.LegsQuality) +
-        getTotalPower(equipment.BootsLevel, equipment.BootsQuality) + 5
+        getTotalPower(equipment.BootsLevel, equipment.BootsQuality) + 10
 
 
     const combatXP = await prisma.skills.findUnique({ where: { userId: userID }, select: { Battling: true } })
@@ -90,7 +90,7 @@ async function getPlayerStats(userID: number): Promise<{ totalAttack: number, to
     if (!attributes) throw new Error("Attributes not found for user")
 
     totalAttack = totalAttack * (attributes.Attack / 10)
-    totalDefense = (totalDefense / 3) * (attributes.Defense / 10)
+    totalDefense = (totalDefense / 2.5) * (attributes.Defense / 10)
 
     const playerHP = calcHP(getLevel(combatXP.Battling), attributes.Health);
 

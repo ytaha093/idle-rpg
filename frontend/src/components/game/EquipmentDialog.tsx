@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "../../store"
+import type { AppDispatch, RootState } from "../../store"
 import { setEquitmentPopup } from "../../slices/UIDataSlice"
 import { useEffect } from "react"
 import type { ArmorSlot, EquipmentSlot, ToolSlot, WeaponSlot, } from "../../slices/EquipmentSlice"
-import { getArmorName, getToolName, getWeaponName } from "../../util/EquipmentCalcUtils"
+import { getArmorName, getArmorUpgradeCost, getEquipmentUpgradeCost, getModifier, getPower, getToolName, getTotalPower, getWeaponName, getWeaponUpgradeCost } from "../../util/EquipmentCalcUtils"
 import { swordIcon, helmetIcon, armorIcon, gauntletsIcon, legsIcon, bootsIcon, hammerIcon, hatchetIcon, pickaxeIcon } from "../../assets/icons"
 import ItemTag from "./Tags/ItemTag"
 import type { ItemId } from "../../util/Descriptions/Items"
+import { upgradeEquipment } from "../../slices/thunks/actionThunks"
 
 function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
 
@@ -20,7 +21,7 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
   const toolComponent = useSelector((state: RootState) => state.invData.ToolComponent)
   const gold = useSelector((state: RootState) => state.invData.Gold)
   const { wood, stone, metal } = useSelector((state: RootState) => ({ wood: state.invData.Wood, stone: state.invData.Stone, metal: state.invData.Metal }))
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
 
   async function fadeOutAndClose() {
     const modal = document.querySelector('.animate-scaleInFast') as HTMLElement
@@ -29,6 +30,10 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
     modal?.classList.add('animate-scaleOutFast')
     await new Promise(resolve => setTimeout(resolve, 200))
     dispatch(setEquitmentPopup(null))
+  }
+
+  async function handleUpgrade(type: "level" | "quality") {
+    dispatch(upgradeEquipment({ equipment: item as EquipmentSlot, type: type }))
   }
 
   // Close on Escape key
@@ -86,17 +91,17 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
     const isWeapon = item.includes("Weapon")
     const name = isWeapon ? getWeaponName(equipment.quality) : getArmorName(equipment.quality, item as ArmorSlot)
 
-    const goldCost = 100
+    const goldCost = isWeapon ? Math.round(getEquipmentUpgradeCost(equipment.level + 1) * 2.5) : getEquipmentUpgradeCost(equipment.level + 1)
     const canUpgradeLevel = gold >= goldCost
 
-    const power = 12
-    const totalPower = 13
-    const nextPower = 15
+    const power = getPower(equipment.level)
+    const totalPower = getTotalPower(equipment.level, equipment.quality)
+    const nextPower = getPower(equipment.level + 1)
 
-    const modifier = 3
-    const nextModifier = 6
+    const modifier = getModifier(equipment.quality)
+    const nextModifier = getModifier(equipment.quality + 1)
 
-    const componentCost = isWeapon ? 3 : 1
+    const componentCost = isWeapon ? getWeaponUpgradeCost(equipment.quality + 1) : getArmorUpgradeCost(equipment.quality + 1)
     const canUpgradeType = isWeapon ? weaponComponent >= componentCost : armorComponent >= componentCost
 
     header = (<>
@@ -132,7 +137,11 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
             <span className={`pl-0.5 ${canUpgradeLevel ? "text-rsgreenlight" : "text-red font-semibold"}`}>{goldCost.toLocaleString()}</span>
           </div>
 
-          <button className={`rounded border-2 ${canUpgradeLevel ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}>Upgrade Level</button>
+          <button
+            disabled={!canUpgradeLevel}
+            onClick={() => handleUpgrade("level")}
+            className={`rounded border-2 ${canUpgradeLevel ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}
+          >Upgrade Level</button>
         </div>
 
         <div className="text-xs p-1.5 border border-grey5 bg-grey1 rounded flex flex-col flex-1 justify-center  items-center">
@@ -149,7 +158,11 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
             <span className={`pl-0.5 ${canUpgradeType ? "text-rsgreenlight" : "text-red font-semibold"}`}>{componentCost.toLocaleString()}</span>
           </div>
 
-          <button className={`rounded border-2 ${canUpgradeType ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}>Upgrade Type</button>
+          <button
+            disabled={!canUpgradeType}
+            onClick={() => handleUpgrade("quality")}
+            className={`rounded border-2 ${canUpgradeType ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}
+          >Upgrade Type</button>
         </div>
       </div>
     </>)
@@ -160,10 +173,14 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
     const name = getToolName(equipment.quality, item)
     const { skill, material, ammount } = getToolInfo(item)
 
-    const materialCost = 100
+    const materialBoost = equipment.level
+    const xpBoost = equipment.quality
+    const lootBoost = equipment.quality
+
+    const materialCost = getEquipmentUpgradeCost(equipment.level + 7) * 7
     const canUpgradeLevel = ammount >= materialCost
 
-    const componentCost = 1
+    const componentCost = getArmorUpgradeCost(equipment.quality + 1)
     const canUpgradeType = toolComponent >= componentCost
 
 
@@ -177,9 +194,9 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
     content = (<>
       <div className="flex gap-2.5 justify-center">
         <div className="flex flex-col">
-          <span>+2% {material}</span>
-          <span>+2% {skill} Exp</span>
-          <span>+2% {skill} Loot</span>
+          <span>+{materialBoost}% {material}</span>
+          <span>+{xpBoost}% {skill} Exp</span>
+          <span>+{lootBoost}% {skill} Loot</span>
         </div>
       </div>
 
@@ -191,7 +208,7 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
               <div className="text-xs">{name}</div>
               <div>[<span className="text-rsgreen font-semibold ">{equipment.level + 1}</span>]</div>
             </div>
-            <span>+4% {material}</span>
+            <span>+{materialBoost + 1}% {material}</span>
           </div>
 
           <div className="flex flex-col justify-center items-center">
@@ -200,7 +217,11 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
               <span className={`pl-0.5 ${canUpgradeLevel ? "text-rsgreenlight" : "text-red font-semibold"}`}>{materialCost.toLocaleString()}</span>
             </div>
 
-            <button className={`rounded border-2 ${canUpgradeLevel ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}>Upgrade Level</button>
+            <button
+              disabled={!canUpgradeLevel}
+              onClick={() => handleUpgrade("level")}
+              className={`rounded border-2 ${canUpgradeLevel ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}
+            >Upgrade Level</button>
           </div>
 
         </div>
@@ -215,8 +236,8 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
               </div>
               <div>[<span className="text-rsgreen font-semibold ">{equipment.level}</span>]</div>
             </div>
-            <span>+4% {skill} XP</span>
-            <span>+4% {skill} Loot</span>
+            <span>+{xpBoost + 1}% {skill} XP</span>
+            <span>+{lootBoost + 1}% {skill} Loot</span>
           </div>
 
 
@@ -226,7 +247,11 @@ function EquipmentDialog({ item }: { item: EquipmentSlot | null }) {
               <span className={`pl-0.5 ${canUpgradeType ? "text-rsgreenlight" : "text-red font-semibold"}`}>{componentCost.toLocaleString()}</span>
             </div>
 
-            <button className={`rounded border-2 ${canUpgradeType ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}>Upgrade Type</button>
+            <button
+              disabled={!canUpgradeType}
+              onClick={() => handleUpgrade("quality")}
+              className={`rounded border-2 ${canUpgradeType ? "bg-[#5a7e26] border-[#3a5218] hover:bg-[#72A22F] hover:cursor-pointer" : " text-greywhitedim bg-[#243310] border-[#111707] hover:cursor-not-allowed"}  px-2 py-1 mt-0.5`}
+            >Upgrade Type</button>
           </div>
 
         </div>

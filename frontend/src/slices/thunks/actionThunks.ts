@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { addAttribute, addSkillXP, type AttributeName } from "../SkillsDataSlice"
 import type { ItemId } from "../../util/Descriptions/Items"
 import { log, setBonusData, setCurrentEnergy, setTraining } from "../PlayerDataSlice"
-import { addItem } from "../inventorySlice"
+import { addItem, removeItem } from "../inventorySlice"
 import { setLastResults } from "../UIDataSlice"
+import { setEquipment, type EquipmentSlot } from "../EquipmentSlice"
 
 
 export const executeAction = createAsyncThunk("actions/execute", async (action: { action: string; options: string }, { dispatch }) => {
@@ -28,6 +29,29 @@ export const refillEnergy = createAsyncThunk<void>("action/refillEnergy", async 
 
     const data = await response.json() as energyResponse
     dispatch(setCurrentEnergy(data.energy))
+})
+
+type upgradeResponse = {
+    equipment: EquipmentSlot, level: number, quality: number,
+    item: { itemId: ItemId, amount: number }[],
+}
+
+export const upgradeEquipment = createAsyncThunk<void, { equipment: EquipmentSlot, type: "level" | "quality" }>("action/upgradeEquipment", async ({ equipment, type }, { dispatch }) => {
+    const response = await fetch("/api/action/upgrade-equipment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ equipment, type })
+    })
+    if (!response.ok) {
+        return console.error("Failed to upgrade equipment")
+    }
+
+    const data = await response.json() as upgradeResponse
+    dispatch(setEquipment({ slot: data.equipment, data: { level: data.level, quality: data.quality } }))
+    data.item.forEach(item => {
+        dispatch(removeItem({ id: item.itemId, amount: item.amount }))
+    })
 })
 
 

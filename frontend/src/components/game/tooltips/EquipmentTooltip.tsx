@@ -3,7 +3,7 @@ import Tooltip from "./Tooltip";
 import { swordIcon, helmetIcon, armorIcon, gauntletsIcon, legsIcon, bootsIcon, } from "../../../assets/icons";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../../store";
-import { getArmorName, getWeaponName } from "../../../util/EquipmentCalcUtils";
+import { getArmorName, getModifier, getPower, getTotalPower, getWeaponName } from "../../../util/EquipmentCalcUtils";
 
 function EquipmentTooltip({ children, item, }: { children: ReactNode, item: "MainWeapon" | "OffWeapon" | "Helm" | "Armor" | "Gauntlets" | "Legs" | "Boots" }) {
   const equipment = useSelector((state: RootState) => state.EquipmentData[item])
@@ -23,9 +23,9 @@ function EquipmentTooltip({ children, item, }: { children: ReactNode, item: "Mai
 
   // Placeholder values... replace them with states stuff later
   //Bug: Values dont push out box size correctly
-  const power = 12
-  const modifier = 3
-  const total = Math.ceil(((modifier / 100) + 1) * power)
+  const power = getPower(equipment.level)
+  const modifier = getModifier(equipment.quality)
+  const total = getTotalPower(equipment.level, equipment.quality)
 
   const content = (
     <div className=" text-left max-w-90 font-inter relative">
