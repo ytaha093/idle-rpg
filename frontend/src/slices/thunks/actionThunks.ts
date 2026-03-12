@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { addAttribute, addSkillXP, type AttributeName } from "../SkillsDataSlice"
 import type { ItemId } from "../../util/Descriptions/Items"
-import { log, setBonusData, setCurrentEnergy, setTraining } from "../PlayerDataSlice"
+import { setBonusData, setCurrentEnergy, setTraining } from "../PlayerDataSlice"
 import { addItem, removeItem } from "../inventorySlice"
-import { setLastResults } from "../UIDataSlice"
+import { log, setLastResults } from "../UIDataSlice"
 import { setEquipment, type EquipmentSlot } from "../EquipmentSlice"
 
 

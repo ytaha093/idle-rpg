@@ -8,7 +8,7 @@ import { getGatheringItemDrops, getGatheringXPDrop } from "../utils/gatheringUti
 import { checkCooldown } from "../middleware/checkCooldown";
 import { getActionBonus, getAttributeUpgrade, refillEnergy } from "../utils/ActionUtils";
 import { checEnergyCount } from "../middleware/checEnergyCount";
-import { getBattleData, getCombatItemDrops, getCombatXPDrop } from "../utils/BattlingUtils";
+import { getBattleData, getCombatItemDrops, getCombatXPDrop, updateLastMob } from "../utils/BattlingUtils";
 import { type EquipmentSlot, type UpgradeType, queueUpgradeUserEquipment } from "../utils/upgradeEquipmentUtils";
 
 const actionRouter = Router()
@@ -46,9 +46,10 @@ actionRouter.post("/upgrade-equipment", checkAuth, upgradeEquipmentValidator, as
     }
 
     const { equipment, type } = req.body as { equipment: EquipmentSlot, type: UpgradeType }
+    const userId = req.userId as number
 
     try {
-        const upgraded = await queueUpgradeUserEquipment(req.userId as number, equipment, type)
+        const upgraded = await queueUpgradeUserEquipment(userId, equipment, type)
         return res.json(upgraded)
     } catch (error) {
         if (error instanceof Error) {
@@ -65,10 +66,14 @@ actionRouter.post("/gathering", checkAuth, checkCooldown, checEnergyCount, gathe
     }
 
     const { type } = req.body
-    const xpDrop = await getGatheringXPDrop(req.userId as number, type)
-    const itemDrops = await getGatheringItemDrops(req.userId as number, type)
-    const actionBonus = await getActionBonus(req.userId as number)
-    const attributeUpgrade = await getAttributeUpgrade(req.userId as number)
+    const userId = req.userId as number
+
+    const [xpDrop, itemDrops, actionBonus, attributeUpgrade] = await Promise.all([
+        getGatheringXPDrop(userId, type),
+        getGatheringItemDrops(userId, type),
+        getActionBonus(userId),
+        getAttributeUpgrade(userId)
+    ])
 
     return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade, energyRemaining: req.energy })
 })
@@ -79,12 +84,18 @@ actionRouter.post("/battling", checkAuth, checkCooldown, checEnergyCount, battli
         return res.status(400).json({ error: errors.array()[0].msg });
     }
 
-    const { mobID } = req.body
-    const battleData = await getBattleData(req.userId as number, mobID)
-    const xpDrop = await getCombatXPDrop(battleData.win, mobID, req.userId as number)
-    const itemDrops = await getCombatItemDrops(battleData.win, mobID, req.userId as number)
-    const actionBonus = await getActionBonus(req.userId as number)
-    const attributeUpgrade = await getAttributeUpgrade(req.userId as number)
+    const { mobID }: { mobID: number } = req.body
+    const userId = req.userId as number
+
+    updateLastMob(userId, mobID)
+    const battleData = await getBattleData(userId, mobID)
+
+    const [xpDrop, itemDrops, actionBonus, attributeUpgrade] = await Promise.all([
+        getCombatXPDrop(battleData.win, mobID, userId),
+        getCombatItemDrops(battleData.win, mobID, userId),
+        getActionBonus(userId),
+        getAttributeUpgrade(userId)
+    ])
 
     return res.json({ xp: xpDrop, item: itemDrops, actionBonus: actionBonus, attribute: attributeUpgrade, energyRemaining: req.energy, battleData: battleData })
 })

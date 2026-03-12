@@ -89,7 +89,7 @@ export async function upgradeUserEquipment(userId: number, equipment: EquipmentS
         } else { // if weapon or armor
             if (type === "level") {
                 upgradeItemId = "Gold"
-                upgradeCost = Math.round(getEquipmentUpgradeCost(currentEquipment[equipmentLevel] + 1) * 2.5)
+                upgradeCost = Math.round(getEquipmentUpgradeCost(currentEquipment[equipmentLevel] + 1) * (equipment.includes("Weapon") ? 2.5 : 1))
             } else {
                 upgradeItemId = equipment.includes("Weapon") ? "WeaponComponent" : "ArmorComponent"
                 upgradeCost = equipment.includes("Weapon") ? getWeaponUpgradeCost(currentEquipment[equipmentQuality] + 1) : getArmorUpgradeCost(currentEquipment[equipmentQuality] + 1)

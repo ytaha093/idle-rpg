@@ -10,22 +10,24 @@ import Clans from "./views/Clans"
 import Woodcutting from "./views/Results/Woodcutting"
 import Quarrying from "./views/Results/Quarrying"
 import Mining from "./views/Results/Mining"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { setCurrentView, setLastResults } from "../../slices/UIDataSlice"
 import { setActiveAction, setActiveSkill } from "../../slices/PlayerDataSlice"
 import type { SkillName } from "../../slices/SkillsDataSlice"
 import BattlingResults from "./views/Results/BattlingResults"
 import { refillEnergy } from "../../slices/thunks/actionThunks"
-import type { AppDispatch } from "../../store"
+import type { AppDispatch, RootState } from "../../store"
+import { getMobById } from "../../util/Descriptions/BattlingData"
 
 function GameContent({ view }: { view: string }) {
   const dispatch = useDispatch<AppDispatch>()
+  const lastMob = useSelector((state: RootState) => state.uiData.lastMob)
 
   function startAction(name: SkillName, view: string, action: { action: string, options: string }) {
     dispatch(setLastResults(null))
     dispatch(setActiveSkill(name))
     dispatch(setActiveAction({ action: action.action, options: action.options }))
-    dispatch(setCurrentView(`Gathering ${name}`))
+    dispatch(setCurrentView(view))
     dispatch(refillEnergy())
   }
 
@@ -38,7 +40,7 @@ function GameContent({ view }: { view: string }) {
     <div className="mx-1 h-full flex flex-col">
       <div className="text-center bg-linear-0 from-grey2 to-grey1 border-stone-800 border font-pixel text-xs leading-5 p-px [word-spacing:-2px]">
         <span>Quick Links: </span>
-        <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]">Battling</span>
+        <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]" onClick={() => startAction("Battling", "Battling Result", { action: "Battling", options: lastMob.toString() })}>Battle {getMobById(lastMob)?.name}</span>
         <span> - </span>
         <span className="hover:cursor-pointer text-[#7ae] hover:text-[#58c]" onClick={() => startAction("Mining", "Gathering Mining", { action: "Gathering", options: "Mining" })}>Mining</span>
         <span> - </span>

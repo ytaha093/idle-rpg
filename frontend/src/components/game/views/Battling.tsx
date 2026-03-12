@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { setActiveAction, setActiveSkill } from "../../../slices/PlayerDataSlice";
-import { setCurrentView, setLastResults } from "../../../slices/UIDataSlice";
+import { setCurrentView, setLastMob, setLastResults } from "../../../slices/UIDataSlice";
 import { battlingData } from "../../../util/Descriptions/BattlingData";
 import ItemTag from "../Tags/ItemTag";
 import type { ItemId } from "../../../util/Descriptions/Items";
@@ -24,6 +24,7 @@ function Battling() {
         dispatch(setActiveAction({ action: "Battling", options: `${mobId}` }));
         dispatch(setCurrentView(`Battling Result`));
         dispatch(refillEnergy())
+        dispatch(setLastMob(mobId))
     }
 
     return (

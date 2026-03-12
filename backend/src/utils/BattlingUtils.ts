@@ -221,3 +221,16 @@ async function getGoldRushDrop(userId: number, goldDrop: number): Promise<{ gold
     }
     return { gold: goldDrop * (300 + (goldRush!.Gold_Rush * 3)), rarity: 5 }
 }
+
+
+export async function updateLastMob(userId: number, mobId: number) {
+    await prisma.stats.updateMany({
+        where: {
+            userId,
+            lastMobId: { not: mobId }
+        },
+        data: {
+            lastMobId: mobId
+        }
+    })
+}

@@ -35,6 +35,7 @@ model Stats {
   bonusProgress     Int               @default(0)
   trainingAttribute TrainingAttribute @default(Health)
   lastActionAt      DateTime?
+  lastMobId         Int               @default(1)
 
   user User @relation(fields: [userId], references: [id])
 }

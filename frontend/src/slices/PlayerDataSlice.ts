@@ -14,7 +14,6 @@ const initialState = {
     bonusCap: 5,
     bonusProgress: 0,
     trainingAttribute: "Health" as AttributeName,
-    log: [] as logEntry[],
     activeSkill: "Battling" as SkillName,
     activeAction: { action: "", options: "" }
 }
@@ -48,20 +47,6 @@ const playerDataSlice = createSlice({
             state.bonusCap = action.payload.bonusCap;
             state.bonusProgress = action.payload.bonusProgress;
         },
-        log: (state, action: { type: string, payload: logEntry }) => {
-            state.log.unshift({
-                time: new Date().toLocaleTimeString("en-GB"),
-                type: action.payload.type,
-                text: action.payload.text,
-                text2: action.payload.text2,
-                item: action.payload.item,
-                itemAmount: action.payload.itemAmount,
-                textRarity: action.payload.textRarity
-            })
-        },
-        clearLog: (state) => {
-            state.log = [];
-        },
 
         resetPlayer: () => initialState,
     },
@@ -90,8 +75,6 @@ export const {
     setCurrentEnergy,
     consumeEnergy,
     setBonusData,
-    log,
-    clearLog,
     resetPlayer,
 } = playerDataSlice.actions;
 

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Stats" ADD COLUMN     "lastMobId" INTEGER NOT NULL DEFAULT 1;

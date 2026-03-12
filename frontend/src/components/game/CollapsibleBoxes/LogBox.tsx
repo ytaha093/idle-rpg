@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../../store";
-import { clearLog } from "../../../slices/PlayerDataSlice";
+import { clearLog } from "../../../slices/UIDataSlice";
 import ItemTag from "../Tags/ItemTag";
 
 function LogBox() {
-  let log = useSelector((state: RootState) => state.playerData.log);
+  let log = useSelector((state: RootState) => state.uiData.log);
   const dispatch = useDispatch()
 
   function colorTextByRarity(text?: string, rarity?: number) {

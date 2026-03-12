@@ -48,8 +48,8 @@ export const battlingData: zone[] = [
         name: "Varrock Sewers",
         powerRange: "5,000 - 25,000",
         loot: [
-            { item: "WeaponComponent", chance: 49, amount: 3 },
-            { item: "ArmorComponent", chance: 49, amount: 3 },
+            { item: "WeaponComponent", chance: 49, amount: 4 },
+            { item: "ArmorComponent", chance: 49, amount: 4 },
             { item: "ToolComponent", chance: 2, amount: 1 },
 
         ],
@@ -71,8 +71,8 @@ export const battlingData: zone[] = [
         name: "Al Kharid Desert",
         powerRange: "25,000 - 100,000",
         loot: [
-            { item: "WeaponComponent", chance: 48.5, amount: 4 },
-            { item: "ArmorComponent", chance: 48.5, amount: 4 },
+            { item: "WeaponComponent", chance: 48.5, amount: 6 },
+            { item: "ArmorComponent", chance: 48.5, amount: 6 },
             { item: "ToolComponent", chance: 3, amount: 1 },
         ],
         mobs: [
@@ -93,8 +93,8 @@ export const battlingData: zone[] = [
         name: "Edgeville Dungeon",
         powerRange: "100,000 - 400,000",
         loot: [
-            { item: "WeaponComponent", chance: 48.5, amount: 5 },
-            { item: "ArmorComponent", chance: 48.5, amount: 5 },
+            { item: "WeaponComponent", chance: 48.5, amount: 8 },
+            { item: "ArmorComponent", chance: 48.5, amount: 8 },
             { item: "ToolComponent", chance: 3, amount: 1 },
         ],
         mobs: [
@@ -115,8 +115,8 @@ export const battlingData: zone[] = [
         name: "Taverley Dungeon",
         powerRange: "400,000 - 1,500,000",
         loot: [
-            { item: "WeaponComponent", chance: 48.94, amount: 6 },
-            { item: "ArmorComponent", chance: 48.94, amount: 6 },
+            { item: "WeaponComponent", chance: 48.94, amount: 10 },
+            { item: "ArmorComponent", chance: 48.94, amount: 10 },
             { item: "ToolComponent", chance: 2, amount: 2 },
             { item: "HealthUpgradeStone", chance: 0.08, amount: 1 },
             { item: "DamageUpgradeStone", chance: 0.04, amount: 2 },
@@ -138,8 +138,8 @@ export const battlingData: zone[] = [
         name: "Fremennik Slayer Caves",
         powerRange: "1,500,000 - 5,000,000",
         loot: [
-            { item: "WeaponComponent", chance: 48.61, amount: 7 },
-            { item: "ArmorComponent", chance: 48.61, amount: 7 },
+            { item: "WeaponComponent", chance: 48.61, amount: 12 },
+            { item: "ArmorComponent", chance: 48.61, amount: 12 },
             { item: "ToolComponent", chance: 2.5, amount: 2 },
             { item: "HealthUpgradeStone", chance: 0.16, amount: 1 },
             { item: "DamageUpgradeStone", chance: 0.08, amount: 1 },
@@ -163,8 +163,8 @@ export const battlingData: zone[] = [
         name: "Dragonkin Isles",
         powerRange: "5,000,000 - 20,000,000",
         loot: [
-            { item: "WeaponComponent", chance: 48.7, amount: 8 },
-            { item: "ArmorComponent", chance: 48.7, amount: 8 },
+            { item: "WeaponComponent", chance: 48.7, amount: 14 },
+            { item: "ArmorComponent", chance: 48.7, amount: 14 },
             { item: "ToolComponent", chance: 2, amount: 3 },
             { item: "HealthUpgradeStone", chance: 0.3, amount: 1 },
             { item: "DamageUpgradeStone", chance: 0.2, amount: 1 },
