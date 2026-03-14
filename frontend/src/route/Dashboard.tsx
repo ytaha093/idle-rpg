@@ -14,15 +14,16 @@ import type { RootState } from "../store"
 import { setCurrentView } from "../slices/UIDataSlice"
 import ItemDialog from "../components/game/ItemDialog "
 import EquipmentDialog from "../components/game/EquipmentDialog"
+import ChatBox from "../components/game/ChatBox"
 
 function Dashboard() {
   const { equipmentDialog, itemDialog, view } = useSelector((state: RootState) => ({ equipmentDialog: state.uiData.equitmentPopup, itemDialog: state.uiData.itemPopup, view: state.uiData.currentView }), shallowEqual)
   const dispatch = useDispatch();
 
   return (
-    <div className="bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-center bg-size-[1350px]">
+    <div className="min-h-[calc(100dvh)] max-w-337.5  px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-304.5 bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-top bg-size-[1350px] pb-[22vh]">
       <Header></Header>
-      <div className="max-w-[1350px] min-h-[calc(100dvh-28px)] px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-[1218px]">
+      <div className=" pb-10">
         <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]" >
           <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0"  >
             <img src={logo} alt="" className="w-8/10 mx-auto" />
@@ -84,6 +85,7 @@ function Dashboard() {
       </div>
       <ItemDialog item={itemDialog} />
       <EquipmentDialog item={equipmentDialog} />
+      <ChatBox />
     </div>
   )
 }

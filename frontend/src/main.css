@@ -42,7 +42,20 @@
     --animate-fadeOutFast: fadeOut 0.15s ease-in forwards;
     --animate-scaleOutFast: scaleOut 0.15s ease-in forwards;
 
+    --animate-blink: blink 1s step-end infinite;
 
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
 }
 
 @utility font-pixel {
@@ -160,6 +173,54 @@ html {
     background-color: #323232;
     border-radius: 4px;
 }
+
+/* Dark variant */
+.osrs-scrollbar-dark::-webkit-scrollbar {
+    width: 20px;
+    height: 20px;
+}
+
+.osrs-scrollbar-dark::-webkit-scrollbar-track {
+    background: linear-gradient(to right, #241f18 0%, #3d3426 100%);
+    border: 1px solid transparent;
+    border-image: linear-gradient(to right, #050404 0%, #090807 100%) 1;
+    border-image-slice: 1;
+    border-radius: 0;
+}
+
+.osrs-scrollbar-dark::-webkit-scrollbar-thumb {
+    background-image: url('assets/other icons/scroll_thumb.png');
+    background-size: 100% 100%;
+    min-height: 20px;
+    border: 1px solid black;
+}
+
+.osrs-scrollbar-dark::-webkit-scrollbar-button:vertical:start:decrement {
+    height: 20px;
+    width: 20px;
+    background-image: url('assets/other icons/scroll_up.png');
+    background-size: contain;
+}
+
+.osrs-scrollbar-dark::-webkit-scrollbar-button:vertical:end:increment {
+    height: 20px;
+    width: 20px;
+    background-image: url('assets/other icons/scroll_down.png');
+    background-size: contain;
+}
+
+.osrs-scrollbar-dark-full-thumb {
+    position: absolute;
+    top: 20px;
+    right: 0;
+    bottom: 20px;
+    width: 20px;
+    background-image: url('assets/other icons/scroll_thumb.png');
+    background-size: 100% 100%;
+    border: 1px solid black;
+}
+
+
 
 @font-face {
     font-family: "PixelCode";

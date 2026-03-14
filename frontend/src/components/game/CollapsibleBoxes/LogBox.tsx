@@ -7,7 +7,7 @@ function LogBox() {
   let log = useSelector((state: RootState) => state.uiData.log);
   const dispatch = useDispatch()
 
-  function colorTextByRarity(text?: string, rarity?: number) {
+  function colorTextByRarity(text?: string, rarity: number = 1) {
     if (!rarity || !text) return ""
 
     switch (rarity) {
