@@ -1,13 +1,17 @@
 //import chatbox from "../../assets/chatbox wide.png"
 
-import { useState, useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store";
+import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addChat } from "../../slices/UIDataSlice";
+import type { AppDispatch, RootState } from "../../store";
 
 function ChatBox() {
 
+    const dispatch = useDispatch<AppDispatch>()
     const playername = useSelector((state: RootState) => state.playerData.name)
-    const [isInputFocused, setIsInputFocused] = useState(false);
+    const chatLog = useSelector((state: RootState) => state.uiData.chatLog)
+
+    const [chatInput, setChatInput] = useState("");
     const [caretLeft, setCaretLeft] = useState(0);
     const [hasChatOverflow, setHasChatOverflow] = useState(false);
 
@@ -29,6 +33,36 @@ function ChatBox() {
         mirrorRef.current.textContent = inputRef.current.value.slice(0, pos);
         const measuredWidth = mirrorRef.current.getBoundingClientRect().width;
         setCaretLeft(Math.max(0, measuredWidth - inputRef.current.scrollLeft));
+    }
+
+    const sendChatMessage = () => {
+        const message = chatInput.trim();
+        if (!message) return;
+
+        dispatch(addChat({
+            message,
+            time: "",
+            sender: {
+                name: playername,
+                id: 0,
+            },
+        }));
+
+        setChatInput("");
+        if (mirrorRef.current) mirrorRef.current.textContent = "";
+        setCaretLeft(0);
+
+        requestAnimationFrame(() => {
+            if (chatScrollRef.current) {
+                chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+            }
+        });
+    }
+
+    const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+        if (event.key !== "Enter" || event.nativeEvent.isComposing) return;
+        event.preventDefault();
+        sendChatMessage();
     }
 
     useEffect(() => {
@@ -66,29 +100,26 @@ function ChatBox() {
 
 
     return (
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 max-w-337.5 px-17.5 max-[1350px]:px-1 max-[1350px]:max-w-304.5 w-full h-[22vh]">
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 max-w-337.5 px-17.5 max-[1350px]:px-1 max-[1350px]:max-w-304.5 w-full h-[23vh]">
             <div className="m-auto w-full h-full bg-[url(assets/chatbox_wide.png)] bg-center bg-size-[100%_100%]">
                 <div className="w-full h-full backdrop-brightness-100 font-pixel text-black overflow-hidden flex flex-col">
                     <div className="relative max-w-[98.3%] ml-4.5 mt-[1.1vh] mr-2.25 flex-1 overflow-y-hidden">
-                        <div ref={chatScrollRef} className="w-full h-full overflow-y-scroll osrs-scrollbar-dark"  >
+                        <div ref={chatScrollRef} className="w-full h-full overflow-y-scroll osrs-scrollbar-dark flex flex-col justify-end-safe wrap-anywhere"  >
 
-                            <div className="">
-                                <span className="pr-1 tracking-tighter text-xs">[20:55:13]</span>
-                                <span className=" hover:text-grey5 hover:cursor-pointer">yaseen911:</span>
-                                <span className="text-[#1b18f0] font-light">Hello friends msg 11321312312312 sadada asdasdasdas asdasd</span>
+                            <div key="welcome">
+                                Welcome to Idle Quest!
                             </div>
 
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 2</span></div>
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 3</span></div>
-                            <div><span>{playername}:</span><span className="text-[#1b18f0] font-light">Hello friends msg 4</span></div>
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 5</span></div>
-                            <div><span>{playername}:</span><span className="text-[#1b18f0] font-light">Hello friends msg 6</span></div>
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 5</span></div>
-                            <div><span>{playername}:</span><span className="text-[#1b18f0] font-light">Hello friends msg 6</span></div>
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 5</span></div>
-                            <div><span>{playername}:</span><span className="text-[#1b18f0] font-light">Hello friends msg 6</span></div>
-                            <div><span>yaseen911:</span><span className="text-[#1b18f0] font-light">Hello friends msg 5</span></div>
-                            <div><span>{playername}:</span><span className="text-[#1b18f0] font-light">Hello friends msg 6</span></div>
+                            {chatLog.map((chat, index) => {
+                                return (
+                                    <div key={index}>
+                                        <span className="pr-1 tracking-tighter text-xs">[{chat.time}]</span>
+                                        <span className=" hover:text-grey5 hover:cursor-pointer">{chat.sender.name}:</span>
+                                        <span className="text-[#1b18f0] font-light ">{chat.message}</span>
+                                    </div>
+                                )
+                            })}
+
                         </div>
 
                         {!hasChatOverflow && (
@@ -96,9 +127,10 @@ function ChatBox() {
                         )}
                     </div>
 
-                    <div className="w-[98.3%] border-t-2 border-[#6a6250] ml-3 mb-2.5 pl-1.5 flex leading-4.5 pt-px">
+                    <div className="w-[98.3%] border-t-2 border-[#6a6250] ml-3 [@media_((max-height:1300px))]:mb-2.25 [@media_((min-height:1300px))]:mb-3.5 pl-1.5 flex leading-4.5 pt-px">
                         <span className="">{playername}:</span>
-                        <div className="relative w-full overflow-hidden">
+                        <div className="relative w-full flex overflow-hidden">
+
                             {/* Hidden mirror span used to measure text width for cursor positioning */}
                             <span
                                 ref={mirrorRef}
@@ -110,31 +142,42 @@ function ChatBox() {
                                 ref={inputRef}
                                 type="text"
                                 name="msg"
-                                maxLength={120}
-                                className=" w-full focus:outline-none text-[#1b18f0] caret-transparent [word-spacing:normal]"
+                                maxLength={140}
+                                value={chatInput}
+                                autoComplete="off"
+                                className="flex-1 focus:outline-none text-[#1b18f0] caret-transparent [word-spacing:normal] mr-3"
+                                onChange={(event) => {
+                                    setChatInput(event.target.value)
+                                    requestAnimationFrame(updateCaret)
+                                }}
+                                onKeyDown={handleInputKeyDown}
                                 onKeyUp={updateCaret}
                                 onSelect={updateCaret}
                                 onInput={updateCaret}
                                 onScroll={updateCaret}
-                                onFocus={() => {
-                                    setIsInputFocused(true);
+                                onFocus={(el) => {
+                                    el.target.focus({ preventScroll: true });
                                     requestAnimationFrame(updateCaret);
                                 }}
-                                onBlur={() => { setIsInputFocused(false); moveCaretToEnd(); }} />
+                                onBlur={() => { moveCaretToEnd(); }} />
 
                             {/* Custom * cursor */}
                             <span
                                 aria-hidden="true"
-                                className={`absolute pointer-events-none top-1/2 -translate-y-1/2 text-[#1b18f0] font-bold leading-none select-none ${isInputFocused ? "animate-blink" : ""}`}
-                                style={{ left: caretLeft }}
-                            >
+                                className="absolute pointer-events-none top-0  text-[#1b18f0] font-bold leading-none select-none"
+                                style={{ left: caretLeft }} >
                                 *
                             </span>
+
+                            {/* submit button
+                            <button className="w-1/16 h-full ml-3 flex justify-center items-center border border-stone-800 bg-stone-500">
+                                Send
+                            </button> */}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 }
 

@@ -17,13 +17,20 @@ type lastResultsType = {
     }
 } | null
 
+type chatLog = {
+    sender: { name: string, id: number },
+    message: string,
+    time: string
+}
+
 const initialState = {
     equitmentPopup: null as EquipmentSlot | ToolSlot | null,
     itemPopup: null as ItemId | null,
     currentView: "Home",
     lastResults: null as lastResultsType,
     log: [] as logEntry[],
-    lastMob: 1
+    lastMob: 1,
+    chatLog: [] as chatLog[]
 }
 
 const UIDataSlice = createSlice({
@@ -58,7 +65,17 @@ const UIDataSlice = createSlice({
         },
         setLastMob: (state, action: PayloadAction<number>) => {
             state.lastMob = action.payload
-        }
+        },
+        addChat: (state, action: { type: string, payload: chatLog }) => {
+            state.chatLog.push({
+                time: new Date().toLocaleTimeString("en-GB"),
+                message: action.payload.message,
+                sender: {
+                    name: action.payload.sender.name,
+                    id: action.payload.sender.id
+                }
+            })
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(logoutUser.fulfilled, () => initialState)
@@ -68,5 +85,5 @@ const UIDataSlice = createSlice({
     }
 })
 
-export const { setItemPopup, setCurrentView, setEquitmentPopup, setLastResults, log, clearLog, setLastMob } = UIDataSlice.actions
+export const { setItemPopup, setCurrentView, setEquitmentPopup, setLastResults, log, clearLog, setLastMob, addChat } = UIDataSlice.actions
 export default UIDataSlice.reducer
