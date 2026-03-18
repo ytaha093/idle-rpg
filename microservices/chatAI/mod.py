@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from detoxify import Detoxify
 
 app = Flask(__name__)
-model = Detoxify('original')  # loads once
+model = Detoxify('multilingual')  # loads once
 
 @app.route('/moderate', methods=['POST'])
 def moderate():

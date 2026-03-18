@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000
 
 const server = createServer(app)
 const io = new Server(server, {
+    connectionStateRecovery: {},
     cors: {
         origin: true,
         credentials: true,

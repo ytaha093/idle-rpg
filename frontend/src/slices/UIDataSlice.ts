@@ -68,6 +68,7 @@ const UIDataSlice = createSlice({
             state.lastMob = action.payload
         },
         addChat: (state, action: { type: string, payload: chatLog }) => {
+            if (state.chatLog.length > 20) state.chatLog.shift()
             state.chatLog.push({
                 type: action.payload.type,
                 time: action.payload.time,
