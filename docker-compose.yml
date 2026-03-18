@@ -23,8 +23,8 @@ services:
       - ./backend/.env
     volumes:
       - ./backend:/app
-      - /app/node_modules
-    command: sh -c "npx prisma generate && npx prisma migrate deploy && npm run dev & npx prisma studio --browser none --port 5555"
+      - backend_node_modules:/app/node_modules
+    command: sh -c "npm install && npx prisma generate && npx prisma migrate deploy && (npx prisma studio --browser none --port 5555 & npm run dev)"
 
   web:
     build: ./frontend
@@ -34,8 +34,18 @@ services:
     working_dir: /app
     volumes:
       - ./frontend:/app
-      - /app/node_modules
-    command: [ "npm", "run", "dev", "--", "--host" ]
+      - frontend_node_modules:/app/node_modules
+    command: sh -c "npm install && npm run dev -- --host"
+
+  moderation:
+    build: ./microservices/chatAI
+    container_name: idle-quest-moderation
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./microservices/chatAI:/app
 
 volumes:
   postgres_data:
+  backend_node_modules:
+  frontend_node_modules:

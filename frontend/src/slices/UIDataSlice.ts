@@ -17,10 +17,11 @@ type lastResultsType = {
     }
 } | null
 
-type chatLog = {
-    sender: { name: string, id: number },
+export type chatLog = {
+    type?: string,
+    sender?: { name: string, id: number },
     message: string,
-    time: string
+    time?: string
 }
 
 const initialState = {
@@ -68,12 +69,13 @@ const UIDataSlice = createSlice({
         },
         addChat: (state, action: { type: string, payload: chatLog }) => {
             state.chatLog.push({
-                time: new Date().toLocaleTimeString("en-GB"),
+                type: action.payload.type,
+                time: action.payload.time,
                 message: action.payload.message,
-                sender: {
+                sender: action.payload.sender ? {
                     name: action.payload.sender.name,
                     id: action.payload.sender.id
-                }
+                } : undefined
             })
         },
     },

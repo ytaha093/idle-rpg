@@ -1,15 +1,16 @@
 //import chatbox from "../../assets/chatbox wide.png"
 
-import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { useState, useRef, useEffect } from "react";
+import { io, type Socket } from "socket.io-client";
 import { useDispatch, useSelector } from "react-redux";
-import { addChat } from "../../slices/UIDataSlice";
+import { addChat, type chatLog } from "../../slices/UIDataSlice";
 import type { AppDispatch, RootState } from "../../store";
 
 function ChatBox() {
 
     const dispatch = useDispatch<AppDispatch>()
     const playername = useSelector((state: RootState) => state.playerData.name)
-    const chatLog = useSelector((state: RootState) => state.uiData.chatLog)
+    const log = useSelector((state: RootState) => state.uiData.chatLog)
 
     const [chatInput, setChatInput] = useState("");
     const [caretLeft, setCaretLeft] = useState(0);
@@ -18,6 +19,7 @@ function ChatBox() {
     const inputRef = useRef<HTMLInputElement>(null);
     const mirrorRef = useRef<HTMLSpanElement>(null);
     const chatScrollRef = useRef<HTMLDivElement>(null);
+    const socketRef = useRef<Socket | null>(null);
 
     const updateCaret = () => {
         if (!inputRef.current || !mirrorRef.current) return;
@@ -39,35 +41,50 @@ function ChatBox() {
         const message = chatInput.trim();
         if (!message) return;
 
-        dispatch(addChat({
-            message,
-            time: "",
-            sender: {
-                name: playername,
-                id: 0,
-            },
-        }));
+        if (socketRef.current?.connected) {
+            socketRef.current.emit("chat:send", { message })
+        } else {
+            dispatch(addChat({ message: "Unable to send message - not connected sorry :(" }));
+        }
 
-        setChatInput("");
-        if (mirrorRef.current) mirrorRef.current.textContent = "";
-        setCaretLeft(0);
+        setChatInput("")
+        if (mirrorRef.current) mirrorRef.current.textContent = ""
+        setCaretLeft(0)
 
         requestAnimationFrame(() => {
-            if (chatScrollRef.current) {
-                chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
-            }
-        });
-    }
-
-    const handleInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-        if (event.key !== "Enter" || event.nativeEvent.isComposing) return;
-        event.preventDefault();
-        sendChatMessage();
+            if (chatScrollRef.current) chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight
+        })
     }
 
     useEffect(() => {
+        const socket = io({
+            path: "/socket.io",
+            withCredentials: true,
+        })
+
+        socketRef.current = socket
+
+        const handleChatMessage = (payload: chatLog) => {
+            console.log(payload)
+            dispatch(addChat(payload))
+
+            requestAnimationFrame(() => {
+                if (chatScrollRef.current) {
+                    chatScrollRef.current.scrollTop = chatScrollRef.current.scrollHeight;
+                }
+            });
+        };
+
+        socket.on("chat:new", handleChatMessage);
+
         const scrollEl = chatScrollRef.current;
-        if (!scrollEl) return;
+        if (!scrollEl) {
+            return () => {
+                socket.off("chat:new", handleChatMessage);
+                socket.disconnect();
+                socketRef.current = null;
+            };
+        }
 
         const updateOverflowState = () => {
             setHasChatOverflow(scrollEl.scrollHeight > scrollEl.clientHeight + 1);
@@ -95,8 +112,11 @@ function ChatBox() {
             resizeObserver.disconnect();
             mutationObserver.disconnect();
             window.removeEventListener("resize", scheduleUpdate);
+            socket.off("chat:new", handleChatMessage);
+            socket.disconnect();
+            socketRef.current = null;
         };
-    }, []);
+    }, [dispatch]);
 
 
     return (
@@ -110,12 +130,21 @@ function ChatBox() {
                                 Welcome to Idle Quest!
                             </div>
 
-                            {chatLog.map((chat, index) => {
+                            {log.map((chat, index) => {
+                                let content
+
+                                if (chat.type === "warn") {
+                                    content = <span className="text-red-600">{chat.message}</span>
+                                } else {
+                                    content = (<>
+                                        <span className="pr-1 tracking-tighter text-xs">[{chat.time}]</span>
+                                        <span className=" hover:text-grey5 hover:cursor-pointer">{chat.sender?.name}:</span>
+                                        <span className="text-[#1b18f0] font-light ">{chat.message}</span></>)
+                                }
+
                                 return (
                                     <div key={index}>
-                                        <span className="pr-1 tracking-tighter text-xs">[{chat.time}]</span>
-                                        <span className=" hover:text-grey5 hover:cursor-pointer">{chat.sender.name}:</span>
-                                        <span className="text-[#1b18f0] font-light ">{chat.message}</span>
+                                        {content}
                                     </div>
                                 )
                             })}
@@ -150,7 +179,7 @@ function ChatBox() {
                                     setChatInput(event.target.value)
                                     requestAnimationFrame(updateCaret)
                                 }}
-                                onKeyDown={handleInputKeyDown}
+                                onKeyDown={(event) => { if (event.key === "Enter") sendChatMessage() }}
                                 onKeyUp={updateCaret}
                                 onSelect={updateCaret}
                                 onInput={updateCaret}
