@@ -124,7 +124,7 @@ function Header() {
   return (
     <>
       <div className="sticky z-10 top-0 w-full h-7 bg-grey1 border-b border-stone-700 px-3 flex justify-between text-sm ">
-        <div data-section="currency" className="flex items-center">
+        <div data-section="currency" className="flex items-center w-1/4">
           <div className="mr-5 ">
             <span className="mr-2">
               <ItemTag item={"Gold"} />
@@ -148,7 +148,7 @@ function Header() {
           </div>
         </div>
 
-        <div data-section="options" className="flex items-center">
+        <div data-section="options" className="flex items-center justify-end w-1/4">
           <div className="mr-5 hover:cursor-pointer">
             <span className=" mr-1 ">Players Online:</span>
             <span className="text-rsgreen ">

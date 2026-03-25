@@ -74,12 +74,12 @@ export function registerChatSocket(io: Server) {
 
             let blocked = false
             const results = await moderateMessage(message)
-            if (results.threat > 0.9
-                || results.severe_toxicity >= 0.45
-                || results.identity_attack + (results.toxicity / 3) > 0.7
+            if (results.severe_toxicity >= 0.45
+                || results.identity_attack + (results.toxicity / 3) > 0.8
                 || results.sexual_explicit + (results.toxicity / 5) > 0.8) {
                 blocked = true
             }
+
             console.log("\n\n", message)
 
             for (const key in (results)) {

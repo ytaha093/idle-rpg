@@ -21,72 +21,75 @@ function Dashboard() {
   const dispatch = useDispatch();
 
   return (
-    <div className="min-h-[calc(100dvh)] max-w-337.5  px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-304.5 bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-top bg-size-[1350px] pb-[22vh]">
-      <Header></Header>
-      <div className=" pb-10">
-        <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]" >
-          <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0"  >
-            <img src={logo} alt="" className="w-8/10 mx-auto" />
-          </div>
+    <>
+      <Header />
+      <div className="min-h-[calc(100dvh - 1.75rem)] max-w-337.5  px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-304.5 bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-top bg-size-[1350px] pb-[22vh]">
 
-          <div data-section="main buttons" className="w-full flex gap-[-10px] text-center" >
-            {["Home", "Inventory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans",].map((name) => {
-              return (
-                <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view.includes(name) ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => dispatch(setCurrentView(name))} >
-                  {name}
-                </div>
-              )
-            })}
-          </div>
-
-          <ExperienceBar data-section="active xp bar" activeSkill={true} />
-
-          <div className="flex bg-grey1">
-            <div data-section="left sidebar" className="w-2/10">
-              <CollapsibleBox boxName="Attributes">
-                <AttributesBox />
-              </CollapsibleBox>
-
-              <CollapsibleBox boxName="Skills">
-                <ExperienceBar skill="Battling" />
-                <ExperienceBar skill="Dungeoneering" />
-                <ExperienceBar skill="Mining" />
-                <ExperienceBar skill="Woodcutting" />
-                <ExperienceBar skill="Quarrying" />
-                <ExperienceBar skill="Runecrafting" />
-                <ExperienceBar skill="Jewelcrafting" />
-                <ExperienceBar skill="Herblore" />
-                <div className="font-pixel text-sm text-neutral-400">Total Level:{" "}
-                  <span className="text-rsgreen">{getTotalLevel()}</span>
-                </div>
-              </CollapsibleBox>
+        <div className=" pb-10">
+          <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]" >
+            <div data-section="banner" className="w-full bg-black border-0 border-stone-800 border-x-0 border-t-0"  >
+              <img src={logo} alt="" className="w-8/10 mx-auto" />
             </div>
 
-            <div data-section="main content" className=" w-6/10">
-              <GameContent view={view} />
+            <div data-section="main buttons" className="w-full flex gap-[-10px] text-center" >
+              {["Home", "Inventory", "Market", "Battling", "Dungeons", "Gathering", "Crafting", "Land", "Clans",].map((name) => {
+                return (
+                  <div key={name} className={`bg-grey1 border border-stone-800 flex-1 hover:bg-grey2 hover:cursor-pointer ${view.includes(name) ? "text-rsgreen hover:text-rsgreenlight" : "hover:text-white"}`} onClick={() => dispatch(setCurrentView(name))} >
+                    {name}
+                  </div>
+                )
+              })}
             </div>
 
-            <div data-section="right sidebar" className="w-2/10">
-              <CollapsibleBox boxName="Combat Equipment">
-                <EquipmentCombatBox />
-              </CollapsibleBox>
-              <CollapsibleBox boxName="Gathering Equipment">
-                <EquipmentGatheringBox />
-              </CollapsibleBox>
-              <CollapsibleBox boxName="Action Bonus">
-                <BonusBox />
-              </CollapsibleBox>
-              <CollapsibleBox boxName="Log">
-                <LogBox />
-              </CollapsibleBox>
+            <ExperienceBar data-section="active xp bar" activeSkill={true} />
+
+            <div className="flex bg-grey1">
+              <div data-section="left sidebar" className="w-2/10">
+                <CollapsibleBox boxName="Attributes">
+                  <AttributesBox />
+                </CollapsibleBox>
+
+                <CollapsibleBox boxName="Skills">
+                  <ExperienceBar skill="Battling" />
+                  <ExperienceBar skill="Dungeoneering" />
+                  <ExperienceBar skill="Mining" />
+                  <ExperienceBar skill="Woodcutting" />
+                  <ExperienceBar skill="Quarrying" />
+                  <ExperienceBar skill="Runecrafting" />
+                  <ExperienceBar skill="Jewelcrafting" />
+                  <ExperienceBar skill="Herblore" />
+                  <div className="font-pixel text-sm text-neutral-400">Total Level:{" "}
+                    <span className="text-rsgreen">{getTotalLevel()}</span>
+                  </div>
+                </CollapsibleBox>
+              </div>
+
+              <div data-section="main content" className=" w-6/10">
+                <GameContent view={view} />
+              </div>
+
+              <div data-section="right sidebar" className="w-2/10">
+                <CollapsibleBox boxName="Combat Equipment">
+                  <EquipmentCombatBox />
+                </CollapsibleBox>
+                <CollapsibleBox boxName="Gathering Equipment">
+                  <EquipmentGatheringBox />
+                </CollapsibleBox>
+                <CollapsibleBox boxName="Action Bonus">
+                  <BonusBox />
+                </CollapsibleBox>
+                <CollapsibleBox boxName="Log">
+                  <LogBox />
+                </CollapsibleBox>
+              </div>
             </div>
           </div>
         </div>
+        <ItemDialog item={itemDialog} />
+        <EquipmentDialog item={equipmentDialog} />
+        <ChatBox />
       </div>
-      <ItemDialog item={itemDialog} />
-      <EquipmentDialog item={equipmentDialog} />
-      <ChatBox />
-    </div>
+    </>
   )
 }
 
