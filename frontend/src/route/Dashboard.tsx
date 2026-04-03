@@ -23,7 +23,7 @@ function Dashboard() {
   return (
     <>
       <Header />
-      <div className="min-h-[calc(100dvh - 1.75rem)] max-w-337.5  px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-304.5 bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-top bg-size-[1350px] pb-[22vh]">
+      <div className=" min-h-[calc(100dvh-1.75rem)] max-w-337.5  px-17.5 m-auto max-[1350px]:px-1 max-[1350px]:max-w-304.5 bg-black bg-[url('assets/bg.jpg')] bg-repeat-y bg-top bg-size-[1350px] pb-[22vh]">
 
         <div className=" pb-10">
           <div data-section="main content" className=" shadow-[10px_15px_20px_-5px_rgb(0_0_0/0.3),3px_8px_10px_0px_rgb(0_0_0/0.3)]" >
